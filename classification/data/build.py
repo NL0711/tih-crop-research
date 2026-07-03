@@ -9,6 +9,7 @@ import os
 import torch
 import numpy as np
 import torch.distributed as dist
+from collections import Counter, defaultdict
 from torchvision import datasets, transforms
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.data import Mixup
@@ -41,12 +42,86 @@ except:
     from timm.data.transforms import _pil_interp
 
 
+def _oversample_dataset(dataset, seed=0, replace=True):
+    labels = getattr(dataset, 'targets', None)
+    if labels is None:
+        labels = getattr(dataset, 'labels', None)
+
+    samples = getattr(dataset, 'samples', None)
+    if samples is None:
+        samples = getattr(dataset, 'imgs', None)
+
+    if labels is None or samples is None:
+        raise ValueError('Oversampling requires dataset with `samples` and `targets`/`labels` attributes.')
+
+    if len(labels) != len(samples):
+        raise ValueError('Dataset samples and labels lengths do not match for oversampling.')
+
+    class_indices = defaultdict(list)
+    for idx, label in enumerate(labels):
+        class_indices[label].append(idx)
+
+    max_count = max(len(idx_list) for idx_list in class_indices.values())
+    if max_count == 0:
+        return dataset
+
+    rng = np.random.RandomState(seed)
+    extra_samples = []
+    extra_labels = []
+    for label, idx_list in class_indices.items():
+        current_count = len(idx_list)
+        if current_count >= max_count:
+            continue
+        choose_replace = replace or (max_count - current_count > len(idx_list))
+        choices = rng.choice(idx_list, size=max_count - current_count, replace=choose_replace)
+        for choice in choices:
+            extra_samples.append(samples[choice])
+            extra_labels.append(labels[choice])
+
+    if extra_samples:
+        dataset.samples = list(samples) + extra_samples
+        if hasattr(dataset, 'imgs'):
+            dataset.imgs = list(samples) + extra_samples
+        if hasattr(dataset, 'targets'):
+            dataset.targets = list(labels) + extra_labels
+        elif hasattr(dataset, 'labels'):
+            dataset.labels = list(labels) + extra_labels
+
+    return dataset
+
+
+def _print_dataset_distribution(dataset, name):
+    labels = getattr(dataset, 'targets', None)
+    if labels is None:
+        labels = getattr(dataset, 'labels', None)
+    if labels is None:
+        return
+
+    counts = Counter(labels)
+    classes = getattr(dataset, 'classes', None)
+    print(f"{name} class distribution (samples={len(labels)}):")
+    print("| class | idx | count |")
+    for idx in sorted(counts.keys()):
+        class_name = classes[idx] if classes is not None and idx < len(classes) else str(idx)
+        print(f"| {class_name} | {idx} | {counts[idx]} |")
+
+
 def build_loader(config):
     config.defrost()
     dataset_train, config.MODEL.NUM_CLASSES = build_dataset(is_train=True, config=config)
+    _print_dataset_distribution(dataset_train, 'Train (before oversampling)')
+    if config.DATA.OVERSAMPLE:
+        dataset_train = _oversample_dataset(
+            dataset_train,
+            seed=config.SEED,
+            replace=config.DATA.OVERSAMPLE_REPLACEMENT,
+        )
+        print(f"rank {dist.get_rank()} enabled class-balanced oversampling; training samples = {len(dataset_train)}")
+        _print_dataset_distribution(dataset_train, 'Train (after oversampling)')
     config.freeze()
     print(f"rank {dist.get_rank()} successfully build train dataset")
     dataset_val, _ = build_dataset(is_train=False, config=config)
+    _print_dataset_distribution(dataset_val, 'Validation')
     print(f"rank {dist.get_rank()} successfully build val dataset")
 
     num_tasks = dist.get_world_size()

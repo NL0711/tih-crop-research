@@ -40,6 +40,20 @@ def copy_subset(files: List[Path], src_root: Path, dest_root: Path) -> List[str]
     return output_paths
 
 
+def _print_split_summary(summary):
+    total_train = sum(item['train'] for item in summary['classes'].values())
+    total_val = sum(item['val'] for item in summary['classes'].values())
+    total_test = sum(item['test'] for item in summary['classes'].values())
+    total_images = sum(item['total'] for item in summary['classes'].values())
+
+    print('\nClass distribution summary:')
+    print('| Class | Total | Train | Validation | Test |')
+    print('| --- | --- | --- | --- | --- |')
+    for class_name, counts in sorted(summary['classes'].items()):
+        print(f"| {class_name} | {counts['total']} | {counts['train']} | {counts['val']} | {counts['test']} |")
+    print(f"| Total | {total_images} | {total_train} | {total_val} | {total_test} |\n")
+
+
 def build_split_files(root_dir: Path,
                       output_dir: Path,
                       train_ratio: float,
@@ -122,6 +136,7 @@ def build_split_files(root_dir: Path,
     print(f'  val:   {len(val_paths)}')
     print(f'  test:  {len(test_paths)}')
     print(f'  output: {output_dir}')
+    _print_split_summary(summary)
 
 
 def parse_args() -> argparse.Namespace:

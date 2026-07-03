@@ -4,6 +4,7 @@
 - `.gitignore` to ignore Python artifacts, build outputs, model checkpoints, logs, and temporary files.
 - `changes.md` to summarize codebase changes.
 - `classification/utils/split_dataset.py` to split a dataset by class folders into `train`, `val`, and `test` sets.
+- class imbalance support in `classification/data/build.py` via class-balanced oversampling for the training dataset, exposed through the new `--oversample` CLI flag and `DATA.OVERSAMPLE` config option.
 - PowerShell wrappers for distributed training/test scripts:
   - `detection/maskrcnn/dist_train.ps1`
   - `detection/maskrcnn/dist_test.ps1`

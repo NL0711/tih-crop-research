@@ -39,6 +39,10 @@ _C.DATA.CACHE_MODE = 'part'
 _C.DATA.PIN_MEMORY = True
 # Number of data loading threads
 _C.DATA.NUM_WORKERS = 8
+# Enable class-balanced oversampling for the training dataset
+_C.DATA.OVERSAMPLE = False
+# If oversampling is enabled, samples are drawn with replacement from the weighted distribution
+_C.DATA.OVERSAMPLE_REPLACEMENT = True
 
 # [SimMIM] Mask patch size for MaskGenerator
 _C.DATA.MASK_PATCH_SIZE = 32
@@ -256,6 +260,8 @@ def update_config(config, args):
         config.OUTPUT = args.output
     if _check_args('tag'):
         config.TAG = args.tag
+    if _check_args('oversample'):
+        config.DATA.OVERSAMPLE = args.oversample
     if _check_args('eval'):
         config.EVAL_MODE = True
     if _check_args('throughput'):

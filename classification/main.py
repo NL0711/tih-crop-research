@@ -95,6 +95,8 @@ def parse_option():
     parser.add_argument('--tag', default=time.strftime("%Y%m%d%H%M%S", time.localtime()), help='tag of experiment')
     parser.add_argument('--eval', action='store_true', help='Perform evaluation only')
     parser.add_argument('--throughput', action='store_true', help='Test throughput only')
+    parser.add_argument('--oversample', type=str2bool, nargs='?', const=True, default=False,
+                        help='Enable class-balanced oversampling for the training dataset')
 
     parser.add_argument('--fused_layernorm', action='store_true', help='Use fused layernorm.')
     parser.add_argument('--optim', type=str, help='overwrite optimizer if provided, can be adamw/sgd.')
