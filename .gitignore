@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dylib
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+env/
+.venv/
+
+# PyTorch / machine learning outputs
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.log
+*.h5
+*.tflite
+*.pb
+
+# Dataset and cache
+*.zip
+*.tar.gz
+*.tar
+*.tgz
+*.npz
+*.npy
+*.pth
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# Distributed training
+*.pid
+*.dat
+
+# Build and distribution
+build/
+dist/
+.eggs/
+*.egg-info/
+.python-version
+
+# C/C++ build artifacts
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.out
+*.class
+*.pyc
+
+# mmcv/mmdetection custom build files
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+*.cache
+
+# CUDA extension build directories
+_build/
+*.cmake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# Temporary files
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
