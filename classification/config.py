@@ -1,5 +1,5 @@
 # --------------------------------------------------------
-# Modified by $@#Anonymous#@$
+# Modified by Nathasha
 # --------------------------------------------------------
 # Swin Transformer
 # Copyright (c) 2021 Microsoft
@@ -21,7 +21,7 @@ _C.BASE = ['']
 # -----------------------------------------------------------------------------
 _C.DATA = CN()
 # Batch size for a single GPU, could be overwritten by command line argument
-_C.DATA.BATCH_SIZE = 128
+_C.DATA.BATCH_SIZE = 32
 # Path to dataset, could be overwritten by command line argument
 _C.DATA.DATA_PATH = ''
 # Dataset name
@@ -57,17 +57,17 @@ _C.MODEL.TYPE = 'DAMamba'
 _C.MODEL.NAME = 'DAMamba_tiny'
 # Pretrained weight from checkpoint, could be imagenet22k pretrained weight
 # could be overwritten by command line argument
-_C.MODEL.PRETRAINED = ''
+_C.MODEL.PRETRAINED = 'classification\weights\DAMamba-T.pth'
 # Checkpoint to resume, could be overwritten by command line argument
 _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
-_C.MODEL.NUM_CLASSES = 1000
+_C.MODEL.NUM_CLASSES = 5
 # Dropout rate
-_C.MODEL.DROP_RATE = 0.0
+_C.MODEL.DROP_RATE = 0.2 # Increase from 0.0
 # Drop path rate
-_C.MODEL.DROP_PATH_RATE = 0.1
+_C.MODEL.DROP_PATH_RATE = 0.3 # Increase from 0.1 to 0.3 (prevents overfitting)
 # Label Smoothing
-_C.MODEL.LABEL_SMOOTHING = 0.1
+_C.MODEL.LABEL_SMOOTHING = 0.2 # Increase from 0.1
 #for ddp platform
 _C.MODEL.DDP = 'torch'
 
@@ -90,10 +90,10 @@ _C.MODEL.DAMAMBA.LAYERSCALE =[False,False,False,False]
 # -----------------------------------------------------------------------------
 _C.TRAIN = CN()
 _C.TRAIN.START_EPOCH = 0
-_C.TRAIN.EPOCHS = 300
-_C.TRAIN.WARMUP_EPOCHS = 20
-_C.TRAIN.WEIGHT_DECAY = 0.05
-_C.TRAIN.BASE_LR = 5e-4
+_C.TRAIN.EPOCHS = 100  # Reduce from 300
+_C.TRAIN.WARMUP_EPOCHS = 5 # Reduce from 20
+_C.TRAIN.WEIGHT_DECAY = 0.1 # Increase from 0.05
+_C.TRAIN.BASE_LR = 1e-4 # Lower from 5e-4 for fine-tuning
 _C.TRAIN.WARMUP_LR = 5e-7
 _C.TRAIN.MIN_LR = 5e-6
 # Clip gradient norm
@@ -148,21 +148,21 @@ _C.AUG.COLOR_JITTER = 0.4
 # Use AutoAugment policy. "v0" or "original"
 _C.AUG.AUTO_AUGMENT = 'rand-m9-mstd0.5-inc1'
 # Random erase prob
-_C.AUG.REPROB = 0.25
+_C.AUG.REPROB = 0.5 # Increase from 0.25 (more random erasing)
 # Random erase mode
 _C.AUG.REMODE = 'pixel'
 # Random erase count
 _C.AUG.RECOUNT = 1
 # Mixup alpha, mixup enabled if > 0
-_C.AUG.MIXUP = 0.8
+_C.AUG.MIXUP = 0
 # Cutmix alpha, cutmix enabled if > 0
-_C.AUG.CUTMIX = 1.0
+_C.AUG.CUTMIX = 0
 # Cutmix min/max ratio, overrides alpha and enables cutmix if set
 _C.AUG.CUTMIX_MINMAX = None
 # Probability of performing mixup or cutmix when either/both is enabled
-_C.AUG.MIXUP_PROB = 1.0
+_C.AUG.MIXUP_PROB = 0.0
 # Probability of switching to cutmix when both mixup and cutmix enabled
-_C.AUG.MIXUP_SWITCH_PROB = 0.5
+_C.AUG.MIXUP_SWITCH_PROB = 0.0
 # How to apply mixup/cutmix params. Per "batch", "pair", or "elem"
 _C.AUG.MIXUP_MODE = 'batch'
 

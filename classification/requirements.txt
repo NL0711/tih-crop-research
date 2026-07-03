@@ -2,7 +2,7 @@ torch # for full alignment 2.0.1+cu118
 torchvision
 torchaudio
 packaging
-triton
+triton; sys_platform != "win32"
 timm==0.6.11
 pytest 
 chardet 

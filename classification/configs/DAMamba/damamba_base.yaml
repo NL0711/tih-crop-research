@@ -11,6 +11,6 @@ MODEL:
   DDP: 'torch'
 
 TRAIN:
-  EPOCHS: 300
-  WARMUP_EPOCHS: 20
+  EPOCHS: 50 #changed from 300
+  WARMUP_EPOCHS: 3
   MESA: 2.0
