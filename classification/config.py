@@ -38,7 +38,7 @@ _C.DATA.CACHE_MODE = 'part'
 # Pin CPU memory in DataLoader for more efficient (sometimes) transfer to GPU.
 _C.DATA.PIN_MEMORY = True
 # Number of data loading threads
-_C.DATA.NUM_WORKERS = 8
+_C.DATA.NUM_WORKERS = 0
 # Enable class-balanced oversampling for the training dataset
 _C.DATA.OVERSAMPLE = False
 # If oversampling is enabled, samples are drawn with replacement from the weighted distribution

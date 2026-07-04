@@ -6,8 +6,8 @@
 # --------------------------------------------------------
 
 import os
-import torch.distributed as dist
-from torch.utils.data import DataLoader, DistributedSampler
+from torch.utils.data import DataLoader, DistributedSampler, RandomSampler, SequentialSampler
+from utils.distributed import get_rank, get_world_size
 from torchvision import datasets, transforms
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.data import Mixup
@@ -21,14 +21,18 @@ def build_loader_finetune(config):
     config.freeze()
     dataset_val, _ = build_dataset(is_train=False, config=config)
 
-    num_tasks = dist.get_world_size()
-    global_rank = dist.get_rank()
-    sampler_train = DistributedSampler(
-        dataset_train, num_replicas=num_tasks, rank=global_rank, shuffle=True
-    )
-    sampler_val = DistributedSampler(
-        dataset_val, num_replicas=num_tasks, rank=global_rank, shuffle=False
-    )
+    num_tasks = get_world_size()
+    global_rank = get_rank()
+    if num_tasks > 1:
+        sampler_train = DistributedSampler(
+            dataset_train, num_replicas=num_tasks, rank=global_rank, shuffle=True
+        )
+        sampler_val = DistributedSampler(
+            dataset_val, num_replicas=num_tasks, rank=global_rank, shuffle=False
+        )
+    else:
+        sampler_train = RandomSampler(dataset_train)
+        sampler_val = SequentialSampler(dataset_val)
 
     data_loader_train = DataLoader(
         dataset_train, sampler=sampler_train,

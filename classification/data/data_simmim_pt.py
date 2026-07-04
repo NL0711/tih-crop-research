@@ -10,9 +10,9 @@ import random
 import numpy as np
 
 import torch
-import torch.distributed as dist
 import torchvision.transforms as T
-from torch.utils.data import DataLoader, DistributedSampler
+from torch.utils.data import DataLoader, DistributedSampler, RandomSampler
+from utils.distributed import get_rank, get_world_size
 from torch.utils.data._utils.collate import default_collate
 from torchvision.datasets import ImageFolder
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
@@ -93,7 +93,10 @@ def build_loader_simmim(config):
     transform = SimMIMTransform(config)
     dataset = ImageFolder(config.DATA.DATA_PATH, transform)
     
-    sampler = DistributedSampler(dataset, num_replicas=dist.get_world_size(), rank=dist.get_rank(), shuffle=True)
+    if get_world_size() > 1:
+        sampler = DistributedSampler(dataset, num_replicas=get_world_size(), rank=get_rank(), shuffle=True)
+    else:
+        sampler = RandomSampler(dataset)
     dataloader = DataLoader(dataset, config.DATA.BATCH_SIZE, sampler=sampler, num_workers=config.DATA.NUM_WORKERS, pin_memory=True, drop_last=True, collate_fn=collate_fn)
     
     return dataloader

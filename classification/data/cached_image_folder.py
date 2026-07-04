@@ -8,7 +8,7 @@
 import io
 import os
 import time
-import torch.distributed as dist
+from utils.distributed import get_rank, get_world_size
 import torch.utils.data as data
 from PIL import Image
 
@@ -123,15 +123,15 @@ class DatasetFolder(data.Dataset):
     def init_cache(self):
         assert self.cache_mode in ["part", "full"]
         n_sample = len(self.samples)
-        global_rank = dist.get_rank()
-        world_size = dist.get_world_size()
+        global_rank = get_rank()
+        world_size = get_world_size()
 
         samples_bytes = [None for _ in range(n_sample)]
         start_time = time.time()
         for index in range(n_sample):
             if index % (n_sample // 10) == 0:
                 t = time.time() - start_time
-                print(f'global_rank {dist.get_rank()} cached {index}/{n_sample} takes {t:.2f}s per block')
+                print(f'global_rank {get_rank()} cached {index}/{n_sample} takes {t:.2f}s per block')
                 start_time = time.time()
             path, target = self.samples[index]
             if self.cache_mode == "full":

@@ -10,8 +10,8 @@
 import os
 from math import inf
 import torch
-import torch.distributed as dist
 from timm.utils import ModelEma as ModelEma
+from utils.distributed import reduce_tensor as _dist_reduce_tensor
 
 def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, logger, model_ema: ModelEma=None):
     logger.info(f"==============> Resuming form {config.MODEL.RESUME}....................")
@@ -142,12 +142,13 @@ def auto_resume_helper(output_dir):
     return resume_file
 
 
-def reduce_tensor(tensor, ddp = 'torch'):
-    rt = tensor.clone()
-    if ddp == 'torch':
-        dist.all_reduce(rt, op=dist.ReduceOp.SUM)
-    rt /= dist.get_world_size()
-    return rt
+def reduce_tensor(tensor, ddp='torch'):
+    """Reduce tensor by averaging across all distributed processes.
+
+    In single-GPU mode the tensor is returned unchanged.
+    The ``ddp`` argument is kept for backward compatibility.
+    """
+    return _dist_reduce_tensor(tensor)
 
 
 def ampscaler_get_grad_norm(parameters, norm_type: float = 2.0) -> torch.Tensor:

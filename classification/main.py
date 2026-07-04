@@ -19,7 +19,6 @@ import numpy as np
 
 import torch
 import torch.backends.cudnn as cudnn
-import torch.distributed as torch_dist
 
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import accuracy, AverageMeter
@@ -32,6 +31,14 @@ from utils.optimizer import build_optimizer
 from utils.logger import create_logger
 from utils.utils import NativeScalerWithGradNormCount, auto_resume_helper, reduce_tensor
 from utils.utils import load_checkpoint_ema, load_pretrained_ema, save_checkpoint_ema
+from utils.distributed import (
+    init_distributed_mode,
+    get_rank,
+    get_world_size,
+    is_main_process,
+    barrier,
+    broadcast_object_list,
+)
 
 from fvcore.nn import FlopCountAnalysis, flop_count_str, flop_count
 
@@ -125,7 +132,7 @@ def main(config, args):
     model = build_model(config)
 
     if not args.mute_repeat:
-        if dist.get_rank() == 0:
+        if is_main_process():
             if hasattr(model, 'flops'):
                 logger.info(str(model))
                 n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -150,7 +157,7 @@ def main(config, args):
 
     optimizer = build_optimizer(config, model, logger, mute_repeat=args.mute_repeat)
     if args.ddp == 'torch':
-        if dist.get_world_size() > 1:
+        if get_world_size() > 1:
             model = torch.nn.parallel.DistributedDataParallel(
                 model,
                 broadcast_buffers=False
@@ -216,7 +223,7 @@ def main(config, args):
         if config.EVAL_MODE:
             return
 
-    if config.THROUGHPUT_MODE and (dist.get_rank() == 0):
+    if config.THROUGHPUT_MODE and is_main_process():
         logger.info(f"throughput mode ==============================")
         throughput(data_loader_val, model, logger)
         return
@@ -232,20 +239,22 @@ def main(config, args):
             break
 
     for epoch in range(config.TRAIN.START_EPOCH, config.TRAIN.EPOCHS):
-        data_loader_train.sampler.set_epoch(epoch)
+        # set_epoch is required for DistributedSampler; safe no-op on other samplers
+        if hasattr(data_loader_train.sampler, 'set_epoch'):
+            data_loader_train.sampler.set_epoch(epoch)
         train_one_epoch(config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler,
                         loss_scaler, model_ema, steps=steps, max_accuracy=max_accuracy,
                         max_accuracy_ema=max_accuracy_ema,
                         tb_writer=writer,
                         mesa=config.TRAIN.MESA if epoch >= int(0.25 * config.TRAIN.EPOCHS) else -1.0)
         steps = 0
-        if dist.get_rank() == 0:
+        if is_main_process():
             save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                 loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='latest_ckpt')
         acc1, acc5, loss = validate(config, data_loader_val, model)
         logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
         # Log the accuracy to TensorBoard
-        if dist.get_rank() == 0:
+        if is_main_process():
             writer.add_scalar('Accuracy/val', acc1, epoch)
 
         # Check if current accuracy is higher than the max accuracy
@@ -253,7 +262,7 @@ def main(config, args):
             max_accuracy = acc1
             logger.info(f'New max accuracy: {max_accuracy:.2f}%')
             # Save the model if this is the best accuracy so far
-            if dist.get_rank() == 0:
+            if is_main_process():
                 save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                     loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='best_ckpt')
         if model_ema is not None:
@@ -262,14 +271,14 @@ def main(config, args):
 
             # Check if current EMA accuracy is higher than the max EMA accuracy
             # Log the EMA accuracy to TensorBoard
-            if dist.get_rank() == 0:
+            if is_main_process():
                 writer.add_scalar('Accuracy_ema/val', acc1_ema, epoch)
 
             if acc1_ema > max_accuracy_ema:
                 max_accuracy_ema = acc1_ema
                 logger.info(f'New max accuracy ema: {max_accuracy_ema:.2f}%')
                 # Save the model if this is the best EMA accuracy so far
-                if dist.get_rank() == 0:
+                if is_main_process():
                     save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                         loss_scaler, logger, model_ema, max_accuracy_ema, steps=0,
                                         ckpt_name='best_ckpt_ema')
@@ -448,57 +457,17 @@ if __name__ == '__main__':
     stime = time.time()
     if args.ddp == 'torch':
         if torch.multiprocessing.get_start_method() != "spawn":
-            # print(f"||{torch.multiprocessing.get_start_method()}||", end="")
             torch.multiprocessing.set_start_method("spawn", force=True)
-        dist = torch_dist
     else:
         raise ValueError(f"Unknown ddp type {args.ddp}")
 
     if config.AMP_OPT_LEVEL:
         print("[warning] Apex amp has been deprecated, please use pytorch amp instead!")
 
-    # Single GPU / Windows support
-    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
-        rank = int(os.environ["RANK"])
-        world_size = int(os.environ["WORLD_SIZE"])
-        print(f"RANK and WORLD_SIZE in environ: {rank}/{world_size}")
+    # Initialize distributed mode (auto-detects torchrun vs single-GPU)
+    rank, world_size = init_distributed_mode()
 
-        torch.cuda.set_device(rank)
-
-        backend = "gloo" if os.name == "nt" else "nccl"
-
-        dist.init_process_group(
-            backend=backend,
-            init_method="env://",
-            world_size=world_size,
-            rank=rank,
-        )
-        dist.barrier()
-
-    else:
-        rank = 0
-        world_size = 1
-        torch.cuda.set_device(0)
-    if world_size == 1:
-        class DummyDist:
-            @staticmethod
-            def get_rank():
-                return 0
-
-            @staticmethod
-            def get_world_size():
-                return 1
-
-            @staticmethod
-            def barrier():
-                pass
-
-            @staticmethod
-            def broadcast_object_list(obj):
-                pass
-
-        dist = DummyDist()
-    seed = config.SEED + dist.get_rank()
+    seed = config.SEED + get_rank()
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     np.random.seed(seed)
@@ -511,9 +480,9 @@ if __name__ == '__main__':
         torch.backends.cudnn.deterministic = True
 
     # linear scale the learning rate according to total batch size, may not be optimal
-    linear_scaled_lr = config.TRAIN.BASE_LR * config.DATA.BATCH_SIZE * dist.get_world_size() / 512.0
-    linear_scaled_warmup_lr = config.TRAIN.WARMUP_LR * config.DATA.BATCH_SIZE * dist.get_world_size() / 512.0
-    linear_scaled_min_lr = config.TRAIN.MIN_LR * config.DATA.BATCH_SIZE * dist.get_world_size() / 512.0
+    linear_scaled_lr = config.TRAIN.BASE_LR * config.DATA.BATCH_SIZE * get_world_size() / 512.0
+    linear_scaled_warmup_lr = config.TRAIN.WARMUP_LR * config.DATA.BATCH_SIZE * get_world_size() / 512.0
+    linear_scaled_min_lr = config.TRAIN.MIN_LR * config.DATA.BATCH_SIZE * get_world_size() / 512.0
     # gradient accumulation also need to scale the learning rate
     if config.TRAIN.ACCUMULATION_STEPS > 1:
         linear_scaled_lr = linear_scaled_lr * config.TRAIN.ACCUMULATION_STEPS
@@ -527,13 +496,12 @@ if __name__ == '__main__':
 
     # to make sure all the config.OUTPUT are the same
     config.defrost()
-    if dist.get_rank() == 0:
+    if is_main_process():
         obj = [config.OUTPUT]
-        # obj = [str(random.randint(0, 100))] # for test
     else:
         obj = [None]
-    dist.broadcast_object_list(obj)
-    dist.barrier()
+    broadcast_object_list(obj)
+    barrier()
     config.OUTPUT = obj[0]
 
     resume_file = auto_resume_helper(config.OUTPUT)
@@ -544,9 +512,9 @@ if __name__ == '__main__':
 
     config.freeze()
     os.makedirs(config.OUTPUT, exist_ok=True)
-    logger = create_logger(output_dir=config.OUTPUT, dist_rank=dist.get_rank(), name=f"{config.MODEL.NAME}")
+    logger = create_logger(output_dir=config.OUTPUT, dist_rank=get_rank(), name=f"{config.MODEL.NAME}")
 
-    if dist.get_rank() == 0:
+    if is_main_process():
         path = os.path.join(config.OUTPUT, "config.json")
         with open(path, "w") as f:
             f.write(config.dump())

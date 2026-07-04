@@ -8,18 +8,8 @@
 import os
 import torch
 import numpy as np
-import torch.distributed as dist
-def is_dist():
-    return dist.is_available() and dist.is_initialized()
-
-def get_rank():
-    return dist.get_rank() if is_dist() else 0
-
-def get_world_size():
-    return get_world_size() if is_dist() else 1
-
-def get_world_size():
-    return get_world_size() if is_dist() else 1
+from torch.utils.data import RandomSampler, SequentialSampler
+from utils.distributed import get_rank, get_world_size, is_dist_avail_and_initialized
 from collections import Counter, defaultdict
 from torchvision import datasets, transforms
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
@@ -140,13 +130,15 @@ def build_loader(config):
     if config.DATA.ZIP_MODE and config.DATA.CACHE_MODE == 'part':
         indices = np.arange(get_rank(), len(dataset_train), get_world_size())
         sampler_train = SubsetRandomSampler(indices)
-    else:
+    elif num_tasks > 1:
         sampler_train = torch.utils.data.DistributedSampler(
             dataset_train, num_replicas=num_tasks, rank=global_rank, shuffle=True
         )
+    else:
+        sampler_train = RandomSampler(dataset_train)
 
-    if config.TEST.SEQUENTIAL:
-        sampler_val = torch.utils.data.SequentialSampler(dataset_val)
+    if config.TEST.SEQUENTIAL or num_tasks <= 1:
+        sampler_val = SequentialSampler(dataset_val)
     else:
         sampler_val = torch.utils.data.distributed.DistributedSampler(
             dataset_val, shuffle=config.TEST.SHUFFLE
