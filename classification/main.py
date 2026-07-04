@@ -150,9 +150,14 @@ def main(config, args):
 
     optimizer = build_optimizer(config, model, logger, mute_repeat=args.mute_repeat)
     if args.ddp == 'torch':
-        model = torch.nn.parallel.DistributedDataParallel(model, broadcast_buffers=False)
+        if dist.get_world_size() > 1:
+            model = torch.nn.parallel.DistributedDataParallel(
+                model,
+                broadcast_buffers=False
+            )
     else:
         raise ValueError(f"Unknown ddp type {args.ddp}")
+
 
     loss_scaler = NativeScalerWithGradNormCount()
 
@@ -452,17 +457,47 @@ if __name__ == '__main__':
     if config.AMP_OPT_LEVEL:
         print("[warning] Apex amp has been deprecated, please use pytorch amp instead!")
 
+    # Single GPU / Windows support
     if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
         rank = int(os.environ["RANK"])
-        world_size = int(os.environ['WORLD_SIZE'])
+        world_size = int(os.environ["WORLD_SIZE"])
         print(f"RANK and WORLD_SIZE in environ: {rank}/{world_size}")
-    else:
-        rank = -1
-        world_size = -1
-    torch.cuda.set_device(rank)
-    dist.init_process_group(backend='nccl', init_method='env://', world_size=world_size, rank=rank)
-    dist.barrier()
 
+        torch.cuda.set_device(rank)
+
+        backend = "gloo" if os.name == "nt" else "nccl"
+
+        dist.init_process_group(
+            backend=backend,
+            init_method="env://",
+            world_size=world_size,
+            rank=rank,
+        )
+        dist.barrier()
+
+    else:
+        rank = 0
+        world_size = 1
+        torch.cuda.set_device(0)
+    if world_size == 1:
+        class DummyDist:
+            @staticmethod
+            def get_rank():
+                return 0
+
+            @staticmethod
+            def get_world_size():
+                return 1
+
+            @staticmethod
+            def barrier():
+                pass
+
+            @staticmethod
+            def broadcast_object_list(obj):
+                pass
+
+        dist = DummyDist()
     seed = config.SEED + dist.get_rank()
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)

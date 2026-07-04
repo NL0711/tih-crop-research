@@ -9,6 +9,17 @@ import os
 import torch
 import numpy as np
 import torch.distributed as dist
+def is_dist():
+    return dist.is_available() and dist.is_initialized()
+
+def get_rank():
+    return dist.get_rank() if is_dist() else 0
+
+def get_world_size():
+    return get_world_size() if is_dist() else 1
+
+def get_world_size():
+    return get_world_size() if is_dist() else 1
 from collections import Counter, defaultdict
 from torchvision import datasets, transforms
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
@@ -116,18 +127,18 @@ def build_loader(config):
             seed=config.SEED,
             replace=config.DATA.OVERSAMPLE_REPLACEMENT,
         )
-        print(f"rank {dist.get_rank()} enabled class-balanced oversampling; training samples = {len(dataset_train)}")
+        print(f"rank {get_rank()} enabled class-balanced oversampling; training samples = {len(dataset_train)}")
         _print_dataset_distribution(dataset_train, 'Train (after oversampling)')
     config.freeze()
-    print(f"rank {dist.get_rank()} successfully build train dataset")
+    print(f"rank {get_rank()} successfully build train dataset")
     dataset_val, _ = build_dataset(is_train=False, config=config)
     _print_dataset_distribution(dataset_val, 'Validation')
-    print(f"rank {dist.get_rank()} successfully build val dataset")
+    print(f"rank {get_rank()} successfully build val dataset")
 
-    num_tasks = dist.get_world_size()
-    global_rank = dist.get_rank()
+    num_tasks = get_world_size()
+    global_rank = get_rank()
     if config.DATA.ZIP_MODE and config.DATA.CACHE_MODE == 'part':
-        indices = np.arange(dist.get_rank(), len(dataset_train), dist.get_world_size())
+        indices = np.arange(get_rank(), len(dataset_train), get_world_size())
         sampler_train = SubsetRandomSampler(indices)
     else:
         sampler_train = torch.utils.data.DistributedSampler(
