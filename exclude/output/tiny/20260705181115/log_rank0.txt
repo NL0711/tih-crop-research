@@ -1,0 +1,130 @@
+[2026-07-05 18:11:15 tiny] (main.py 542): INFO Full config saved to ./exclude/output\tiny\20260705181115\config.json
+[2026-07-05 18:11:15 tiny] (main.py 546): INFO AMP_ENABLE: true
+AMP_OPT_LEVEL: ''
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.4
+  CUTMIX: 0
+  CUTMIX_MINMAX: null
+  MIXUP: 0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.5
+BASE:
+- ''
+DATA:
+  BATCH_SIZE: 32
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: ../Cauliflower_split
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  MASK_PATCH_SIZE: 32
+  MASK_RATIO: 0.6
+  NUM_WORKERS: 0
+  OVERSAMPLE: false
+  OVERSAMPLE_REPLACEMENT: true
+  PERSISTENT_WORKERS: false
+  PIN_MEMORY: true
+  ZIP_MODE: false
+ENABLE_AMP: false
+EVAL_MODE: true
+FUSED_LAYERNORM: false
+MODEL:
+  DAMAMBA:
+    DEPTHS:
+    - 3
+    - 4
+    - 12
+    - 5
+    EMBED_DIM:
+    - 80
+    - 160
+    - 320
+    - 512
+    HEAD_DIM: 16
+    IMAGE_SIZE: 224
+    IN_CHANS: 3
+    LAYERSCALE:
+    - false
+    - false
+    - false
+    - false
+    MLP_RATIO:
+    - 4
+    - 4
+    - 3
+    - 3
+  DDP: torch
+  DROP_PATH_RATE: 0.15
+  DROP_RATE: 0.2
+  LABEL_SMOOTHING: 0.2
+  MMCKPT: false
+  NAME: tiny
+  NUM_CLASSES: 5
+  PRETRAINED: classification\weights\DAMamba-T.pth
+  RESUME: output/tiny/finetune/latest_ckpt.pth
+  TYPE: DAMamba
+OUTPUT: ./exclude/output\tiny\20260705181115
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: '20260705181115'
+TEST:
+  CROP: true
+  SEQUENTIAL: false
+  SHUFFLE: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 1
+  AUTO_RESUME: true
+  BASE_LR: 6.25e-06
+  CLIP_GRAD: 5.0
+  EPOCHS: 100
+  LAYER_DECAY: 1.0
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    GAMMA: 0.1
+    MULTISTEPS: []
+    NAME: cosine
+    WARMUP_PREFIX: true
+  MESA: 1.0
+  MIN_LR: 3.125e-07
+  MOE:
+    SAVE_MASTER: false
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: adamw
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 5
+  WARMUP_LR: 3.125e-08
+  WEIGHT_DECAY: 0.1
+TRAINCOST_MODE: false
+
+[2026-07-05 18:11:15 tiny] (main.py 547): INFO {"cfg": "classification/configs/DAMamba/damamba_tiny.yaml", "opts": null, "batch_size": null, "data_path": "../Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": "output/tiny/finetune/latest_ckpt.pth", "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": "./exclude/output", "tag": "20260705181115", "eval": true, "throughput": false, "oversample": false, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "mute_repeat": false}
+[2026-07-05 18:11:15 tiny] (main.py 132): INFO Creating model:DAMamba/tiny
+[2026-07-05 18:11:16 tiny] (optimizer.py 18): INFO ==============> building optimizer adamw....................
+[2026-07-05 18:11:16 tiny] (optimizer.py 27): INFO No weight decay list: ['stem.0.bias', 'stem.1.weight', 'stem.1.bias', 'stem.3.bias', 'stem.4.weight', 'stem.4.bias', 'stem.6.bias', 'stem.7.weight', 'stem.7.bias', 'stem.9.bias', 'stem.10.weight', 'stem.10.bias', 'stages.0.blocks.0.token_mixer.dt_projs_bias', 'stages.0.blocks.0.token_mixer.Ds', 'stages.0.blocks.0.token_mixer.conv2d.bias', 'stages.0.blocks.0.token_mixer.out_norm.norm.weight', 'stages.0.blocks.0.token_mixer.out_norm.norm.bias', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.0.token_mixer.da_scan.offset.bias', 'stages.0.blocks.0.norm1.norm.weight', 'stages.0.blocks.0.norm1.norm.bias', 'stages.0.blocks.0.norm2.weight', 'stages.0.blocks.0.norm2.bias', 'stages.0.blocks.0.mlp.fc1.bias', 'stages.0.blocks.0.mlp.fc2.bias', 'stages.0.blocks.0.mlp.conv.conv.bias', 'stages.0.blocks.0.pos_embed.conv.bias', 'stages.0.blocks.1.token_mixer.dt_projs_bias', 'stages.0.blocks.1.token_mixer.Ds', 'stages.0.blocks.1.token_mixer.conv2d.bias', 'stages.0.blocks.1.token_mixer.out_norm.norm.weight', 'stages.0.blocks.1.token_mixer.out_norm.norm.bias', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.1.token_mixer.da_scan.offset.bias', 'stages.0.blocks.1.norm1.norm.weight', 'stages.0.blocks.1.norm1.norm.bias', 'stages.0.blocks.1.norm2.weight', 'stages.0.blocks.1.norm2.bias', 'stages.0.blocks.1.mlp.fc1.bias', 'stages.0.blocks.1.mlp.fc2.bias', 'stages.0.blocks.1.mlp.conv.conv.bias', 'stages.0.blocks.1.pos_embed.conv.bias', 'stages.0.blocks.2.token_mixer.dt_projs_bias', 'stages.0.blocks.2.token_mixer.Ds', 'stages.0.blocks.2.token_mixer.conv2d.bias', 'stages.0.blocks.2.token_mixer.out_norm.norm.weight', 'stages.0.blocks.2.token_mixer.out_norm.norm.bias', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.2.token_mixer.da_scan.offset.bias', 'stages.0.blocks.2.norm1.norm.weight', 'stages.0.blocks.2.norm1.norm.bias', 'stages.0.blocks.2.norm2.weight', 'stages.0.blocks.2.norm2.bias', 'stages.0.blocks.2.mlp.fc1.bias', 'stages.0.blocks.2.mlp.fc2.bias', 'stages.0.blocks.2.mlp.conv.conv.bias', 'stages.0.blocks.2.pos_embed.conv.bias', 'stages.1.downsample.0.bias', 'stages.1.downsample.1.weight', 'stages.1.downsample.1.bias', 'stages.1.blocks.0.token_mixer.dt_projs_bias', 'stages.1.blocks.0.token_mixer.Ds', 'stages.1.blocks.0.token_mixer.conv2d.bias', 'stages.1.blocks.0.token_mixer.out_norm.norm.weight', 'stages.1.blocks.0.token_mixer.out_norm.norm.bias', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.0.token_mixer.da_scan.offset.bias', 'stages.1.blocks.0.norm1.norm.weight', 'stages.1.blocks.0.norm1.norm.bias', 'stages.1.blocks.0.norm2.weight', 'stages.1.blocks.0.norm2.bias', 'stages.1.blocks.0.mlp.fc1.bias', 'stages.1.blocks.0.mlp.fc2.bias', 'stages.1.blocks.0.mlp.conv.conv.bias', 'stages.1.blocks.0.pos_embed.conv.bias', 'stages.1.blocks.1.token_mixer.dt_projs_bias', 'stages.1.blocks.1.token_mixer.Ds', 'stages.1.blocks.1.token_mixer.conv2d.bias', 'stages.1.blocks.1.token_mixer.out_norm.norm.weight', 'stages.1.blocks.1.token_mixer.out_norm.norm.bias', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.1.token_mixer.da_scan.offset.bias', 'stages.1.blocks.1.norm1.norm.weight', 'stages.1.blocks.1.norm1.norm.bias', 'stages.1.blocks.1.norm2.weight', 'stages.1.blocks.1.norm2.bias', 'stages.1.blocks.1.mlp.fc1.bias', 'stages.1.blocks.1.mlp.fc2.bias', 'stages.1.blocks.1.mlp.conv.conv.bias', 'stages.1.blocks.1.pos_embed.conv.bias', 'stages.1.blocks.2.token_mixer.dt_projs_bias', 'stages.1.blocks.2.token_mixer.Ds', 'stages.1.blocks.2.token_mixer.conv2d.bias', 'stages.1.blocks.2.token_mixer.out_norm.norm.weight', 'stages.1.blocks.2.token_mixer.out_norm.norm.bias', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.2.token_mixer.da_scan.offset.bias', 'stages.1.blocks.2.norm1.norm.weight', 'stages.1.blocks.2.norm1.norm.bias', 'stages.1.blocks.2.norm2.weight', 'stages.1.blocks.2.norm2.bias', 'stages.1.blocks.2.mlp.fc1.bias', 'stages.1.blocks.2.mlp.fc2.bias', 'stages.1.blocks.2.mlp.conv.conv.bias', 'stages.1.blocks.2.pos_embed.conv.bias', 'stages.1.blocks.3.token_mixer.dt_projs_bias', 'stages.1.blocks.3.token_mixer.Ds', 'stages.1.blocks.3.token_mixer.conv2d.bias', 'stages.1.blocks.3.token_mixer.out_norm.norm.weight', 'stages.1.blocks.3.token_mixer.out_norm.norm.bias', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.3.token_mixer.da_scan.offset.bias', 'stages.1.blocks.3.norm1.norm.weight', 'stages.1.blocks.3.norm1.norm.bias', 'stages.1.blocks.3.norm2.weight', 'stages.1.blocks.3.norm2.bias', 'stages.1.blocks.3.mlp.fc1.bias', 'stages.1.blocks.3.mlp.fc2.bias', 'stages.1.blocks.3.mlp.conv.conv.bias', 'stages.1.blocks.3.pos_embed.conv.bias', 'stages.2.downsample.0.bias', 'stages.2.downsample.1.weight', 'stages.2.downsample.1.bias', 'stages.2.blocks.0.token_mixer.dt_projs_bias', 'stages.2.blocks.0.token_mixer.Ds', 'stages.2.blocks.0.token_mixer.conv2d.bias', 'stages.2.blocks.0.token_mixer.out_norm.norm.weight', 'stages.2.blocks.0.token_mixer.out_norm.norm.bias', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.0.token_mixer.da_scan.offset.bias', 'stages.2.blocks.0.norm1.norm.weight', 'stages.2.blocks.0.norm1.norm.bias', 'stages.2.blocks.0.norm2.weight', 'stages.2.blocks.0.norm2.bias', 'stages.2.blocks.0.mlp.fc1.bias', 'stages.2.blocks.0.mlp.fc2.bias', 'stages.2.blocks.0.mlp.conv.conv.bias', 'stages.2.blocks.0.pos_embed.conv.bias', 'stages.2.blocks.1.token_mixer.dt_projs_bias', 'stages.2.blocks.1.token_mixer.Ds', 'stages.2.blocks.1.token_mixer.conv2d.bias', 'stages.2.blocks.1.token_mixer.out_norm.norm.weight', 'stages.2.blocks.1.token_mixer.out_norm.norm.bias', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.1.token_mixer.da_scan.offset.bias', 'stages.2.blocks.1.norm1.norm.weight', 'stages.2.blocks.1.norm1.norm.bias', 'stages.2.blocks.1.norm2.weight', 'stages.2.blocks.1.norm2.bias', 'stages.2.blocks.1.mlp.fc1.bias', 'stages.2.blocks.1.mlp.fc2.bias', 'stages.2.blocks.1.mlp.conv.conv.bias', 'stages.2.blocks.1.pos_embed.conv.bias', 'stages.2.blocks.2.token_mixer.dt_projs_bias', 'stages.2.blocks.2.token_mixer.Ds', 'stages.2.blocks.2.token_mixer.conv2d.bias', 'stages.2.blocks.2.token_mixer.out_norm.norm.weight', 'stages.2.blocks.2.token_mixer.out_norm.norm.bias', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.2.token_mixer.da_scan.offset.bias', 'stages.2.blocks.2.norm1.norm.weight', 'stages.2.blocks.2.norm1.norm.bias', 'stages.2.blocks.2.norm2.weight', 'stages.2.blocks.2.norm2.bias', 'stages.2.blocks.2.mlp.fc1.bias', 'stages.2.blocks.2.mlp.fc2.bias', 'stages.2.blocks.2.mlp.conv.conv.bias', 'stages.2.blocks.2.pos_embed.conv.bias', 'stages.2.blocks.3.token_mixer.dt_projs_bias', 'stages.2.blocks.3.token_mixer.Ds', 'stages.2.blocks.3.token_mixer.conv2d.bias', 'stages.2.blocks.3.token_mixer.out_norm.norm.weight', 'stages.2.blocks.3.token_mixer.out_norm.norm.bias', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.3.token_mixer.da_scan.offset.bias', 'stages.2.blocks.3.norm1.norm.weight', 'stages.2.blocks.3.norm1.norm.bias', 'stages.2.blocks.3.norm2.weight', 'stages.2.blocks.3.norm2.bias', 'stages.2.blocks.3.mlp.fc1.bias', 'stages.2.blocks.3.mlp.fc2.bias', 'stages.2.blocks.3.mlp.conv.conv.bias', 'stages.2.blocks.3.pos_embed.conv.bias', 'stages.2.blocks.4.token_mixer.dt_projs_bias', 'stages.2.blocks.4.token_mixer.Ds', 'stages.2.blocks.4.token_mixer.conv2d.bias', 'stages.2.blocks.4.token_mixer.out_norm.norm.weight', 'stages.2.blocks.4.token_mixer.out_norm.norm.bias', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.4.token_mixer.da_scan.offset.bias', 'stages.2.blocks.4.norm1.norm.weight', 'stages.2.blocks.4.norm1.norm.bias', 'stages.2.blocks.4.norm2.weight', 'stages.2.blocks.4.norm2.bias', 'stages.2.blocks.4.mlp.fc1.bias', 'stages.2.blocks.4.mlp.fc2.bias', 'stages.2.blocks.4.mlp.conv.conv.bias', 'stages.2.blocks.4.pos_embed.conv.bias', 'stages.2.blocks.5.token_mixer.dt_projs_bias', 'stages.2.blocks.5.token_mixer.Ds', 'stages.2.blocks.5.token_mixer.conv2d.bias', 'stages.2.blocks.5.token_mixer.out_norm.norm.weight', 'stages.2.blocks.5.token_mixer.out_norm.norm.bias', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.5.token_mixer.da_scan.offset.bias', 'stages.2.blocks.5.norm1.norm.weight', 'stages.2.blocks.5.norm1.norm.bias', 'stages.2.blocks.5.norm2.weight', 'stages.2.blocks.5.norm2.bias', 'stages.2.blocks.5.mlp.fc1.bias', 'stages.2.blocks.5.mlp.fc2.bias', 'stages.2.blocks.5.mlp.conv.conv.bias', 'stages.2.blocks.5.pos_embed.conv.bias', 'stages.2.blocks.6.token_mixer.dt_projs_bias', 'stages.2.blocks.6.token_mixer.Ds', 'stages.2.blocks.6.token_mixer.conv2d.bias', 'stages.2.blocks.6.token_mixer.out_norm.norm.weight', 'stages.2.blocks.6.token_mixer.out_norm.norm.bias', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.6.token_mixer.da_scan.offset.bias', 'stages.2.blocks.6.norm1.norm.weight', 'stages.2.blocks.6.norm1.norm.bias', 'stages.2.blocks.6.norm2.weight', 'stages.2.blocks.6.norm2.bias', 'stages.2.blocks.6.mlp.fc1.bias', 'stages.2.blocks.6.mlp.fc2.bias', 'stages.2.blocks.6.mlp.conv.conv.bias', 'stages.2.blocks.6.pos_embed.conv.bias', 'stages.2.blocks.7.token_mixer.dt_projs_bias', 'stages.2.blocks.7.token_mixer.Ds', 'stages.2.blocks.7.token_mixer.conv2d.bias', 'stages.2.blocks.7.token_mixer.out_norm.norm.weight', 'stages.2.blocks.7.token_mixer.out_norm.norm.bias', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.7.token_mixer.da_scan.offset.bias', 'stages.2.blocks.7.norm1.norm.weight', 'stages.2.blocks.7.norm1.norm.bias', 'stages.2.blocks.7.norm2.weight', 'stages.2.blocks.7.norm2.bias', 'stages.2.blocks.7.mlp.fc1.bias', 'stages.2.blocks.7.mlp.fc2.bias', 'stages.2.blocks.7.mlp.conv.conv.bias', 'stages.2.blocks.7.pos_embed.conv.bias', 'stages.2.blocks.8.token_mixer.dt_projs_bias', 'stages.2.blocks.8.token_mixer.Ds', 'stages.2.blocks.8.token_mixer.conv2d.bias', 'stages.2.blocks.8.token_mixer.out_norm.norm.weight', 'stages.2.blocks.8.token_mixer.out_norm.norm.bias', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.8.token_mixer.da_scan.offset.bias', 'stages.2.blocks.8.norm1.norm.weight', 'stages.2.blocks.8.norm1.norm.bias', 'stages.2.blocks.8.norm2.weight', 'stages.2.blocks.8.norm2.bias', 'stages.2.blocks.8.mlp.fc1.bias', 'stages.2.blocks.8.mlp.fc2.bias', 'stages.2.blocks.8.mlp.conv.conv.bias', 'stages.2.blocks.8.pos_embed.conv.bias', 'stages.2.blocks.9.token_mixer.dt_projs_bias', 'stages.2.blocks.9.token_mixer.Ds', 'stages.2.blocks.9.token_mixer.conv2d.bias', 'stages.2.blocks.9.token_mixer.out_norm.norm.weight', 'stages.2.blocks.9.token_mixer.out_norm.norm.bias', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.9.token_mixer.da_scan.offset.bias', 'stages.2.blocks.9.norm1.norm.weight', 'stages.2.blocks.9.norm1.norm.bias', 'stages.2.blocks.9.norm2.weight', 'stages.2.blocks.9.norm2.bias', 'stages.2.blocks.9.mlp.fc1.bias', 'stages.2.blocks.9.mlp.fc2.bias', 'stages.2.blocks.9.mlp.conv.conv.bias', 'stages.2.blocks.9.pos_embed.conv.bias', 'stages.2.blocks.10.token_mixer.dt_projs_bias', 'stages.2.blocks.10.token_mixer.Ds', 'stages.2.blocks.10.token_mixer.conv2d.bias', 'stages.2.blocks.10.token_mixer.out_norm.norm.weight', 'stages.2.blocks.10.token_mixer.out_norm.norm.bias', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.10.token_mixer.da_scan.offset.bias', 'stages.2.blocks.10.norm1.norm.weight', 'stages.2.blocks.10.norm1.norm.bias', 'stages.2.blocks.10.norm2.weight', 'stages.2.blocks.10.norm2.bias', 'stages.2.blocks.10.mlp.fc1.bias', 'stages.2.blocks.10.mlp.fc2.bias', 'stages.2.blocks.10.mlp.conv.conv.bias', 'stages.2.blocks.10.pos_embed.conv.bias', 'stages.2.blocks.11.token_mixer.dt_projs_bias', 'stages.2.blocks.11.token_mixer.Ds', 'stages.2.blocks.11.token_mixer.conv2d.bias', 'stages.2.blocks.11.token_mixer.out_norm.norm.weight', 'stages.2.blocks.11.token_mixer.out_norm.norm.bias', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.11.token_mixer.da_scan.offset.bias', 'stages.2.blocks.11.norm1.norm.weight', 'stages.2.blocks.11.norm1.norm.bias', 'stages.2.blocks.11.norm2.weight', 'stages.2.blocks.11.norm2.bias', 'stages.2.blocks.11.mlp.fc1.bias', 'stages.2.blocks.11.mlp.fc2.bias', 'stages.2.blocks.11.mlp.conv.conv.bias', 'stages.2.blocks.11.pos_embed.conv.bias', 'stages.3.downsample.0.bias', 'stages.3.downsample.1.weight', 'stages.3.downsample.1.bias', 'stages.3.blocks.0.token_mixer.dt_projs_bias', 'stages.3.blocks.0.token_mixer.Ds', 'stages.3.blocks.0.token_mixer.conv2d.bias', 'stages.3.blocks.0.token_mixer.out_norm.norm.weight', 'stages.3.blocks.0.token_mixer.out_norm.norm.bias', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.0.token_mixer.da_scan.offset.bias', 'stages.3.blocks.0.norm1.norm.weight', 'stages.3.blocks.0.norm1.norm.bias', 'stages.3.blocks.0.norm2.weight', 'stages.3.blocks.0.norm2.bias', 'stages.3.blocks.0.mlp.fc1.bias', 'stages.3.blocks.0.mlp.fc2.bias', 'stages.3.blocks.0.mlp.conv.conv.bias', 'stages.3.blocks.0.pos_embed.conv.bias', 'stages.3.blocks.1.token_mixer.dt_projs_bias', 'stages.3.blocks.1.token_mixer.Ds', 'stages.3.blocks.1.token_mixer.conv2d.bias', 'stages.3.blocks.1.token_mixer.out_norm.norm.weight', 'stages.3.blocks.1.token_mixer.out_norm.norm.bias', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.1.token_mixer.da_scan.offset.bias', 'stages.3.blocks.1.norm1.norm.weight', 'stages.3.blocks.1.norm1.norm.bias', 'stages.3.blocks.1.norm2.weight', 'stages.3.blocks.1.norm2.bias', 'stages.3.blocks.1.mlp.fc1.bias', 'stages.3.blocks.1.mlp.fc2.bias', 'stages.3.blocks.1.mlp.conv.conv.bias', 'stages.3.blocks.1.pos_embed.conv.bias', 'stages.3.blocks.2.token_mixer.dt_projs_bias', 'stages.3.blocks.2.token_mixer.Ds', 'stages.3.blocks.2.token_mixer.conv2d.bias', 'stages.3.blocks.2.token_mixer.out_norm.norm.weight', 'stages.3.blocks.2.token_mixer.out_norm.norm.bias', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.2.token_mixer.da_scan.offset.bias', 'stages.3.blocks.2.norm1.norm.weight', 'stages.3.blocks.2.norm1.norm.bias', 'stages.3.blocks.2.norm2.weight', 'stages.3.blocks.2.norm2.bias', 'stages.3.blocks.2.mlp.fc1.bias', 'stages.3.blocks.2.mlp.fc2.bias', 'stages.3.blocks.2.mlp.conv.conv.bias', 'stages.3.blocks.2.pos_embed.conv.bias', 'stages.3.blocks.3.token_mixer.dt_projs_bias', 'stages.3.blocks.3.token_mixer.Ds', 'stages.3.blocks.3.token_mixer.conv2d.bias', 'stages.3.blocks.3.token_mixer.out_norm.norm.weight', 'stages.3.blocks.3.token_mixer.out_norm.norm.bias', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.3.token_mixer.da_scan.offset.bias', 'stages.3.blocks.3.norm1.norm.weight', 'stages.3.blocks.3.norm1.norm.bias', 'stages.3.blocks.3.norm2.weight', 'stages.3.blocks.3.norm2.bias', 'stages.3.blocks.3.mlp.fc1.bias', 'stages.3.blocks.3.mlp.fc2.bias', 'stages.3.blocks.3.mlp.conv.conv.bias', 'stages.3.blocks.3.pos_embed.conv.bias', 'stages.3.blocks.4.token_mixer.dt_projs_bias', 'stages.3.blocks.4.token_mixer.Ds', 'stages.3.blocks.4.token_mixer.conv2d.bias', 'stages.3.blocks.4.token_mixer.out_norm.norm.weight', 'stages.3.blocks.4.token_mixer.out_norm.norm.bias', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.4.token_mixer.da_scan.offset.bias', 'stages.3.blocks.4.norm1.norm.weight', 'stages.3.blocks.4.norm1.norm.bias', 'stages.3.blocks.4.norm2.weight', 'stages.3.blocks.4.norm2.bias', 'stages.3.blocks.4.mlp.fc1.bias', 'stages.3.blocks.4.mlp.fc2.bias', 'stages.3.blocks.4.mlp.conv.conv.bias', 'stages.3.blocks.4.pos_embed.conv.bias', 'norm1.norm.weight', 'norm1.norm.bias', 'norm2.norm.weight', 'norm2.norm.bias', 'norm3.norm.weight', 'norm3.norm.bias', 'norm4.norm.weight', 'norm4.norm.bias', 'head.fc.bias']
+[2026-07-05 18:11:16 tiny] (main.py 198): INFO no checkpoint found in ./exclude/output\tiny\20260705181115, ignoring auto resume
+[2026-07-05 18:11:16 tiny] (utils.py 34): INFO ==============> Resuming form output/tiny/finetune/latest_ckpt.pth....................
+[2026-07-05 18:11:16 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.weight: checkpoint shape torch.Size([1000, 512]), model shape torch.Size([5, 512]). Removing from checkpoint loading.
+[2026-07-05 18:11:16 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.bias: checkpoint shape torch.Size([1000]), model shape torch.Size([5]). Removing from checkpoint loading.
+[2026-07-05 18:11:16 tiny] (utils.py 43): INFO resuming model: _IncompatibleKeys(missing_keys=['head.fc.weight', 'head.fc.bias'], unexpected_keys=[])
+[2026-07-05 18:11:16 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.weight: checkpoint shape torch.Size([1000, 512]), model shape torch.Size([5, 512]). Removing from checkpoint loading.
+[2026-07-05 18:11:16 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.bias: checkpoint shape torch.Size([1000]), model shape torch.Size([5]). Removing from checkpoint loading.
+[2026-07-05 18:11:16 tiny] (utils.py 50): INFO resuming model_ema: _IncompatibleKeys(missing_keys=['head.fc.weight', 'head.fc.bias'], unexpected_keys=[])
+[2026-07-05 18:11:21 tiny] (main.py 440): INFO Test: [0/5]	Time 4.435 (4.435)	Loss 1.7539 (1.7539)	Acc@1 0.000 (0.000)	Acc@5 100.000 (100.000)	Mem 880MB
+[2026-07-05 18:11:34 tiny] (main.py 447): INFO  * Acc@1 11.189 Acc@5 100.000
+[2026-07-05 18:11:34 tiny] (main.py 225): INFO Accuracy of the network on the 143 test images: 11.2%
+[2026-07-05 18:11:37 tiny] (main.py 440): INFO Test: [0/5]	Time 2.326 (2.326)	Loss 1.7061 (1.7061)	Acc@1 12.500 (12.500)	Acc@5 100.000 (100.000)	Mem 880MB
+[2026-07-05 18:11:49 tiny] (main.py 447): INFO  * Acc@1 13.287 Acc@5 100.000
+[2026-07-05 18:11:49 tiny] (main.py 229): INFO Accuracy of the EMA network on the 143 test images: 13.3%

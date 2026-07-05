@@ -18,7 +18,7 @@ DATA:
   BATCH_SIZE: 32
   CACHE_MODE: part
   DATASET: imagenet
-  DATA_PATH: ..\Cauliflower_split
+  DATA_PATH: ../Cauliflower_split
   IMG_SIZE: 224
   INTERPOLATION: bicubic
   MASK_PATCH_SIZE: 32
@@ -30,7 +30,7 @@ DATA:
   PIN_MEMORY: true
   ZIP_MODE: false
 ENABLE_AMP: false
-EVAL_MODE: false
+EVAL_MODE: true
 FUSED_LAYERNORM: false
 MODEL:
   DAMAMBA:
@@ -65,13 +65,13 @@ MODEL:
   NAME: tiny
   NUM_CLASSES: 5
   PRETRAINED: classification\weights\DAMamba-T.pth
-  RESUME: ''
+  RESUME: output/tiny/finetune/latest_ckpt.pth
   TYPE: DAMamba
-OUTPUT: output\tiny\finetune
+OUTPUT: ./exclude/output\tiny\20260705192833
 PRINT_FREQ: 10
 SAVE_FREQ: 1
 SEED: 0
-TAG: finetune
+TAG: '20260705192833'
 TEST:
   CROP: true
   SEQUENTIAL: false

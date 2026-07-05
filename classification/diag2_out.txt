@@ -1,0 +1,35 @@
+﻿c:\Users\blais\Downloads\caulieval\tih-crop-research\ml\Scripts\python.exe : 
+C:\Users\blais\Downloads\caulieval\tih-crop-research\ml\Lib\site-packages\timm\models\layers\__init__.py:49: 
+FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+At line:1 char:1
++ c:\Users\blais\Downloads\caulieval\tih-crop-research\ml\Scripts\pytho ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\blais\...via timm.layers:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+C:\Users\blais\Downloads\caulieval\tih-crop-research\ml\Lib\site-packages\timm\models\registry.py:4: FutureWarning: 
+Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+C:\Users\blais\Downloads\caulieval\tih-crop-research\classification\models\ops_dcnv3\functions\dcnv3_func.py:18: 
+UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The 
+pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to 
+Setuptools<81.
+  import pkg_resources
+PyTorch: 2.2.0+cu118
+Error: RuntimeError Error(s) in loading state_dict for Linear:
+	size mismatch for weight: copying a param with shape torch.Size([1000, 512]) from checkpoint, the shape in current model is torch.Size([5, 512]).
+	size mismatch for bias: copying a param with shape torch.Size([1000]) from checkpoint, the shape in current model is torch.Size([5]).
+
+checkpoint model[head.fc.weight]: torch.Size([1000, 512])
+checkpoint ema[head.fc.weight]:   torch.Size([1000, 512])
+
+checkpoint model[head.fc.bias]: torch.Size([1000])
+checkpoint ema[head.fc.bias]:   torch.Size([1000])
+[3, 4, 12, 5] [80, 160, 320, 512] [False, False, False, False]
+[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0, 0.0]]
+
+Fresh model head: torch.Size([5, 512])
+RuntimeError: Error(s) in loading state_dict for DAMamba:
+	size mismatch for head.fc.weight: copying a param with shape torch.Size([1000, 512]) from checkpoint, the shape in current model is torch.Size([5, 512]).
+	size mismatch for head.fc.bias: copying a param with shape torch.Size([1000]) from checkpoint, the shape in current model is torch.Size([5]).

@@ -30,7 +30,7 @@ DATA:
   PIN_MEMORY: true
   ZIP_MODE: false
 ENABLE_AMP: false
-EVAL_MODE: false
+EVAL_MODE: true
 FUSED_LAYERNORM: false
 MODEL:
   DAMAMBA:
@@ -65,13 +65,13 @@ MODEL:
   NAME: tiny
   NUM_CLASSES: 5
   PRETRAINED: classification\weights\DAMamba-T.pth
-  RESUME: ''
+  RESUME: ..\output\tiny\finetune\best_ckpt.pth
   TYPE: DAMamba
-OUTPUT: output\tiny\finetune
+OUTPUT: ./exclude/output\tiny\20260705171601
 PRINT_FREQ: 10
 SAVE_FREQ: 1
 SEED: 0
-TAG: finetune
+TAG: '20260705171601'
 TEST:
   CROP: true
   SEQUENTIAL: false

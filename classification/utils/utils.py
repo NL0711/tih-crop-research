@@ -10,8 +10,45 @@
 import os
 from math import inf
 import torch
-from timm.utils import ModelEma as ModelEma
+from timm.utils import ModelEmaV3
+
+class ModelEma(ModelEmaV3):
+    def __init__(self, model, decay=0.9999, device='', resume='', **kwargs):
+        dev = None
+        if device == 'cpu':
+            dev = torch.device('cpu')
+        elif device:
+            dev = torch.device(device)
+            
+        super().__init__(
+            model,
+            decay=decay,
+            device=dev,
+            use_warmup=True,
+            exclude_buffers=True,
+        )
+        
+    @property
+    def ema(self):
+        return self.module
 from utils.distributed import reduce_tensor as _dist_reduce_tensor
+
+def load_state_dict_with_mismatch_filtering(model_or_module, state_dict, logger):
+    model_state = model_or_module.state_dict()
+    filtered_state_dict = {}
+    mismatched_keys = []
+    for k, v in state_dict.items():
+        if k in model_state:
+            if v.shape == model_state[k].shape:
+                filtered_state_dict[k] = v
+            else:
+                mismatched_keys.append((k, v.shape, model_state[k].shape))
+                logger.warning(f"Shape mismatch for key {k}: checkpoint shape {v.shape}, model shape {model_state[k].shape}. Removing from checkpoint loading.")
+        else:
+            filtered_state_dict[k] = v
+    msg = model_or_module.load_state_dict(filtered_state_dict, strict=False)
+    return msg
+
 
 def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, logger, model_ema: ModelEma=None):
     logger.info(f"==============> Resuming form {config.MODEL.RESUME}....................")
@@ -22,15 +59,38 @@ def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, log
         checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu')
     
     if 'model' in checkpoint:
-        msg = model.load_state_dict(checkpoint['model'], strict=False)
+        msg = load_state_dict_with_mismatch_filtering(model, checkpoint['model'], logger)
         logger.info(f"resuming model: {msg}")
     else:
         logger.warning(f"No 'model' found in {config.MODEL.RESUME}! ")
 
     if model_ema is not None:
         if 'model_ema' in checkpoint:
-            msg = model_ema.ema.load_state_dict(checkpoint['model_ema'], strict=False)
+            msg = load_state_dict_with_mismatch_filtering(model_ema.ema, checkpoint['model_ema'], logger)
             logger.info(f"resuming model_ema: {msg}")
+            
+            # Check for EMA stagnation bug (happens if saved under the old bugged EMA implementation)
+            resumed_epoch = checkpoint.get('epoch', 0)
+            temp_max_acc = checkpoint.get('max_accuracy', 0.0)
+            temp_max_acc_ema = checkpoint.get('max_accuracy_ema', checkpoint.get('max_accuray_ema', 0.0))
+            if resumed_epoch > 0 and temp_max_acc_ema < 20.0 and temp_max_acc > 50.0:
+                logger.warning(
+                    f"EMA stagnation bug detected: student accuracy is {temp_max_acc:.3f}%, "
+                    f"but EMA accuracy is only {temp_max_acc_ema:.3f}% at epoch {resumed_epoch}. "
+                    f"Healing EMA by synchronizing all parameters and buffers with the student model."
+                )
+                with torch.no_grad():
+                    for ema_p, model_p in zip(model_ema.ema.parameters(), model.parameters()):
+                        ema_p.copy_(model_p)
+                    for ema_b, model_b in zip(model_ema.ema.buffers(), model.buffers()):
+                        ema_b.copy_(model_b)
+            else:
+                # If no stagnation, but exclude_buffers is True, copy student buffers to EMA
+                if getattr(model_ema, 'exclude_buffers', False):
+                    with torch.no_grad():
+                        for ema_b, model_b in zip(model_ema.ema.buffers(), model.buffers()):
+                            ema_b.copy_(model_b)
+                    logger.info("exclude_buffers is True: Synchronized EMA buffers with student buffers on resume.")
         else:
             logger.warning(f"No 'model_ema' found in {config.MODEL.RESUME}! ")
 
@@ -51,6 +111,8 @@ def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, log
             max_accuracy = checkpoint['max_accuracy']
         if 'max_accuracy_ema' in checkpoint:
             max_accuracy_ema = checkpoint['max_accuracy_ema']
+        elif 'max_accuray_ema' in checkpoint:
+            max_accuracy_ema = checkpoint['max_accuray_ema']
 
     del checkpoint
     torch.cuda.empty_cache()
@@ -62,7 +124,7 @@ def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
     checkpoint = torch.load(config.MODEL.PRETRAINED, map_location='cpu')
     
     if 'model' in checkpoint:
-        msg = model.load_state_dict(checkpoint['model'], strict=False)
+        msg = load_state_dict_with_mismatch_filtering(model, checkpoint['model'], logger)
         logger.warning(msg)
         logger.info(f"=> loaded 'model' successfully from '{config.MODEL.PRETRAINED}'")
     else:
@@ -73,7 +135,7 @@ def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
             logger.info(f"=> loading 'model_ema' separately...")
         key = "model_ema" if ("model_ema" in checkpoint) else "model"
         if key in checkpoint:
-            msg = model_ema.ema.load_state_dict(checkpoint[key], strict=False)
+            msg = load_state_dict_with_mismatch_filtering(model_ema.ema, checkpoint[key], logger)
             logger.warning(msg)
             logger.info(f"=> loaded '{key}' successfully from '{config.MODEL.PRETRAINED}' for model_ema")
         else:
@@ -96,6 +158,7 @@ def save_checkpoint_ema(config, epoch, model, max_accuracy, optimizer, lr_schedu
     
     if model_ema is not None:
         save_state.update({'model_ema': model_ema.ema.state_dict(),
+            'max_accuracy_ema': max_accuracy_ema,
             'max_accuray_ema': max_accuracy_ema})
     if ckpt_name is None:
         save_path = os.path.join(config.OUTPUT, f'ckpt_epoch_{epoch}.pth')
