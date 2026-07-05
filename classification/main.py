@@ -21,6 +21,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
+import torch.nn.functional as F
 
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import accuracy, AverageMeter
@@ -44,7 +45,7 @@ from utils.distributed import (
 
 from fvcore.nn import FlopCountAnalysis, flop_count_str, flop_count
 
-from timm.utils import ModelEma as ModelEma
+from utils.utils import ModelEma
 from torch.utils.tensorboard import SummaryWriter
 from utils.experiment_tracker import ExperimentTracker
 from utils.evaluate_test import run_test_evaluation
@@ -478,10 +479,16 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
                     ema_output = model_ema.ema(samples).detach()
                 ema_output = torch.clone(ema_output)
                 ema_output = ema_output.softmax(dim=-1).detach()
-                ema_loss = F.kl_div(
-                    F.log_softmax(outputs.float(), dim=-1),
-                    ema_output.float(),
-                    reduction='batchmean') * mesa
+                if mesa > 0.0:
+                    ema_loss = F.kl_div(
+                        F.log_softmax(outputs.float(), dim=-1),
+                        ema_output.float(),
+                        reduction="batchmean"
+                    ) * mesa
+
+                    loss = criterion(outputs, targets) + ema_loss
+                else:
+                    loss = criterion(outputs, targets)
 
         if mesa > 0.0:
             loss = criterion(outputs, targets) + ema_loss
@@ -498,7 +505,7 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
             optimizer.zero_grad()
             lr_scheduler.step_update((epoch * num_steps + idx) // config.TRAIN.ACCUMULATION_STEPS)
             if model_ema is not None:
-                model_ema.update(model)
+                model_ema.update(model, step=(epoch * num_steps + idx) // config.TRAIN.ACCUMULATION_STEPS)
         loss_scale_value = loss_scaler.state_dict()["scale"]
 
         torch.cuda.synchronize()

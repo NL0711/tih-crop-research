@@ -1,5 +1,5 @@
-[2026-07-04 20:09:22 tiny] (main.py 553): INFO Full config saved to .\output\tiny\finetune\config.json
-[2026-07-04 20:09:22 tiny] (main.py 557): INFO AMP_ENABLE: true
+[2026-07-05 18:20:03 tiny] (main.py 542): INFO Full config saved to output\tiny\finetune\config.json
+[2026-07-05 18:20:03 tiny] (main.py 546): INFO AMP_ENABLE: true
 AMP_OPT_LEVEL: ''
 AUG:
   AUTO_AUGMENT: rand-m9-mstd0.5-inc1
@@ -24,8 +24,8 @@ DATA:
   INTERPOLATION: bicubic
   MASK_PATCH_SIZE: 32
   MASK_RATIO: 0.6
-  NUM_WORKERS: 8
-  OVERSAMPLE: true
+  NUM_WORKERS: 0
+  OVERSAMPLE: false
   OVERSAMPLE_REPLACEMENT: true
   PERSISTENT_WORKERS: false
   PIN_MEMORY: true
@@ -68,7 +68,7 @@ MODEL:
   PRETRAINED: classification\weights\DAMamba-T.pth
   RESUME: ''
   TYPE: DAMamba
-OUTPUT: .\output\tiny\finetune
+OUTPUT: output\tiny\finetune
 PRINT_FREQ: 10
 SAVE_FREQ: 1
 SEED: 0
@@ -110,230 +110,427 @@ TRAIN:
   WEIGHT_DECAY: 0.1
 TRAINCOST_MODE: false
 
-[2026-07-04 20:09:22 tiny] (main.py 558): INFO {"cfg": "./classification/configs/DAMamba/damamba_tiny.yaml", "opts": null, "batch_size": null, "data_path": "..\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": ".\\output", "tag": "finetune", "eval": false, "throughput": false, "oversample": true, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "mute_repeat": false}
-[2026-07-04 20:12:09 tiny] (main.py 553): INFO Full config saved to .\output\tiny\finetune\config.json
-[2026-07-04 20:12:09 tiny] (main.py 557): INFO AMP_ENABLE: true
-AMP_OPT_LEVEL: ''
-AUG:
-  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
-  COLOR_JITTER: 0.4
-  CUTMIX: 0
-  CUTMIX_MINMAX: null
-  MIXUP: 0
-  MIXUP_MODE: batch
-  MIXUP_PROB: 0.0
-  MIXUP_SWITCH_PROB: 0.0
-  RECOUNT: 1
-  REMODE: pixel
-  REPROB: 0.5
-BASE:
-- ''
-DATA:
-  BATCH_SIZE: 32
-  CACHE_MODE: part
-  DATASET: imagenet
-  DATA_PATH: ..\Cauliflower_split
-  IMG_SIZE: 224
-  INTERPOLATION: bicubic
-  MASK_PATCH_SIZE: 32
-  MASK_RATIO: 0.6
-  NUM_WORKERS: 8
-  OVERSAMPLE: true
-  OVERSAMPLE_REPLACEMENT: true
-  PERSISTENT_WORKERS: false
-  PIN_MEMORY: true
-  ZIP_MODE: false
-ENABLE_AMP: false
-EVAL_MODE: false
-FUSED_LAYERNORM: false
-MODEL:
-  DAMAMBA:
-    DEPTHS:
-    - 3
-    - 4
-    - 12
-    - 5
-    EMBED_DIM:
-    - 80
-    - 160
-    - 320
-    - 512
-    HEAD_DIM: 16
-    IMAGE_SIZE: 224
-    IN_CHANS: 3
-    LAYERSCALE:
-    - false
-    - false
-    - false
-    - false
-    MLP_RATIO:
-    - 4
-    - 4
-    - 3
-    - 3
-  DDP: torch
-  DROP_PATH_RATE: 0.15
-  DROP_RATE: 0.2
-  LABEL_SMOOTHING: 0.2
-  MMCKPT: false
-  NAME: tiny
-  NUM_CLASSES: 5
-  PRETRAINED: classification\weights\DAMamba-T.pth
-  RESUME: ''
-  TYPE: DAMamba
-OUTPUT: .\output\tiny\finetune
-PRINT_FREQ: 10
-SAVE_FREQ: 1
-SEED: 0
-TAG: finetune
-TEST:
-  CROP: true
-  SEQUENTIAL: false
-  SHUFFLE: false
-THROUGHPUT_MODE: false
-TRAIN:
-  ACCUMULATION_STEPS: 1
-  AUTO_RESUME: true
-  BASE_LR: 6.25e-06
-  CLIP_GRAD: 5.0
-  EPOCHS: 100
-  LAYER_DECAY: 1.0
-  LR_SCHEDULER:
-    DECAY_EPOCHS: 30
-    DECAY_RATE: 0.1
-    GAMMA: 0.1
-    MULTISTEPS: []
-    NAME: cosine
-    WARMUP_PREFIX: true
-  MESA: 1.0
-  MIN_LR: 3.125e-07
-  MOE:
-    SAVE_MASTER: false
-  OPTIMIZER:
-    BETAS:
-    - 0.9
-    - 0.999
-    EPS: 1.0e-08
-    MOMENTUM: 0.9
-    NAME: adamw
-  START_EPOCH: 0
-  USE_CHECKPOINT: false
-  WARMUP_EPOCHS: 5
-  WARMUP_LR: 3.125e-08
-  WEIGHT_DECAY: 0.1
-TRAINCOST_MODE: false
-
-[2026-07-04 20:12:09 tiny] (main.py 558): INFO {"cfg": "./classification/configs/DAMamba/damamba_tiny.yaml", "opts": null, "batch_size": null, "data_path": "..\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": ".\\output", "tag": "finetune", "eval": false, "throughput": false, "oversample": true, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "mute_repeat": false}
-[2026-07-04 20:14:16 tiny] (main.py 553): INFO Full config saved to .\output\tiny\finetune\config.json
-[2026-07-04 20:14:16 tiny] (main.py 557): INFO AMP_ENABLE: true
-AMP_OPT_LEVEL: ''
-AUG:
-  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
-  COLOR_JITTER: 0.4
-  CUTMIX: 0
-  CUTMIX_MINMAX: null
-  MIXUP: 0
-  MIXUP_MODE: batch
-  MIXUP_PROB: 0.0
-  MIXUP_SWITCH_PROB: 0.0
-  RECOUNT: 1
-  REMODE: pixel
-  REPROB: 0.5
-BASE:
-- ''
-DATA:
-  BATCH_SIZE: 32
-  CACHE_MODE: part
-  DATASET: imagenet
-  DATA_PATH: ..\Cauliflower_split
-  IMG_SIZE: 224
-  INTERPOLATION: bicubic
-  MASK_PATCH_SIZE: 32
-  MASK_RATIO: 0.6
-  NUM_WORKERS: 8
-  OVERSAMPLE: true
-  OVERSAMPLE_REPLACEMENT: true
-  PERSISTENT_WORKERS: false
-  PIN_MEMORY: true
-  ZIP_MODE: false
-ENABLE_AMP: false
-EVAL_MODE: false
-FUSED_LAYERNORM: false
-MODEL:
-  DAMAMBA:
-    DEPTHS:
-    - 3
-    - 4
-    - 12
-    - 5
-    EMBED_DIM:
-    - 80
-    - 160
-    - 320
-    - 512
-    HEAD_DIM: 16
-    IMAGE_SIZE: 224
-    IN_CHANS: 3
-    LAYERSCALE:
-    - false
-    - false
-    - false
-    - false
-    MLP_RATIO:
-    - 4
-    - 4
-    - 3
-    - 3
-  DDP: torch
-  DROP_PATH_RATE: 0.15
-  DROP_RATE: 0.2
-  LABEL_SMOOTHING: 0.2
-  MMCKPT: false
-  NAME: tiny
-  NUM_CLASSES: 5
-  PRETRAINED: classification\weights\DAMamba-T.pth
-  RESUME: ''
-  TYPE: DAMamba
-OUTPUT: .\output\tiny\finetune
-PRINT_FREQ: 10
-SAVE_FREQ: 1
-SEED: 0
-TAG: finetune
-TEST:
-  CROP: true
-  SEQUENTIAL: false
-  SHUFFLE: false
-THROUGHPUT_MODE: false
-TRAIN:
-  ACCUMULATION_STEPS: 1
-  AUTO_RESUME: true
-  BASE_LR: 6.25e-06
-  CLIP_GRAD: 5.0
-  EPOCHS: 100
-  LAYER_DECAY: 1.0
-  LR_SCHEDULER:
-    DECAY_EPOCHS: 30
-    DECAY_RATE: 0.1
-    GAMMA: 0.1
-    MULTISTEPS: []
-    NAME: cosine
-    WARMUP_PREFIX: true
-  MESA: 1.0
-  MIN_LR: 3.125e-07
-  MOE:
-    SAVE_MASTER: false
-  OPTIMIZER:
-    BETAS:
-    - 0.9
-    - 0.999
-    EPS: 1.0e-08
-    MOMENTUM: 0.9
-    NAME: adamw
-  START_EPOCH: 0
-  USE_CHECKPOINT: false
-  WARMUP_EPOCHS: 5
-  WARMUP_LR: 3.125e-08
-  WEIGHT_DECAY: 0.1
-TRAINCOST_MODE: false
-
-[2026-07-04 20:14:16 tiny] (main.py 558): INFO {"cfg": "./classification/configs/DAMamba/damamba_tiny.yaml", "opts": null, "batch_size": null, "data_path": "..\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": ".\\output", "tag": "finetune", "eval": false, "throughput": false, "oversample": true, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "mute_repeat": false}
+[2026-07-05 18:20:03 tiny] (main.py 547): INFO {"cfg": "classification/configs/DAMamba/damamba_tiny.yaml", "opts": null, "batch_size": null, "data_path": "..\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": "output", "tag": "finetune", "eval": false, "throughput": false, "oversample": false, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "mute_repeat": false}
+[2026-07-05 18:20:03 tiny] (main.py 132): INFO Creating model:DAMamba/tiny
+[2026-07-05 18:20:04 tiny] (optimizer.py 18): INFO ==============> building optimizer adamw....................
+[2026-07-05 18:20:04 tiny] (optimizer.py 27): INFO No weight decay list: ['stem.0.bias', 'stem.1.weight', 'stem.1.bias', 'stem.3.bias', 'stem.4.weight', 'stem.4.bias', 'stem.6.bias', 'stem.7.weight', 'stem.7.bias', 'stem.9.bias', 'stem.10.weight', 'stem.10.bias', 'stages.0.blocks.0.token_mixer.dt_projs_bias', 'stages.0.blocks.0.token_mixer.Ds', 'stages.0.blocks.0.token_mixer.conv2d.bias', 'stages.0.blocks.0.token_mixer.out_norm.norm.weight', 'stages.0.blocks.0.token_mixer.out_norm.norm.bias', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.0.token_mixer.da_scan.offset.bias', 'stages.0.blocks.0.norm1.norm.weight', 'stages.0.blocks.0.norm1.norm.bias', 'stages.0.blocks.0.norm2.weight', 'stages.0.blocks.0.norm2.bias', 'stages.0.blocks.0.mlp.fc1.bias', 'stages.0.blocks.0.mlp.fc2.bias', 'stages.0.blocks.0.mlp.conv.conv.bias', 'stages.0.blocks.0.pos_embed.conv.bias', 'stages.0.blocks.1.token_mixer.dt_projs_bias', 'stages.0.blocks.1.token_mixer.Ds', 'stages.0.blocks.1.token_mixer.conv2d.bias', 'stages.0.blocks.1.token_mixer.out_norm.norm.weight', 'stages.0.blocks.1.token_mixer.out_norm.norm.bias', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.1.token_mixer.da_scan.offset.bias', 'stages.0.blocks.1.norm1.norm.weight', 'stages.0.blocks.1.norm1.norm.bias', 'stages.0.blocks.1.norm2.weight', 'stages.0.blocks.1.norm2.bias', 'stages.0.blocks.1.mlp.fc1.bias', 'stages.0.blocks.1.mlp.fc2.bias', 'stages.0.blocks.1.mlp.conv.conv.bias', 'stages.0.blocks.1.pos_embed.conv.bias', 'stages.0.blocks.2.token_mixer.dt_projs_bias', 'stages.0.blocks.2.token_mixer.Ds', 'stages.0.blocks.2.token_mixer.conv2d.bias', 'stages.0.blocks.2.token_mixer.out_norm.norm.weight', 'stages.0.blocks.2.token_mixer.out_norm.norm.bias', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.0.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.0.blocks.2.token_mixer.da_scan.offset.bias', 'stages.0.blocks.2.norm1.norm.weight', 'stages.0.blocks.2.norm1.norm.bias', 'stages.0.blocks.2.norm2.weight', 'stages.0.blocks.2.norm2.bias', 'stages.0.blocks.2.mlp.fc1.bias', 'stages.0.blocks.2.mlp.fc2.bias', 'stages.0.blocks.2.mlp.conv.conv.bias', 'stages.0.blocks.2.pos_embed.conv.bias', 'stages.1.downsample.0.bias', 'stages.1.downsample.1.weight', 'stages.1.downsample.1.bias', 'stages.1.blocks.0.token_mixer.dt_projs_bias', 'stages.1.blocks.0.token_mixer.Ds', 'stages.1.blocks.0.token_mixer.conv2d.bias', 'stages.1.blocks.0.token_mixer.out_norm.norm.weight', 'stages.1.blocks.0.token_mixer.out_norm.norm.bias', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.0.token_mixer.da_scan.offset.bias', 'stages.1.blocks.0.norm1.norm.weight', 'stages.1.blocks.0.norm1.norm.bias', 'stages.1.blocks.0.norm2.weight', 'stages.1.blocks.0.norm2.bias', 'stages.1.blocks.0.mlp.fc1.bias', 'stages.1.blocks.0.mlp.fc2.bias', 'stages.1.blocks.0.mlp.conv.conv.bias', 'stages.1.blocks.0.pos_embed.conv.bias', 'stages.1.blocks.1.token_mixer.dt_projs_bias', 'stages.1.blocks.1.token_mixer.Ds', 'stages.1.blocks.1.token_mixer.conv2d.bias', 'stages.1.blocks.1.token_mixer.out_norm.norm.weight', 'stages.1.blocks.1.token_mixer.out_norm.norm.bias', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.1.token_mixer.da_scan.offset.bias', 'stages.1.blocks.1.norm1.norm.weight', 'stages.1.blocks.1.norm1.norm.bias', 'stages.1.blocks.1.norm2.weight', 'stages.1.blocks.1.norm2.bias', 'stages.1.blocks.1.mlp.fc1.bias', 'stages.1.blocks.1.mlp.fc2.bias', 'stages.1.blocks.1.mlp.conv.conv.bias', 'stages.1.blocks.1.pos_embed.conv.bias', 'stages.1.blocks.2.token_mixer.dt_projs_bias', 'stages.1.blocks.2.token_mixer.Ds', 'stages.1.blocks.2.token_mixer.conv2d.bias', 'stages.1.blocks.2.token_mixer.out_norm.norm.weight', 'stages.1.blocks.2.token_mixer.out_norm.norm.bias', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.2.token_mixer.da_scan.offset.bias', 'stages.1.blocks.2.norm1.norm.weight', 'stages.1.blocks.2.norm1.norm.bias', 'stages.1.blocks.2.norm2.weight', 'stages.1.blocks.2.norm2.bias', 'stages.1.blocks.2.mlp.fc1.bias', 'stages.1.blocks.2.mlp.fc2.bias', 'stages.1.blocks.2.mlp.conv.conv.bias', 'stages.1.blocks.2.pos_embed.conv.bias', 'stages.1.blocks.3.token_mixer.dt_projs_bias', 'stages.1.blocks.3.token_mixer.Ds', 'stages.1.blocks.3.token_mixer.conv2d.bias', 'stages.1.blocks.3.token_mixer.out_norm.norm.weight', 'stages.1.blocks.3.token_mixer.out_norm.norm.bias', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.1.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.1.blocks.3.token_mixer.da_scan.offset.bias', 'stages.1.blocks.3.norm1.norm.weight', 'stages.1.blocks.3.norm1.norm.bias', 'stages.1.blocks.3.norm2.weight', 'stages.1.blocks.3.norm2.bias', 'stages.1.blocks.3.mlp.fc1.bias', 'stages.1.blocks.3.mlp.fc2.bias', 'stages.1.blocks.3.mlp.conv.conv.bias', 'stages.1.blocks.3.pos_embed.conv.bias', 'stages.2.downsample.0.bias', 'stages.2.downsample.1.weight', 'stages.2.downsample.1.bias', 'stages.2.blocks.0.token_mixer.dt_projs_bias', 'stages.2.blocks.0.token_mixer.Ds', 'stages.2.blocks.0.token_mixer.conv2d.bias', 'stages.2.blocks.0.token_mixer.out_norm.norm.weight', 'stages.2.blocks.0.token_mixer.out_norm.norm.bias', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.0.token_mixer.da_scan.offset.bias', 'stages.2.blocks.0.norm1.norm.weight', 'stages.2.blocks.0.norm1.norm.bias', 'stages.2.blocks.0.norm2.weight', 'stages.2.blocks.0.norm2.bias', 'stages.2.blocks.0.mlp.fc1.bias', 'stages.2.blocks.0.mlp.fc2.bias', 'stages.2.blocks.0.mlp.conv.conv.bias', 'stages.2.blocks.0.pos_embed.conv.bias', 'stages.2.blocks.1.token_mixer.dt_projs_bias', 'stages.2.blocks.1.token_mixer.Ds', 'stages.2.blocks.1.token_mixer.conv2d.bias', 'stages.2.blocks.1.token_mixer.out_norm.norm.weight', 'stages.2.blocks.1.token_mixer.out_norm.norm.bias', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.1.token_mixer.da_scan.offset.bias', 'stages.2.blocks.1.norm1.norm.weight', 'stages.2.blocks.1.norm1.norm.bias', 'stages.2.blocks.1.norm2.weight', 'stages.2.blocks.1.norm2.bias', 'stages.2.blocks.1.mlp.fc1.bias', 'stages.2.blocks.1.mlp.fc2.bias', 'stages.2.blocks.1.mlp.conv.conv.bias', 'stages.2.blocks.1.pos_embed.conv.bias', 'stages.2.blocks.2.token_mixer.dt_projs_bias', 'stages.2.blocks.2.token_mixer.Ds', 'stages.2.blocks.2.token_mixer.conv2d.bias', 'stages.2.blocks.2.token_mixer.out_norm.norm.weight', 'stages.2.blocks.2.token_mixer.out_norm.norm.bias', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.2.token_mixer.da_scan.offset.bias', 'stages.2.blocks.2.norm1.norm.weight', 'stages.2.blocks.2.norm1.norm.bias', 'stages.2.blocks.2.norm2.weight', 'stages.2.blocks.2.norm2.bias', 'stages.2.blocks.2.mlp.fc1.bias', 'stages.2.blocks.2.mlp.fc2.bias', 'stages.2.blocks.2.mlp.conv.conv.bias', 'stages.2.blocks.2.pos_embed.conv.bias', 'stages.2.blocks.3.token_mixer.dt_projs_bias', 'stages.2.blocks.3.token_mixer.Ds', 'stages.2.blocks.3.token_mixer.conv2d.bias', 'stages.2.blocks.3.token_mixer.out_norm.norm.weight', 'stages.2.blocks.3.token_mixer.out_norm.norm.bias', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.3.token_mixer.da_scan.offset.bias', 'stages.2.blocks.3.norm1.norm.weight', 'stages.2.blocks.3.norm1.norm.bias', 'stages.2.blocks.3.norm2.weight', 'stages.2.blocks.3.norm2.bias', 'stages.2.blocks.3.mlp.fc1.bias', 'stages.2.blocks.3.mlp.fc2.bias', 'stages.2.blocks.3.mlp.conv.conv.bias', 'stages.2.blocks.3.pos_embed.conv.bias', 'stages.2.blocks.4.token_mixer.dt_projs_bias', 'stages.2.blocks.4.token_mixer.Ds', 'stages.2.blocks.4.token_mixer.conv2d.bias', 'stages.2.blocks.4.token_mixer.out_norm.norm.weight', 'stages.2.blocks.4.token_mixer.out_norm.norm.bias', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.4.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.4.token_mixer.da_scan.offset.bias', 'stages.2.blocks.4.norm1.norm.weight', 'stages.2.blocks.4.norm1.norm.bias', 'stages.2.blocks.4.norm2.weight', 'stages.2.blocks.4.norm2.bias', 'stages.2.blocks.4.mlp.fc1.bias', 'stages.2.blocks.4.mlp.fc2.bias', 'stages.2.blocks.4.mlp.conv.conv.bias', 'stages.2.blocks.4.pos_embed.conv.bias', 'stages.2.blocks.5.token_mixer.dt_projs_bias', 'stages.2.blocks.5.token_mixer.Ds', 'stages.2.blocks.5.token_mixer.conv2d.bias', 'stages.2.blocks.5.token_mixer.out_norm.norm.weight', 'stages.2.blocks.5.token_mixer.out_norm.norm.bias', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.5.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.5.token_mixer.da_scan.offset.bias', 'stages.2.blocks.5.norm1.norm.weight', 'stages.2.blocks.5.norm1.norm.bias', 'stages.2.blocks.5.norm2.weight', 'stages.2.blocks.5.norm2.bias', 'stages.2.blocks.5.mlp.fc1.bias', 'stages.2.blocks.5.mlp.fc2.bias', 'stages.2.blocks.5.mlp.conv.conv.bias', 'stages.2.blocks.5.pos_embed.conv.bias', 'stages.2.blocks.6.token_mixer.dt_projs_bias', 'stages.2.blocks.6.token_mixer.Ds', 'stages.2.blocks.6.token_mixer.conv2d.bias', 'stages.2.blocks.6.token_mixer.out_norm.norm.weight', 'stages.2.blocks.6.token_mixer.out_norm.norm.bias', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.6.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.6.token_mixer.da_scan.offset.bias', 'stages.2.blocks.6.norm1.norm.weight', 'stages.2.blocks.6.norm1.norm.bias', 'stages.2.blocks.6.norm2.weight', 'stages.2.blocks.6.norm2.bias', 'stages.2.blocks.6.mlp.fc1.bias', 'stages.2.blocks.6.mlp.fc2.bias', 'stages.2.blocks.6.mlp.conv.conv.bias', 'stages.2.blocks.6.pos_embed.conv.bias', 'stages.2.blocks.7.token_mixer.dt_projs_bias', 'stages.2.blocks.7.token_mixer.Ds', 'stages.2.blocks.7.token_mixer.conv2d.bias', 'stages.2.blocks.7.token_mixer.out_norm.norm.weight', 'stages.2.blocks.7.token_mixer.out_norm.norm.bias', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.7.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.7.token_mixer.da_scan.offset.bias', 'stages.2.blocks.7.norm1.norm.weight', 'stages.2.blocks.7.norm1.norm.bias', 'stages.2.blocks.7.norm2.weight', 'stages.2.blocks.7.norm2.bias', 'stages.2.blocks.7.mlp.fc1.bias', 'stages.2.blocks.7.mlp.fc2.bias', 'stages.2.blocks.7.mlp.conv.conv.bias', 'stages.2.blocks.7.pos_embed.conv.bias', 'stages.2.blocks.8.token_mixer.dt_projs_bias', 'stages.2.blocks.8.token_mixer.Ds', 'stages.2.blocks.8.token_mixer.conv2d.bias', 'stages.2.blocks.8.token_mixer.out_norm.norm.weight', 'stages.2.blocks.8.token_mixer.out_norm.norm.bias', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.8.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.8.token_mixer.da_scan.offset.bias', 'stages.2.blocks.8.norm1.norm.weight', 'stages.2.blocks.8.norm1.norm.bias', 'stages.2.blocks.8.norm2.weight', 'stages.2.blocks.8.norm2.bias', 'stages.2.blocks.8.mlp.fc1.bias', 'stages.2.blocks.8.mlp.fc2.bias', 'stages.2.blocks.8.mlp.conv.conv.bias', 'stages.2.blocks.8.pos_embed.conv.bias', 'stages.2.blocks.9.token_mixer.dt_projs_bias', 'stages.2.blocks.9.token_mixer.Ds', 'stages.2.blocks.9.token_mixer.conv2d.bias', 'stages.2.blocks.9.token_mixer.out_norm.norm.weight', 'stages.2.blocks.9.token_mixer.out_norm.norm.bias', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.9.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.9.token_mixer.da_scan.offset.bias', 'stages.2.blocks.9.norm1.norm.weight', 'stages.2.blocks.9.norm1.norm.bias', 'stages.2.blocks.9.norm2.weight', 'stages.2.blocks.9.norm2.bias', 'stages.2.blocks.9.mlp.fc1.bias', 'stages.2.blocks.9.mlp.fc2.bias', 'stages.2.blocks.9.mlp.conv.conv.bias', 'stages.2.blocks.9.pos_embed.conv.bias', 'stages.2.blocks.10.token_mixer.dt_projs_bias', 'stages.2.blocks.10.token_mixer.Ds', 'stages.2.blocks.10.token_mixer.conv2d.bias', 'stages.2.blocks.10.token_mixer.out_norm.norm.weight', 'stages.2.blocks.10.token_mixer.out_norm.norm.bias', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.10.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.10.token_mixer.da_scan.offset.bias', 'stages.2.blocks.10.norm1.norm.weight', 'stages.2.blocks.10.norm1.norm.bias', 'stages.2.blocks.10.norm2.weight', 'stages.2.blocks.10.norm2.bias', 'stages.2.blocks.10.mlp.fc1.bias', 'stages.2.blocks.10.mlp.fc2.bias', 'stages.2.blocks.10.mlp.conv.conv.bias', 'stages.2.blocks.10.pos_embed.conv.bias', 'stages.2.blocks.11.token_mixer.dt_projs_bias', 'stages.2.blocks.11.token_mixer.Ds', 'stages.2.blocks.11.token_mixer.conv2d.bias', 'stages.2.blocks.11.token_mixer.out_norm.norm.weight', 'stages.2.blocks.11.token_mixer.out_norm.norm.bias', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.0.bias', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.2.blocks.11.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.2.blocks.11.token_mixer.da_scan.offset.bias', 'stages.2.blocks.11.norm1.norm.weight', 'stages.2.blocks.11.norm1.norm.bias', 'stages.2.blocks.11.norm2.weight', 'stages.2.blocks.11.norm2.bias', 'stages.2.blocks.11.mlp.fc1.bias', 'stages.2.blocks.11.mlp.fc2.bias', 'stages.2.blocks.11.mlp.conv.conv.bias', 'stages.2.blocks.11.pos_embed.conv.bias', 'stages.3.downsample.0.bias', 'stages.3.downsample.1.weight', 'stages.3.downsample.1.bias', 'stages.3.blocks.0.token_mixer.dt_projs_bias', 'stages.3.blocks.0.token_mixer.Ds', 'stages.3.blocks.0.token_mixer.conv2d.bias', 'stages.3.blocks.0.token_mixer.out_norm.norm.weight', 'stages.3.blocks.0.token_mixer.out_norm.norm.bias', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.0.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.0.token_mixer.da_scan.offset.bias', 'stages.3.blocks.0.norm1.norm.weight', 'stages.3.blocks.0.norm1.norm.bias', 'stages.3.blocks.0.norm2.weight', 'stages.3.blocks.0.norm2.bias', 'stages.3.blocks.0.mlp.fc1.bias', 'stages.3.blocks.0.mlp.fc2.bias', 'stages.3.blocks.0.mlp.conv.conv.bias', 'stages.3.blocks.0.pos_embed.conv.bias', 'stages.3.blocks.1.token_mixer.dt_projs_bias', 'stages.3.blocks.1.token_mixer.Ds', 'stages.3.blocks.1.token_mixer.conv2d.bias', 'stages.3.blocks.1.token_mixer.out_norm.norm.weight', 'stages.3.blocks.1.token_mixer.out_norm.norm.bias', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.1.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.1.token_mixer.da_scan.offset.bias', 'stages.3.blocks.1.norm1.norm.weight', 'stages.3.blocks.1.norm1.norm.bias', 'stages.3.blocks.1.norm2.weight', 'stages.3.blocks.1.norm2.bias', 'stages.3.blocks.1.mlp.fc1.bias', 'stages.3.blocks.1.mlp.fc2.bias', 'stages.3.blocks.1.mlp.conv.conv.bias', 'stages.3.blocks.1.pos_embed.conv.bias', 'stages.3.blocks.2.token_mixer.dt_projs_bias', 'stages.3.blocks.2.token_mixer.Ds', 'stages.3.blocks.2.token_mixer.conv2d.bias', 'stages.3.blocks.2.token_mixer.out_norm.norm.weight', 'stages.3.blocks.2.token_mixer.out_norm.norm.bias', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.2.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.2.token_mixer.da_scan.offset.bias', 'stages.3.blocks.2.norm1.norm.weight', 'stages.3.blocks.2.norm1.norm.bias', 'stages.3.blocks.2.norm2.weight', 'stages.3.blocks.2.norm2.bias', 'stages.3.blocks.2.mlp.fc1.bias', 'stages.3.blocks.2.mlp.fc2.bias', 'stages.3.blocks.2.mlp.conv.conv.bias', 'stages.3.blocks.2.pos_embed.conv.bias', 'stages.3.blocks.3.token_mixer.dt_projs_bias', 'stages.3.blocks.3.token_mixer.Ds', 'stages.3.blocks.3.token_mixer.conv2d.bias', 'stages.3.blocks.3.token_mixer.out_norm.norm.weight', 'stages.3.blocks.3.token_mixer.out_norm.norm.bias', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.3.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.3.token_mixer.da_scan.offset.bias', 'stages.3.blocks.3.norm1.norm.weight', 'stages.3.blocks.3.norm1.norm.bias', 'stages.3.blocks.3.norm2.weight', 'stages.3.blocks.3.norm2.bias', 'stages.3.blocks.3.mlp.fc1.bias', 'stages.3.blocks.3.mlp.fc2.bias', 'stages.3.blocks.3.mlp.conv.conv.bias', 'stages.3.blocks.3.pos_embed.conv.bias', 'stages.3.blocks.4.token_mixer.dt_projs_bias', 'stages.3.blocks.4.token_mixer.Ds', 'stages.3.blocks.4.token_mixer.conv2d.bias', 'stages.3.blocks.4.token_mixer.out_norm.norm.weight', 'stages.3.blocks.4.token_mixer.out_norm.norm.bias', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.0.bias', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.1.1.weight', 'stages.3.blocks.4.token_mixer.da_scan.dw_conv.1.1.bias', 'stages.3.blocks.4.token_mixer.da_scan.offset.bias', 'stages.3.blocks.4.norm1.norm.weight', 'stages.3.blocks.4.norm1.norm.bias', 'stages.3.blocks.4.norm2.weight', 'stages.3.blocks.4.norm2.bias', 'stages.3.blocks.4.mlp.fc1.bias', 'stages.3.blocks.4.mlp.fc2.bias', 'stages.3.blocks.4.mlp.conv.conv.bias', 'stages.3.blocks.4.pos_embed.conv.bias', 'norm1.norm.weight', 'norm1.norm.bias', 'norm2.norm.weight', 'norm2.norm.bias', 'norm3.norm.weight', 'norm3.norm.bias', 'norm4.norm.weight', 'norm4.norm.bias', 'head.fc.bias']
+[2026-07-05 18:20:04 tiny] (main.py 198): INFO no checkpoint found in output\tiny\finetune, ignoring auto resume
+[2026-07-05 18:20:04 tiny] (utils.py 80): INFO ==============> Loading weight classification\weights\DAMamba-T.pth for fine-tuning......
+[2026-07-05 18:20:04 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.weight: checkpoint shape torch.Size([1000, 512]), model shape torch.Size([5, 512]). Removing from checkpoint loading.
+[2026-07-05 18:20:04 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.bias: checkpoint shape torch.Size([1000]), model shape torch.Size([5]). Removing from checkpoint loading.
+[2026-07-05 18:20:04 tiny] (utils.py 85): WARNING _IncompatibleKeys(missing_keys=['head.fc.weight', 'head.fc.bias'], unexpected_keys=[])
+[2026-07-05 18:20:04 tiny] (utils.py 86): INFO => loaded 'model' successfully from 'classification\weights\DAMamba-T.pth'
+[2026-07-05 18:20:04 tiny] (utils.py 92): INFO => loading 'model_ema' separately...
+[2026-07-05 18:20:04 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.weight: checkpoint shape torch.Size([1000, 512]), model shape torch.Size([5, 512]). Removing from checkpoint loading.
+[2026-07-05 18:20:04 tiny] (utils.py 26): WARNING Shape mismatch for key head.fc.bias: checkpoint shape torch.Size([1000]), model shape torch.Size([5]). Removing from checkpoint loading.
+[2026-07-05 18:20:04 tiny] (utils.py 96): WARNING _IncompatibleKeys(missing_keys=['head.fc.weight', 'head.fc.bias'], unexpected_keys=[])
+[2026-07-05 18:20:04 tiny] (utils.py 97): INFO => loaded 'model_ema' successfully from 'classification\weights\DAMamba-T.pth' for model_ema
+[2026-07-05 18:20:08 tiny] (main.py 440): INFO Test: [0/5]	Time 3.350 (3.350)	Loss 1.6846 (1.6846)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 880MB
+[2026-07-05 18:20:20 tiny] (main.py 447): INFO  * Acc@1 13.333 Acc@5 100.000
+[2026-07-05 18:20:20 tiny] (main.py 236): INFO Accuracy of the network on the 135 validation images: 13.3%
+[2026-07-05 18:20:22 tiny] (main.py 440): INFO Test: [0/5]	Time 1.995 (1.995)	Loss 1.6797 (1.6797)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 880MB
+[2026-07-05 18:20:32 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:20:32 tiny] (main.py 241): INFO Accuracy of the network ema on the 135 validation images: 11.9%
+[2026-07-05 18:20:32 tiny] (main.py 251): INFO Start training
+[2026-07-05 18:20:38 tiny] (main.py 385): INFO Train: [0/100][0/34]	eta 0:03:26 lr 0.000000	 wd 0.1000	time 6.0813 (6.0813)	data time 2.5622 (2.5622)	model time 0.0000 (0.0000)	loss 1.6182 (1.6182)	grad_norm nan (nan)	loss_scale 32768.0000 (32768.0000)	mem 5341MB
+[2026-07-05 18:21:08 tiny] (main.py 385): INFO Train: [0/100][10/34]	eta 0:01:18 lr 0.000000	 wd 0.1000	time 2.9010 (3.2812)	data time 2.3219 (2.4347)	model time 0.0000 (0.0000)	loss 1.6494 (1.6557)	grad_norm 6.9747 (nan)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:21:37 tiny] (main.py 385): INFO Train: [0/100][20/34]	eta 0:00:43 lr 0.000001	 wd 0.1000	time 2.8175 (3.0784)	data time 2.2436 (2.3732)	model time 0.0000 (0.0000)	loss 1.6709 (1.6452)	grad_norm 6.2994 (nan)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:22:06 tiny] (main.py 385): INFO Train: [0/100][30/34]	eta 0:00:12 lr 0.000001	 wd 0.1000	time 2.9997 (3.0405)	data time 2.4286 (2.3831)	model time 0.0000 (0.0000)	loss 1.5918 (1.6428)	grad_norm 7.3509 (nan)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:22:15 tiny] (main.py 396): INFO EPOCH 0 training takes 0:01:43
+[2026-07-05 18:22:15 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:22:16 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:22:18 tiny] (main.py 440): INFO Test: [0/5]	Time 2.025 (2.025)	Loss 1.6211 (1.6211)	Acc@1 15.625 (15.625)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:22:29 tiny] (main.py 447): INFO  * Acc@1 14.074 Acc@5 100.000
+[2026-07-05 18:22:29 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 14.1%
+[2026-07-05 18:22:29 tiny] (main.py 283): INFO New max accuracy: 14.07%
+[2026-07-05 18:22:29 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:22:30 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:22:32 tiny] (main.py 440): INFO Test: [0/5]	Time 2.053 (2.053)	Loss 1.6797 (1.6797)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:22:43 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:22:43 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:22:43 tiny] (main.py 299): INFO New max accuracy ema: 11.85%
+[2026-07-05 18:22:43 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 18:22:43 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 18:22:47 tiny] (main.py 385): INFO Train: [1/100][0/34]	eta 0:01:48 lr 0.000001	 wd 0.1000	time 3.1998 (3.1998)	data time 2.4404 (2.4404)	model time 0.0000 (0.0000)	loss 1.5703 (1.5703)	grad_norm 6.4068 (6.4068)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:23:16 tiny] (main.py 385): INFO Train: [1/100][10/34]	eta 0:01:11 lr 0.000002	 wd 0.1000	time 2.9632 (2.9822)	data time 2.3777 (2.3807)	model time 0.0000 (0.0000)	loss 1.6338 (1.6335)	grad_norm 8.9261 (7.4860)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:23:47 tiny] (main.py 385): INFO Train: [1/100][20/34]	eta 0:00:42 lr 0.000002	 wd 0.1000	time 3.3705 (3.0137)	data time 2.7929 (2.4266)	model time 0.0000 (0.0000)	loss 1.5908 (1.6161)	grad_norm 7.7561 (7.3537)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:24:16 tiny] (main.py 385): INFO Train: [1/100][30/34]	eta 0:00:11 lr 0.000002	 wd 0.1000	time 2.6188 (2.9805)	data time 2.0279 (2.3967)	model time 0.0000 (0.0000)	loss 1.6006 (1.6062)	grad_norm 5.5237 (6.9618)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:24:25 tiny] (main.py 396): INFO EPOCH 1 training takes 0:01:41
+[2026-07-05 18:24:25 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:24:25 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:24:27 tiny] (main.py 440): INFO Test: [0/5]	Time 2.058 (2.058)	Loss 1.5547 (1.5547)	Acc@1 25.000 (25.000)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:24:39 tiny] (main.py 447): INFO  * Acc@1 26.667 Acc@5 100.000
+[2026-07-05 18:24:39 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 26.7%
+[2026-07-05 18:24:39 tiny] (main.py 283): INFO New max accuracy: 26.67%
+[2026-07-05 18:24:39 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:24:39 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:24:41 tiny] (main.py 440): INFO Test: [0/5]	Time 2.088 (2.088)	Loss 1.6797 (1.6797)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:24:52 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:24:52 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:24:55 tiny] (main.py 385): INFO Train: [2/100][0/34]	eta 0:01:48 lr 0.000003	 wd 0.1000	time 3.1939 (3.1939)	data time 2.5479 (2.5479)	model time 0.0000 (0.0000)	loss 1.5791 (1.5791)	grad_norm 5.4287 (5.4287)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:25:25 tiny] (main.py 385): INFO Train: [2/100][10/34]	eta 0:01:12 lr 0.000003	 wd 0.1000	time 3.1719 (3.0094)	data time 2.6012 (2.4528)	model time 0.0000 (0.0000)	loss 1.5840 (1.5700)	grad_norm 5.2131 (6.7129)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:25:55 tiny] (main.py 385): INFO Train: [2/100][20/34]	eta 0:00:41 lr 0.000003	 wd 0.1000	time 2.9531 (2.9742)	data time 2.3588 (2.4141)	model time 0.0000 (0.0000)	loss 1.4854 (1.5688)	grad_norm 9.1115 (7.0141)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:26:25 tiny] (main.py 385): INFO Train: [2/100][30/34]	eta 0:00:11 lr 0.000004	 wd 0.1000	time 2.7163 (2.9933)	data time 2.1357 (2.4183)	model time 0.0000 (0.0000)	loss 1.5566 (1.5594)	grad_norm 5.6223 (6.8516)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:26:34 tiny] (main.py 396): INFO EPOCH 2 training takes 0:01:41
+[2026-07-05 18:26:34 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:26:34 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:26:36 tiny] (main.py 440): INFO Test: [0/5]	Time 2.141 (2.141)	Loss 1.4414 (1.4414)	Acc@1 34.375 (34.375)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:26:48 tiny] (main.py 447): INFO  * Acc@1 38.519 Acc@5 100.000
+[2026-07-05 18:26:48 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 38.5%
+[2026-07-05 18:26:48 tiny] (main.py 283): INFO New max accuracy: 38.52%
+[2026-07-05 18:26:48 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:26:49 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:26:51 tiny] (main.py 440): INFO Test: [0/5]	Time 2.185 (2.185)	Loss 1.6797 (1.6797)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:27:02 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:27:02 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:27:05 tiny] (main.py 385): INFO Train: [3/100][0/34]	eta 0:01:38 lr 0.000004	 wd 0.1000	time 2.8879 (2.8879)	data time 2.3416 (2.3416)	model time 0.0000 (0.0000)	loss 1.5039 (1.5039)	grad_norm 6.1190 (6.1190)	loss_scale 32768.0000 (32768.0000)	mem 5396MB
+[2026-07-05 18:27:33 tiny] (main.py 385): INFO Train: [3/100][10/34]	eta 0:01:09 lr 0.000004	 wd 0.1000	time 2.5955 (2.8807)	data time 2.0842 (2.3223)	model time 0.0000 (0.0000)	loss 1.5469 (1.5138)	grad_norm 5.7802 (inf)	loss_scale 16384.0000 (22341.8182)	mem 5396MB
+[2026-07-05 18:28:04 tiny] (main.py 385): INFO Train: [3/100][20/34]	eta 0:00:41 lr 0.000004	 wd 0.1000	time 3.1686 (2.9622)	data time 2.5774 (2.3931)	model time 0.0000 (0.0000)	loss 1.4590 (1.5000)	grad_norm 8.6163 (inf)	loss_scale 16384.0000 (19504.7619)	mem 5396MB
+[2026-07-05 18:28:33 tiny] (main.py 385): INFO Train: [3/100][30/34]	eta 0:00:11 lr 0.000005	 wd 0.1000	time 3.2197 (2.9444)	data time 2.5971 (2.3755)	model time 0.0000 (0.0000)	loss 1.4062 (1.4915)	grad_norm 7.1173 (inf)	loss_scale 16384.0000 (18498.0645)	mem 5396MB
+[2026-07-05 18:28:42 tiny] (main.py 396): INFO EPOCH 3 training takes 0:01:40
+[2026-07-05 18:28:42 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:28:42 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:28:45 tiny] (main.py 440): INFO Test: [0/5]	Time 2.156 (2.156)	Loss 1.3291 (1.3291)	Acc@1 43.750 (43.750)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:28:57 tiny] (main.py 447): INFO  * Acc@1 48.889 Acc@5 100.000
+[2026-07-05 18:28:57 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 48.9%
+[2026-07-05 18:28:57 tiny] (main.py 283): INFO New max accuracy: 48.89%
+[2026-07-05 18:28:57 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:28:57 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:28:59 tiny] (main.py 440): INFO Test: [0/5]	Time 2.111 (2.111)	Loss 1.6797 (1.6797)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:29:10 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:29:10 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:29:13 tiny] (main.py 385): INFO Train: [4/100][0/34]	eta 0:01:44 lr 0.000005	 wd 0.1000	time 3.0881 (3.0881)	data time 2.4410 (2.4410)	model time 0.0000 (0.0000)	loss 1.3965 (1.3965)	grad_norm 5.8207 (5.8207)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:29:42 tiny] (main.py 385): INFO Train: [4/100][10/34]	eta 0:01:10 lr 0.000005	 wd 0.1000	time 3.1919 (2.9362)	data time 2.5906 (2.3535)	model time 0.0000 (0.0000)	loss 1.3916 (1.4123)	grad_norm 8.3104 (7.7682)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:30:11 tiny] (main.py 385): INFO Train: [4/100][20/34]	eta 0:00:40 lr 0.000006	 wd 0.1000	time 3.0172 (2.9200)	data time 2.4842 (2.3486)	model time 0.0000 (0.0000)	loss 1.3828 (1.4155)	grad_norm 7.3758 (7.1175)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:30:42 tiny] (main.py 385): INFO Train: [4/100][30/34]	eta 0:00:11 lr 0.000006	 wd 0.1000	time 2.4264 (2.9512)	data time 1.9128 (2.3799)	model time 0.0000 (0.0000)	loss 1.4619 (1.4195)	grad_norm 7.0918 (7.2420)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:30:51 tiny] (main.py 396): INFO EPOCH 4 training takes 0:01:40
+[2026-07-05 18:30:51 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:30:51 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:30:53 tiny] (main.py 440): INFO Test: [0/5]	Time 2.061 (2.061)	Loss 1.1758 (1.1758)	Acc@1 50.000 (50.000)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:31:05 tiny] (main.py 447): INFO  * Acc@1 55.556 Acc@5 100.000
+[2026-07-05 18:31:05 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 55.6%
+[2026-07-05 18:31:05 tiny] (main.py 283): INFO New max accuracy: 55.56%
+[2026-07-05 18:31:05 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:31:05 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:31:07 tiny] (main.py 440): INFO Test: [0/5]	Time 2.055 (2.055)	Loss 1.6787 (1.6787)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:31:18 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:31:18 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:31:21 tiny] (main.py 385): INFO Train: [5/100][0/34]	eta 0:01:34 lr 0.000006	 wd 0.1000	time 2.7883 (2.7883)	data time 2.2419 (2.2419)	model time 0.0000 (0.0000)	loss 1.3418 (1.3418)	grad_norm 9.6575 (9.6575)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:31:50 tiny] (main.py 385): INFO Train: [5/100][10/34]	eta 0:01:09 lr 0.000006	 wd 0.1000	time 2.5854 (2.9037)	data time 2.0671 (2.3546)	model time 0.0000 (0.0000)	loss 1.3877 (1.3349)	grad_norm 8.0981 (7.9377)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:32:19 tiny] (main.py 385): INFO Train: [5/100][20/34]	eta 0:00:40 lr 0.000006	 wd 0.1000	time 2.8084 (2.9108)	data time 2.2651 (2.3555)	model time 0.0000 (0.0000)	loss 1.3691 (1.3451)	grad_norm 8.0095 (8.0606)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:32:49 tiny] (main.py 385): INFO Train: [5/100][30/34]	eta 0:00:11 lr 0.000006	 wd 0.1000	time 2.9864 (2.9215)	data time 2.4446 (2.3662)	model time 0.0000 (0.0000)	loss 1.3174 (1.3374)	grad_norm 5.6215 (7.9820)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:32:57 tiny] (main.py 396): INFO EPOCH 5 training takes 0:01:39
+[2026-07-05 18:32:57 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:32:58 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:33:00 tiny] (main.py 440): INFO Test: [0/5]	Time 2.104 (2.104)	Loss 1.0068 (1.0068)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:33:11 tiny] (main.py 447): INFO  * Acc@1 65.185 Acc@5 100.000
+[2026-07-05 18:33:11 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 65.2%
+[2026-07-05 18:33:11 tiny] (main.py 283): INFO New max accuracy: 65.19%
+[2026-07-05 18:33:11 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:33:11 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:33:14 tiny] (main.py 440): INFO Test: [0/5]	Time 2.130 (2.130)	Loss 1.6787 (1.6787)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:33:25 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:33:25 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:33:27 tiny] (main.py 385): INFO Train: [6/100][0/34]	eta 0:01:37 lr 0.000006	 wd 0.1000	time 2.8589 (2.8589)	data time 2.3153 (2.3153)	model time 0.0000 (0.0000)	loss 1.2803 (1.2803)	grad_norm 10.4492 (10.4492)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:33:56 tiny] (main.py 385): INFO Train: [6/100][10/34]	eta 0:01:09 lr 0.000006	 wd 0.1000	time 3.0109 (2.8925)	data time 2.4793 (2.3458)	model time 0.0000 (0.0000)	loss 1.3105 (1.2810)	grad_norm 5.9279 (9.2246)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:34:26 tiny] (main.py 385): INFO Train: [6/100][20/34]	eta 0:00:40 lr 0.000006	 wd 0.1000	time 2.9709 (2.9230)	data time 2.4209 (2.3653)	model time 0.0000 (0.0000)	loss 1.2881 (1.2864)	grad_norm 6.3515 (7.9997)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:34:56 tiny] (main.py 385): INFO Train: [6/100][30/34]	eta 0:00:11 lr 0.000006	 wd 0.1000	time 3.2818 (2.9367)	data time 2.7320 (2.3746)	model time 0.0000 (0.0000)	loss 1.2646 (1.2774)	grad_norm 5.7600 (7.8760)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:35:04 tiny] (main.py 396): INFO EPOCH 6 training takes 0:01:39
+[2026-07-05 18:35:04 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:35:05 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:35:07 tiny] (main.py 440): INFO Test: [0/5]	Time 2.072 (2.072)	Loss 0.8623 (0.8623)	Acc@1 81.250 (81.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:35:18 tiny] (main.py 447): INFO  * Acc@1 71.852 Acc@5 100.000
+[2026-07-05 18:35:18 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 71.9%
+[2026-07-05 18:35:18 tiny] (main.py 283): INFO New max accuracy: 71.85%
+[2026-07-05 18:35:18 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:35:19 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:35:21 tiny] (main.py 440): INFO Test: [0/5]	Time 2.244 (2.244)	Loss 1.6787 (1.6787)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:35:32 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:35:32 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:35:35 tiny] (main.py 385): INFO Train: [7/100][0/34]	eta 0:01:30 lr 0.000006	 wd 0.1000	time 2.6685 (2.6685)	data time 2.0875 (2.0875)	model time 0.0000 (0.0000)	loss 1.3027 (1.3027)	grad_norm 6.7255 (6.7255)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:36:05 tiny] (main.py 385): INFO Train: [7/100][10/34]	eta 0:01:10 lr 0.000006	 wd 0.1000	time 2.9338 (2.9454)	data time 2.3126 (2.3667)	model time 0.0000 (0.0000)	loss 1.1768 (1.2457)	grad_norm 6.9719 (8.0982)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:36:37 tiny] (main.py 385): INFO Train: [7/100][20/34]	eta 0:00:43 lr 0.000006	 wd 0.1000	time 3.3789 (3.0888)	data time 2.7549 (2.5027)	model time 0.0000 (0.0000)	loss 1.2549 (1.2352)	grad_norm 6.6192 (7.4745)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:37:08 tiny] (main.py 385): INFO Train: [7/100][30/34]	eta 0:00:12 lr 0.000006	 wd 0.1000	time 3.3581 (3.0829)	data time 2.7479 (2.5037)	model time 0.0000 (0.0000)	loss 1.2900 (1.2391)	grad_norm 9.8225 (7.7376)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:37:18 tiny] (main.py 396): INFO EPOCH 7 training takes 0:01:45
+[2026-07-05 18:37:18 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:37:18 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:37:20 tiny] (main.py 440): INFO Test: [0/5]	Time 2.184 (2.184)	Loss 0.7485 (0.7485)	Acc@1 78.125 (78.125)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:37:33 tiny] (main.py 447): INFO  * Acc@1 74.815 Acc@5 100.000
+[2026-07-05 18:37:33 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 74.8%
+[2026-07-05 18:37:33 tiny] (main.py 283): INFO New max accuracy: 74.81%
+[2026-07-05 18:37:33 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:37:33 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:37:36 tiny] (main.py 440): INFO Test: [0/5]	Time 2.322 (2.322)	Loss 1.6777 (1.6777)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:37:47 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:37:47 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:37:50 tiny] (main.py 385): INFO Train: [8/100][0/34]	eta 0:01:54 lr 0.000006	 wd 0.1000	time 3.3646 (3.3646)	data time 2.7052 (2.7052)	model time 0.0000 (0.0000)	loss 1.1553 (1.1553)	grad_norm 4.3516 (4.3516)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:38:20 tiny] (main.py 385): INFO Train: [8/100][10/34]	eta 0:01:12 lr 0.000006	 wd 0.1000	time 2.7973 (3.0270)	data time 2.2369 (2.4280)	model time 0.0000 (0.0000)	loss 1.2402 (1.2059)	grad_norm 9.5635 (6.4180)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:38:51 tiny] (main.py 385): INFO Train: [8/100][20/34]	eta 0:00:42 lr 0.000006	 wd 0.1000	time 3.1247 (3.0478)	data time 2.5254 (2.4624)	model time 0.0000 (0.0000)	loss 1.1260 (1.1786)	grad_norm 6.1590 (6.2547)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:39:22 tiny] (main.py 385): INFO Train: [8/100][30/34]	eta 0:00:12 lr 0.000006	 wd 0.1000	time 2.9182 (3.0769)	data time 2.3380 (2.4960)	model time 0.0000 (0.0000)	loss 1.1875 (1.1670)	grad_norm 7.2208 (6.3405)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:39:32 tiny] (main.py 396): INFO EPOCH 8 training takes 0:01:44
+[2026-07-05 18:39:32 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:39:32 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:39:34 tiny] (main.py 440): INFO Test: [0/5]	Time 2.191 (2.191)	Loss 0.6245 (0.6245)	Acc@1 84.375 (84.375)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:39:47 tiny] (main.py 447): INFO  * Acc@1 83.704 Acc@5 100.000
+[2026-07-05 18:39:47 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 83.7%
+[2026-07-05 18:39:47 tiny] (main.py 283): INFO New max accuracy: 83.70%
+[2026-07-05 18:39:47 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:39:48 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:39:50 tiny] (main.py 440): INFO Test: [0/5]	Time 2.509 (2.509)	Loss 1.6777 (1.6777)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:40:02 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:40:02 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:40:06 tiny] (main.py 385): INFO Train: [9/100][0/34]	eta 0:01:55 lr 0.000006	 wd 0.1000	time 3.3884 (3.3884)	data time 2.8330 (2.8330)	model time 0.0000 (0.0000)	loss 1.1963 (1.1963)	grad_norm 10.0297 (10.0297)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:40:39 tiny] (main.py 385): INFO Train: [9/100][10/34]	eta 0:01:19 lr 0.000006	 wd 0.1000	time 3.4365 (3.3236)	data time 2.9157 (2.7412)	model time 0.0000 (0.0000)	loss 1.0381 (1.1641)	grad_norm 7.7490 (7.9321)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:41:13 tiny] (main.py 385): INFO Train: [9/100][20/34]	eta 0:00:46 lr 0.000006	 wd 0.1000	time 3.1789 (3.3488)	data time 2.6260 (2.7609)	model time 0.0000 (0.0000)	loss 1.1035 (1.1523)	grad_norm 8.4608 (7.5949)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:41:46 tiny] (main.py 385): INFO Train: [9/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.3385 (3.3379)	data time 2.6789 (2.7464)	model time 0.0000 (0.0000)	loss 1.1064 (1.1488)	grad_norm 12.6720 (7.7452)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:41:55 tiny] (main.py 396): INFO EPOCH 9 training takes 0:01:53
+[2026-07-05 18:41:55 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:41:56 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:41:58 tiny] (main.py 440): INFO Test: [0/5]	Time 2.417 (2.417)	Loss 0.5396 (0.5396)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:42:11 tiny] (main.py 447): INFO  * Acc@1 83.704 Acc@5 100.000
+[2026-07-05 18:42:11 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 83.7%
+[2026-07-05 18:42:14 tiny] (main.py 440): INFO Test: [0/5]	Time 2.527 (2.527)	Loss 1.6768 (1.6768)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:42:27 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:42:27 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:42:30 tiny] (main.py 385): INFO Train: [10/100][0/34]	eta 0:01:55 lr 0.000006	 wd 0.1000	time 3.4032 (3.4032)	data time 2.8287 (2.8287)	model time 0.0000 (0.0000)	loss 1.1338 (1.1338)	grad_norm 9.1948 (9.1948)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:43:04 tiny] (main.py 385): INFO Train: [10/100][10/34]	eta 0:01:21 lr 0.000006	 wd 0.1000	time 2.9882 (3.4121)	data time 2.4309 (2.8100)	model time 0.0000 (0.0000)	loss 1.0908 (1.1014)	grad_norm 6.2841 (7.6026)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:43:37 tiny] (main.py 385): INFO Train: [10/100][20/34]	eta 0:00:46 lr 0.000006	 wd 0.1000	time 3.0222 (3.3406)	data time 2.4951 (2.7420)	model time 0.0000 (0.0000)	loss 1.0869 (1.1124)	grad_norm 7.7585 (7.7310)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:44:09 tiny] (main.py 385): INFO Train: [10/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 2.7775 (3.3078)	data time 2.2496 (2.7196)	model time 0.0000 (0.0000)	loss 1.0850 (1.1033)	grad_norm 7.2710 (7.6140)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:44:19 tiny] (main.py 396): INFO EPOCH 10 training takes 0:01:52
+[2026-07-05 18:44:19 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:44:20 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:44:22 tiny] (main.py 440): INFO Test: [0/5]	Time 2.368 (2.368)	Loss 0.4771 (0.4771)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:44:35 tiny] (main.py 447): INFO  * Acc@1 85.926 Acc@5 100.000
+[2026-07-05 18:44:35 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 85.9%
+[2026-07-05 18:44:35 tiny] (main.py 283): INFO New max accuracy: 85.93%
+[2026-07-05 18:44:35 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:44:36 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:44:38 tiny] (main.py 440): INFO Test: [0/5]	Time 2.580 (2.580)	Loss 1.6758 (1.6758)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:44:51 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:44:51 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:44:55 tiny] (main.py 385): INFO Train: [11/100][0/34]	eta 0:01:54 lr 0.000006	 wd 0.1000	time 3.3792 (3.3792)	data time 2.7820 (2.7820)	model time 0.0000 (0.0000)	loss 1.1025 (1.1025)	grad_norm 5.6483 (5.6483)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:45:27 tiny] (main.py 385): INFO Train: [11/100][10/34]	eta 0:01:18 lr 0.000006	 wd 0.1000	time 2.7628 (3.2661)	data time 2.1885 (2.6769)	model time 0.0000 (0.0000)	loss 1.1748 (1.1010)	grad_norm 6.9573 (6.6468)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:46:04 tiny] (main.py 385): INFO Train: [11/100][20/34]	eta 0:00:48 lr 0.000006	 wd 0.1000	time 6.2757 (3.4794)	data time 5.6446 (2.8876)	model time 0.0000 (0.0000)	loss 1.1533 (1.1031)	grad_norm 6.7559 (7.8194)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:46:47 tiny] (main.py 385): INFO Train: [11/100][30/34]	eta 0:00:14 lr 0.000006	 wd 0.1000	time 4.2044 (3.7397)	data time 3.5168 (3.1358)	model time 0.0000 (0.0000)	loss 1.2285 (1.0960)	grad_norm 15.2943 (8.1875)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:47:00 tiny] (main.py 396): INFO EPOCH 11 training takes 0:02:08
+[2026-07-05 18:47:00 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:47:01 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:47:04 tiny] (main.py 440): INFO Test: [0/5]	Time 3.013 (3.013)	Loss 0.4207 (0.4207)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:47:21 tiny] (main.py 447): INFO  * Acc@1 85.185 Acc@5 100.000
+[2026-07-05 18:47:21 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 85.2%
+[2026-07-05 18:47:24 tiny] (main.py 440): INFO Test: [0/5]	Time 3.211 (3.211)	Loss 1.6758 (1.6758)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:47:40 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:47:40 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:47:45 tiny] (main.py 385): INFO Train: [12/100][0/34]	eta 0:02:40 lr 0.000006	 wd 0.1000	time 4.7248 (4.7248)	data time 4.0082 (4.0082)	model time 0.0000 (0.0000)	loss 0.9785 (0.9785)	grad_norm 5.7213 (5.7213)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:48:28 tiny] (main.py 385): INFO Train: [12/100][10/34]	eta 0:01:44 lr 0.000006	 wd 0.1000	time 3.7673 (4.3534)	data time 3.1363 (3.7477)	model time 0.0000 (0.0000)	loss 1.0625 (1.0719)	grad_norm 8.1839 (7.6674)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:49:09 tiny] (main.py 385): INFO Train: [12/100][20/34]	eta 0:00:59 lr 0.000006	 wd 0.1000	time 4.1556 (4.2162)	data time 3.4648 (3.5989)	model time 0.0000 (0.0000)	loss 1.1113 (1.0917)	grad_norm 9.6362 (7.9017)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:49:49 tiny] (main.py 385): INFO Train: [12/100][30/34]	eta 0:00:16 lr 0.000006	 wd 0.1000	time 3.9602 (4.1634)	data time 3.2927 (3.5460)	model time 0.0000 (0.0000)	loss 1.1377 (1.0918)	grad_norm 4.8270 (7.8787)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:50:02 tiny] (main.py 396): INFO EPOCH 12 training takes 0:02:21
+[2026-07-05 18:50:02 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:50:02 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:50:05 tiny] (main.py 440): INFO Test: [0/5]	Time 3.199 (3.199)	Loss 0.4089 (0.4089)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:50:23 tiny] (main.py 447): INFO  * Acc@1 85.926 Acc@5 100.000
+[2026-07-05 18:50:23 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 85.9%
+[2026-07-05 18:50:26 tiny] (main.py 440): INFO Test: [0/5]	Time 2.975 (2.975)	Loss 1.6748 (1.6748)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:50:43 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:50:43 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:50:47 tiny] (main.py 385): INFO Train: [13/100][0/34]	eta 0:02:28 lr 0.000006	 wd 0.1000	time 4.3781 (4.3781)	data time 3.7309 (3.7309)	model time 0.0000 (0.0000)	loss 1.0010 (1.0010)	grad_norm 5.2466 (5.2466)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:51:29 tiny] (main.py 385): INFO Train: [13/100][10/34]	eta 0:01:40 lr 0.000006	 wd 0.1000	time 3.9836 (4.2044)	data time 3.3089 (3.5584)	model time 0.0000 (0.0000)	loss 1.1172 (1.0584)	grad_norm 5.3426 (7.1099)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:52:11 tiny] (main.py 385): INFO Train: [13/100][20/34]	eta 0:00:58 lr 0.000006	 wd 0.1000	time 4.9354 (4.2084)	data time 4.2056 (3.5680)	model time 0.0000 (0.0000)	loss 1.1240 (1.0678)	grad_norm 6.2305 (7.8991)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:52:54 tiny] (main.py 385): INFO Train: [13/100][30/34]	eta 0:00:16 lr 0.000006	 wd 0.1000	time 3.8235 (4.2272)	data time 3.2198 (3.5991)	model time 0.0000 (0.0000)	loss 1.0527 (1.0585)	grad_norm 5.9762 (7.5763)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:53:04 tiny] (main.py 396): INFO EPOCH 13 training takes 0:02:20
+[2026-07-05 18:53:04 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:53:04 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:53:07 tiny] (main.py 440): INFO Test: [0/5]	Time 2.113 (2.113)	Loss 0.3752 (0.3752)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:53:18 tiny] (main.py 447): INFO  * Acc@1 86.667 Acc@5 100.000
+[2026-07-05 18:53:18 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 86.7%
+[2026-07-05 18:53:18 tiny] (main.py 283): INFO New max accuracy: 86.67%
+[2026-07-05 18:53:18 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:53:18 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:53:21 tiny] (main.py 440): INFO Test: [0/5]	Time 2.057 (2.057)	Loss 1.6738 (1.6738)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:53:32 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:53:32 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:53:35 tiny] (main.py 385): INFO Train: [14/100][0/34]	eta 0:01:37 lr 0.000006	 wd 0.1000	time 2.8733 (2.8733)	data time 2.3282 (2.3282)	model time 0.0000 (0.0000)	loss 0.9775 (0.9775)	grad_norm 4.8396 (4.8396)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:54:05 tiny] (main.py 385): INFO Train: [14/100][10/34]	eta 0:01:11 lr 0.000006	 wd 0.1000	time 2.9422 (2.9859)	data time 2.4115 (2.4143)	model time 0.0000 (0.0000)	loss 1.1016 (1.0542)	grad_norm 8.3819 (7.2975)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:54:35 tiny] (main.py 385): INFO Train: [14/100][20/34]	eta 0:00:41 lr 0.000006	 wd 0.1000	time 3.2689 (2.9918)	data time 2.7025 (2.4178)	model time 0.0000 (0.0000)	loss 1.0283 (1.0422)	grad_norm 7.7392 (7.9279)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:55:05 tiny] (main.py 385): INFO Train: [14/100][30/34]	eta 0:00:11 lr 0.000006	 wd 0.1000	time 3.3894 (2.9992)	data time 2.7916 (2.4247)	model time 0.0000 (0.0000)	loss 1.0811 (1.0382)	grad_norm 8.9776 (7.5742)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:55:13 tiny] (main.py 396): INFO EPOCH 14 training takes 0:01:41
+[2026-07-05 18:55:13 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:55:14 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:55:16 tiny] (main.py 440): INFO Test: [0/5]	Time 2.089 (2.089)	Loss 0.3459 (0.3459)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:55:32 tiny] (main.py 447): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-07-05 18:55:32 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-07-05 18:55:32 tiny] (main.py 283): INFO New max accuracy: 91.11%
+[2026-07-05 18:55:32 tiny] (utils.py 124): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 18:55:33 tiny] (utils.py 126): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 18:55:35 tiny] (main.py 440): INFO Test: [0/5]	Time 2.491 (2.491)	Loss 1.6738 (1.6738)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:55:52 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:55:52 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:55:56 tiny] (main.py 385): INFO Train: [15/100][0/34]	eta 0:02:34 lr 0.000006	 wd 0.1000	time 4.5368 (4.5368)	data time 3.7672 (3.7672)	model time 0.0000 (0.0000)	loss 1.0225 (1.0225)	grad_norm 4.1898 (4.1898)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:56:33 tiny] (main.py 385): INFO Train: [15/100][10/34]	eta 0:01:31 lr 0.000006	 wd 0.1000	time 3.1490 (3.7918)	data time 2.5130 (3.1729)	model time 0.0000 (0.0000)	loss 1.0791 (1.0470)	grad_norm 5.7383 (7.4091)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:57:06 tiny] (main.py 385): INFO Train: [15/100][20/34]	eta 0:00:49 lr 0.000006	 wd 0.1000	time 2.9552 (3.5264)	data time 2.3770 (2.9247)	model time 0.0000 (0.0000)	loss 1.1406 (1.0396)	grad_norm 10.2420 (8.4489)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:57:36 tiny] (main.py 385): INFO Train: [15/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.0018 (3.3775)	data time 2.4680 (2.7925)	model time 0.0000 (0.0000)	loss 1.0371 (1.0230)	grad_norm 7.6571 (8.3048)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 18:57:45 tiny] (main.py 396): INFO EPOCH 15 training takes 0:01:53
+[2026-07-05 18:57:45 tiny] (utils.py 124): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 18:57:45 tiny] (utils.py 126): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 18:57:48 tiny] (main.py 440): INFO Test: [0/5]	Time 2.452 (2.452)	Loss 0.3591 (0.3591)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:57:59 tiny] (main.py 447): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-07-05 18:57:59 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-07-05 18:58:01 tiny] (main.py 440): INFO Test: [0/5]	Time 1.956 (1.956)	Loss 1.6729 (1.6729)	Acc@1 6.250 (6.250)	Acc@5 100.000 (100.000)	Mem 5396MB
+[2026-07-05 18:58:12 tiny] (main.py 447): INFO  * Acc@1 11.852 Acc@5 100.000
+[2026-07-05 18:58:12 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 11.9%
+[2026-07-05 18:58:16 tiny] (main.py 385): INFO Train: [16/100][0/34]	eta 0:01:53 lr 0.000006	 wd 0.1000	time 3.3373 (3.3373)	data time 2.6264 (2.6264)	model time 0.0000 (0.0000)	loss 1.0439 (1.0439)	grad_norm 6.8057 (6.8057)	loss_scale 16384.0000 (16384.0000)	mem 5396MB
+[2026-07-05 19:33:44 tiny] (main.py 542): INFO Full config saved to output\tiny\finetune\config.json
+[2026-07-05 19:33:44 tiny] (main.py 132): INFO Creating model:DAMamba/tiny
+[2026-07-05 19:33:45 tiny] (optimizer.py 18): INFO ==============> building optimizer adamw....................
+[2026-07-05 19:33:45 tiny] (main.py 196): INFO auto resuming from output\tiny\finetune\latest_ckpt.pth
+[2026-07-05 19:33:45 tiny] (utils.py 54): INFO ==============> Resuming form output\tiny\finetune\latest_ckpt.pth....................
+[2026-07-05 19:33:45 tiny] (utils.py 63): INFO resuming model: <All keys matched successfully>
+[2026-07-05 19:33:45 tiny] (utils.py 70): INFO resuming model_ema: <All keys matched successfully>
+[2026-07-05 19:33:45 tiny] (utils.py 77): WARNING EMA stagnation bug detected: student accuracy is 91.111%, but EMA accuracy is only 11.852% at epoch 15. Healing EMA by synchronizing all parameters and buffers with the student model.
+[2026-07-05 19:33:45 tiny] (utils.py 109): INFO => loaded successfully 'output\tiny\finetune\latest_ckpt.pth' (epoch 15)
+[2026-07-05 19:33:45 tiny] (main.py 251): INFO Start training
+[2026-07-05 19:33:52 tiny] (main.py 385): INFO Train: [16/100][0/34]	eta 0:03:51 lr 0.000006	 wd 0.1000	time 6.8002 (6.8002)	data time 2.5010 (2.5010)	model time 0.0000 (0.0000)	loss 1.0449 (1.0449)	grad_norm 9.2542 (9.2542)	loss_scale 16384.0000 (16384.0000)	mem 5511MB
+[2026-07-05 19:34:23 tiny] (main.py 385): INFO Train: [16/100][10/34]	eta 0:01:21 lr 0.000006	 wd 0.1000	time 2.7163 (3.4164)	data time 2.1803 (2.5419)	model time 0.0000 (0.0000)	loss 1.0107 (1.0278)	grad_norm 9.6394 (7.2970)	loss_scale 16384.0000 (16384.0000)	mem 5476MB
+[2026-07-05 19:34:53 tiny] (main.py 385): INFO Train: [16/100][20/34]	eta 0:00:45 lr 0.000006	 wd 0.1000	time 4.6327 (3.2305)	data time 4.0720 (2.5263)	model time 0.0000 (0.0000)	loss 0.9395 (1.0212)	grad_norm 9.6800 (7.3265)	loss_scale 16384.0000 (16384.0000)	mem 5476MB
+[2026-07-05 19:35:32 tiny] (main.py 385): INFO Train: [16/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.7868 (3.4462)	data time 3.2983 (2.7946)	model time 0.0000 (0.0000)	loss 0.9668 (1.0197)	grad_norm 12.1768 (7.7369)	loss_scale 16384.0000 (16384.0000)	mem 5476MB
+[2026-07-05 19:35:44 tiny] (main.py 396): INFO EPOCH 16 training takes 0:01:59
+[2026-07-05 19:35:45 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:35:45 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:35:50 tiny] (main.py 440): INFO Test: [0/5]	Time 4.669 (4.669)	Loss 0.3501 (0.3501)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 5476MB
+[2026-07-05 19:36:08 tiny] (main.py 447): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-07-05 19:36:08 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-07-05 19:36:10 tiny] (main.py 440): INFO Test: [0/5]	Time 1.828 (1.828)	Loss 0.3604 (0.3604)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 5476MB
+[2026-07-05 19:36:20 tiny] (main.py 447): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-07-05 19:36:20 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-07-05 19:36:20 tiny] (main.py 299): INFO New max accuracy ema: 88.89%
+[2026-07-05 19:36:20 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 19:36:21 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 19:36:24 tiny] (main.py 385): INFO Train: [17/100][0/34]	eta 0:01:37 lr 0.000006	 wd 0.1000	time 2.8611 (2.8611)	data time 2.3718 (2.3718)	model time 0.0000 (0.0000)	loss 1.0127 (1.0127)	grad_norm 6.3970 (6.3970)	loss_scale 16384.0000 (16384.0000)	mem 5471MB
+[2026-07-05 19:36:53 tiny] (main.py 385): INFO Train: [17/100][10/34]	eta 0:01:11 lr 0.000006	 wd 0.1000	time 3.6300 (2.9810)	data time 3.0555 (2.4571)	model time 0.0000 (0.0000)	loss 1.0156 (1.0261)	grad_norm 9.9745 (8.3834)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:37:30 tiny] (main.py 385): INFO Train: [17/100][20/34]	eta 0:00:46 lr 0.000006	 wd 0.1000	time 4.0083 (3.3045)	data time 3.4387 (2.7725)	model time 0.0000 (0.0000)	loss 0.9941 (1.0180)	grad_norm 10.8093 (8.8211)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:38:06 tiny] (main.py 385): INFO Train: [17/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.8252 (3.4121)	data time 3.3880 (2.8758)	model time 0.0000 (0.0000)	loss 0.9897 (1.0138)	grad_norm 4.7255 (8.1701)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:38:17 tiny] (main.py 396): INFO EPOCH 17 training takes 0:01:56
+[2026-07-05 19:38:17 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:38:18 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:38:20 tiny] (main.py 440): INFO Test: [0/5]	Time 2.589 (2.589)	Loss 0.3420 (0.3420)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:38:35 tiny] (main.py 447): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-07-05 19:38:35 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-07-05 19:38:38 tiny] (main.py 440): INFO Test: [0/5]	Time 2.772 (2.772)	Loss 0.3499 (0.3499)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:38:54 tiny] (main.py 447): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-07-05 19:38:54 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-07-05 19:38:54 tiny] (main.py 299): INFO New max accuracy ema: 90.37%
+[2026-07-05 19:38:54 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 19:38:55 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 19:39:01 tiny] (main.py 385): INFO Train: [18/100][0/34]	eta 0:03:05 lr 0.000006	 wd 0.1000	time 5.4578 (5.4578)	data time 4.7987 (4.7987)	model time 0.0000 (0.0000)	loss 0.9180 (0.9180)	grad_norm 5.1383 (5.1383)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:39:36 tiny] (main.py 385): INFO Train: [18/100][10/34]	eta 0:01:28 lr 0.000006	 wd 0.1000	time 3.3472 (3.6999)	data time 2.7615 (3.1546)	model time 0.0000 (0.0000)	loss 1.0967 (1.0010)	grad_norm 8.2864 (7.6323)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:40:15 tiny] (main.py 385): INFO Train: [18/100][20/34]	eta 0:00:53 lr 0.000006	 wd 0.1000	time 4.3682 (3.7969)	data time 3.8349 (3.2625)	model time 0.0000 (0.0000)	loss 0.9824 (0.9996)	grad_norm 10.9197 (7.6275)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:40:54 tiny] (main.py 385): INFO Train: [18/100][30/34]	eta 0:00:15 lr 0.000006	 wd 0.1000	time 3.4089 (3.8500)	data time 2.9199 (3.3189)	model time 0.0000 (0.0000)	loss 0.9790 (1.0014)	grad_norm 6.1875 (7.8421)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:41:05 tiny] (main.py 396): INFO EPOCH 18 training takes 0:02:09
+[2026-07-05 19:41:05 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:41:06 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:41:09 tiny] (main.py 440): INFO Test: [0/5]	Time 2.933 (2.933)	Loss 0.3035 (0.3035)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:41:25 tiny] (main.py 447): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-07-05 19:41:25 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-07-05 19:41:25 tiny] (main.py 283): INFO New max accuracy: 91.85%
+[2026-07-05 19:41:25 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 19:41:26 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 19:41:28 tiny] (main.py 440): INFO Test: [0/5]	Time 2.209 (2.209)	Loss 0.3279 (0.3279)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:41:39 tiny] (main.py 447): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-07-05 19:41:39 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-07-05 19:41:39 tiny] (main.py 299): INFO New max accuracy ema: 91.11%
+[2026-07-05 19:41:39 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 19:41:40 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 19:41:43 tiny] (main.py 385): INFO Train: [19/100][0/34]	eta 0:01:38 lr 0.000006	 wd 0.1000	time 2.9071 (2.9071)	data time 2.3675 (2.3675)	model time 0.0000 (0.0000)	loss 0.9165 (0.9165)	grad_norm 4.7798 (4.7798)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:42:21 tiny] (main.py 385): INFO Train: [19/100][10/34]	eta 0:01:30 lr 0.000006	 wd 0.1000	time 4.1868 (3.7673)	data time 3.7027 (3.2231)	model time 0.0000 (0.0000)	loss 1.1025 (1.0016)	grad_norm 8.1810 (7.1370)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:43:00 tiny] (main.py 385): INFO Train: [19/100][20/34]	eta 0:00:53 lr 0.000006	 wd 0.1000	time 3.5970 (3.8012)	data time 3.0579 (3.2568)	model time 0.0000 (0.0000)	loss 1.0479 (0.9917)	grad_norm 10.1467 (7.7662)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:43:38 tiny] (main.py 385): INFO Train: [19/100][30/34]	eta 0:00:15 lr 0.000006	 wd 0.1000	time 3.7925 (3.8121)	data time 3.2195 (3.2724)	model time 0.0000 (0.0000)	loss 1.0137 (0.9958)	grad_norm 8.4774 (7.3362)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:43:49 tiny] (main.py 396): INFO EPOCH 19 training takes 0:02:09
+[2026-07-05 19:43:49 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:43:50 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:43:53 tiny] (main.py 440): INFO Test: [0/5]	Time 2.870 (2.870)	Loss 0.3125 (0.3125)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:44:11 tiny] (main.py 447): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-07-05 19:44:11 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-07-05 19:44:14 tiny] (main.py 440): INFO Test: [0/5]	Time 2.822 (2.822)	Loss 0.3333 (0.3333)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:44:29 tiny] (main.py 447): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-07-05 19:44:29 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-07-05 19:44:29 tiny] (main.py 299): INFO New max accuracy ema: 91.85%
+[2026-07-05 19:44:29 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 19:44:30 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 19:44:34 tiny] (main.py 385): INFO Train: [20/100][0/34]	eta 0:02:18 lr 0.000006	 wd 0.1000	time 4.0819 (4.0819)	data time 3.4995 (3.4995)	model time 0.0000 (0.0000)	loss 0.9644 (0.9644)	grad_norm 5.0716 (5.0716)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:45:15 tiny] (main.py 385): INFO Train: [20/100][10/34]	eta 0:01:38 lr 0.000006	 wd 0.1000	time 4.3701 (4.1159)	data time 3.7865 (3.5519)	model time 0.0000 (0.0000)	loss 1.0303 (0.9980)	grad_norm 6.0910 (6.8751)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:46:00 tiny] (main.py 385): INFO Train: [20/100][20/34]	eta 0:01:00 lr 0.000006	 wd 0.1000	time 4.3976 (4.2859)	data time 3.7813 (3.7371)	model time 0.0000 (0.0000)	loss 1.0166 (0.9886)	grad_norm 8.7545 (7.1724)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:46:46 tiny] (main.py 385): INFO Train: [20/100][30/34]	eta 0:00:17 lr 0.000006	 wd 0.1000	time 4.9972 (4.3801)	data time 4.4972 (3.8249)	model time 0.0000 (0.0000)	loss 0.8462 (0.9810)	grad_norm 4.5625 (6.9847)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:46:59 tiny] (main.py 396): INFO EPOCH 20 training takes 0:02:28
+[2026-07-05 19:46:59 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:47:00 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:47:03 tiny] (main.py 440): INFO Test: [0/5]	Time 3.381 (3.381)	Loss 0.2998 (0.2998)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:47:19 tiny] (main.py 447): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-07-05 19:47:19 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-07-05 19:47:19 tiny] (main.py 283): INFO New max accuracy: 92.59%
+[2026-07-05 19:47:19 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 19:47:20 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 19:47:23 tiny] (main.py 440): INFO Test: [0/5]	Time 2.801 (2.801)	Loss 0.3147 (0.3147)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:47:37 tiny] (main.py 447): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-07-05 19:47:37 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-07-05 19:47:41 tiny] (main.py 385): INFO Train: [21/100][0/34]	eta 0:01:59 lr 0.000006	 wd 0.1000	time 3.5075 (3.5075)	data time 3.0067 (3.0067)	model time 0.0000 (0.0000)	loss 0.9771 (0.9771)	grad_norm 6.0564 (6.0564)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:48:16 tiny] (main.py 385): INFO Train: [21/100][10/34]	eta 0:01:24 lr 0.000006	 wd 0.1000	time 3.2129 (3.5162)	data time 2.7066 (2.9917)	model time 0.0000 (0.0000)	loss 0.9155 (0.9183)	grad_norm 6.8990 (5.9738)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:48:44 tiny] (main.py 385): INFO Train: [21/100][20/34]	eta 0:00:44 lr 0.000006	 wd 0.1000	time 2.7328 (3.1710)	data time 2.1898 (2.6525)	model time 0.0000 (0.0000)	loss 1.0576 (0.9421)	grad_norm 8.7532 (6.9086)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:49:13 tiny] (main.py 385): INFO Train: [21/100][30/34]	eta 0:00:12 lr 0.000006	 wd 0.1000	time 2.9838 (3.0843)	data time 2.4496 (2.5629)	model time 0.0000 (0.0000)	loss 1.0049 (0.9604)	grad_norm 8.2686 (6.8777)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:49:21 tiny] (main.py 396): INFO EPOCH 21 training takes 0:01:43
+[2026-07-05 19:49:21 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:49:22 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:49:24 tiny] (main.py 440): INFO Test: [0/5]	Time 2.047 (2.047)	Loss 0.3091 (0.3091)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:49:35 tiny] (main.py 447): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-07-05 19:49:35 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-07-05 19:49:37 tiny] (main.py 440): INFO Test: [0/5]	Time 1.995 (1.995)	Loss 0.3098 (0.3098)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:49:47 tiny] (main.py 447): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-07-05 19:49:47 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-07-05 19:49:50 tiny] (main.py 385): INFO Train: [22/100][0/34]	eta 0:01:41 lr 0.000006	 wd 0.1000	time 2.9755 (2.9755)	data time 2.3215 (2.3215)	model time 0.0000 (0.0000)	loss 0.9839 (0.9839)	grad_norm 11.4287 (11.4287)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:50:17 tiny] (main.py 385): INFO Train: [22/100][10/34]	eta 0:01:04 lr 0.000006	 wd 0.1000	time 2.8110 (2.6998)	data time 2.3439 (2.2080)	model time 0.0000 (0.0000)	loss 0.8818 (0.9578)	grad_norm 8.4523 (11.2856)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:50:45 tiny] (main.py 385): INFO Train: [22/100][20/34]	eta 0:00:38 lr 0.000006	 wd 0.1000	time 2.9267 (2.7354)	data time 2.3731 (2.2391)	model time 0.0000 (0.0000)	loss 0.9819 (0.9704)	grad_norm 6.5667 (9.5114)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:51:12 tiny] (main.py 385): INFO Train: [22/100][30/34]	eta 0:00:10 lr 0.000006	 wd 0.1000	time 2.6331 (2.7317)	data time 2.1748 (2.2416)	model time 0.0000 (0.0000)	loss 1.0098 (0.9621)	grad_norm 9.0929 (8.4977)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:51:20 tiny] (main.py 396): INFO EPOCH 22 training takes 0:01:32
+[2026-07-05 19:51:20 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:51:21 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:51:23 tiny] (main.py 440): INFO Test: [0/5]	Time 1.981 (1.981)	Loss 0.2556 (0.2556)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:51:33 tiny] (main.py 447): INFO  * Acc@1 93.333 Acc@5 100.000
+[2026-07-05 19:51:33 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 93.3%
+[2026-07-05 19:51:33 tiny] (main.py 283): INFO New max accuracy: 93.33%
+[2026-07-05 19:51:33 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt.pth saving......
+[2026-07-05 19:51:34 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt.pth saved !!!
+[2026-07-05 19:51:36 tiny] (main.py 440): INFO Test: [0/5]	Time 2.142 (2.142)	Loss 0.2959 (0.2959)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:51:47 tiny] (main.py 447): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-07-05 19:51:47 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-07-05 19:51:50 tiny] (main.py 385): INFO Train: [23/100][0/34]	eta 0:01:34 lr 0.000006	 wd 0.1000	time 2.7766 (2.7766)	data time 2.2940 (2.2940)	model time 0.0000 (0.0000)	loss 0.9277 (0.9277)	grad_norm 5.5992 (5.5992)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:52:21 tiny] (main.py 385): INFO Train: [23/100][10/34]	eta 0:01:13 lr 0.000006	 wd 0.1000	time 3.6047 (3.0499)	data time 3.0660 (2.5452)	model time 0.0000 (0.0000)	loss 0.9761 (0.9567)	grad_norm 9.2365 (6.8527)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:52:56 tiny] (main.py 385): INFO Train: [23/100][20/34]	eta 0:00:45 lr 0.000006	 wd 0.1000	time 3.2017 (3.2831)	data time 2.7422 (2.7620)	model time 0.0000 (0.0000)	loss 0.9028 (0.9535)	grad_norm 7.9394 (6.8656)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:53:32 tiny] (main.py 385): INFO Train: [23/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.5705 (3.3900)	data time 2.9879 (2.8629)	model time 0.0000 (0.0000)	loss 0.9121 (0.9461)	grad_norm 4.7221 (6.7879)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:53:43 tiny] (main.py 396): INFO EPOCH 23 training takes 0:01:56
+[2026-07-05 19:53:43 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:53:44 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:53:47 tiny] (main.py 440): INFO Test: [0/5]	Time 2.701 (2.701)	Loss 0.2952 (0.2952)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:54:01 tiny] (main.py 447): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-07-05 19:54:01 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-07-05 19:54:04 tiny] (main.py 440): INFO Test: [0/5]	Time 2.741 (2.741)	Loss 0.2935 (0.2935)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:54:19 tiny] (main.py 447): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-07-05 19:54:19 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-07-05 19:54:22 tiny] (main.py 385): INFO Train: [24/100][0/34]	eta 0:01:54 lr 0.000006	 wd 0.1000	time 3.3714 (3.3714)	data time 2.7247 (2.7247)	model time 0.0000 (0.0000)	loss 0.9009 (0.9009)	grad_norm 14.3794 (14.3794)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:54:58 tiny] (main.py 385): INFO Train: [24/100][10/34]	eta 0:01:24 lr 0.000006	 wd 0.1000	time 3.3716 (3.5330)	data time 2.8026 (2.9811)	model time 0.0000 (0.0000)	loss 0.8989 (0.8982)	grad_norm 5.6650 (8.5905)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:55:32 tiny] (main.py 385): INFO Train: [24/100][20/34]	eta 0:00:48 lr 0.000006	 wd 0.1000	time 3.6591 (3.4996)	data time 3.0945 (2.9649)	model time 0.0000 (0.0000)	loss 0.8970 (0.9063)	grad_norm 6.6776 (7.7276)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:56:01 tiny] (main.py 385): INFO Train: [24/100][30/34]	eta 0:00:13 lr 0.000006	 wd 0.1000	time 3.0572 (3.2861)	data time 2.5035 (2.7575)	model time 0.0000 (0.0000)	loss 0.9321 (0.9157)	grad_norm 10.1073 (7.3649)	loss_scale 16384.0000 (16384.0000)	mem 5481MB
+[2026-07-05 19:56:09 tiny] (main.py 396): INFO EPOCH 24 training takes 0:01:50
+[2026-07-05 19:56:09 tiny] (utils.py 167): INFO output\tiny\finetune\latest_ckpt.pth saving......
+[2026-07-05 19:56:10 tiny] (utils.py 169): INFO output\tiny\finetune\latest_ckpt.pth saved !!!
+[2026-07-05 19:56:12 tiny] (main.py 440): INFO Test: [0/5]	Time 2.169 (2.169)	Loss 0.2991 (0.2991)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:56:24 tiny] (main.py 447): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-07-05 19:56:24 tiny] (main.py 275): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-07-05 19:56:26 tiny] (main.py 440): INFO Test: [0/5]	Time 2.121 (2.121)	Loss 0.2864 (0.2864)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 5481MB
+[2026-07-05 19:56:36 tiny] (main.py 447): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-07-05 19:56:36 tiny] (main.py 290): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-07-05 19:56:36 tiny] (main.py 299): INFO New max accuracy ema: 92.59%
+[2026-07-05 19:56:36 tiny] (utils.py 167): INFO output\tiny\finetune\best_ckpt_ema.pth saving......
+[2026-07-05 19:56:37 tiny] (utils.py 169): INFO output\tiny\finetune\best_ckpt_ema.pth saved !!!
+[2026-07-05 19:56:40 tiny] (main.py 385): INFO Train: [25/100][0/34]	eta 0:01:42 lr 0.000006	 wd 0.1000	time 3.0096 (3.0096)	data time 2.3381 (2.3381)	model time 0.0000 (0.0000)	loss 0.9933 (0.9933)	grad_norm 9.9708 (9.9708)	loss_scale 16384.0000 (16384.0000)	mem 5615MB
+[2026-07-05 19:57:08 tiny] (main.py 385): INFO Train: [25/100][10/34]	eta 0:01:07 lr 0.000006	 wd 0.1000	time 3.0073 (2.8200)	data time 2.4346 (2.2424)	model time 0.0000 (0.0000)	loss 0.9221 (0.9696)	grad_norm 5.7078 (8.4937)	loss_scale 16384.0000 (16384.0000)	mem 5615MB
+[2026-07-05 19:57:38 tiny] (main.py 385): INFO Train: [25/100][20/34]	eta 0:00:40 lr 0.000006	 wd 0.1000	time 3.0048 (2.9221)	data time 2.3682 (2.3274)	model time 0.0000 (0.0000)	loss 1.0193 (0.9771)	grad_norm 6.7488 (7.7247)	loss_scale 16384.0000 (16384.0000)	mem 5615MB
