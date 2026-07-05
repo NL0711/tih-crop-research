@@ -121,9 +121,18 @@ def build_loader(config):
         _print_dataset_distribution(dataset_train, 'Train (after oversampling)')
     config.freeze()
     print(f"rank {get_rank()} successfully build train dataset")
-    dataset_val, _ = build_dataset(is_train=False, config=config)
+
+    dataset_val, _ = build_dataset(is_train=False, config=config, split='val')
     _print_dataset_distribution(dataset_val, 'Validation')
     print(f"rank {get_rank()} successfully build val dataset")
+
+    dataset_test = None
+    data_loader_test = None
+    test_root = os.path.join(config.DATA.DATA_PATH, 'test')
+    if os.path.isdir(test_root):
+        dataset_test, _ = build_dataset(is_train=False, config=config, split='test')
+        _print_dataset_distribution(dataset_test, 'Test')
+        print(f"rank {get_rank()} successfully build test dataset")
 
     num_tasks = get_world_size()
     global_rank = get_rank()
@@ -143,6 +152,7 @@ def build_loader(config):
         sampler_val = torch.utils.data.distributed.DistributedSampler(
             dataset_val, shuffle=config.TEST.SHUFFLE
         )
+
     if config.MODEL.DDP == 'torch':
         data_loader_train = torch.utils.data.DataLoader(
             dataset_train, sampler=sampler_train,
@@ -160,6 +170,17 @@ def build_loader(config):
             pin_memory=config.DATA.PIN_MEMORY,
             drop_last=False
         )
+
+        if dataset_test is not None:
+            sampler_test = SequentialSampler(dataset_test)
+            data_loader_test = torch.utils.data.DataLoader(
+                dataset_test, sampler=sampler_test,
+                batch_size=config.DATA.BATCH_SIZE,
+                shuffle=False,
+                num_workers=config.DATA.NUM_WORKERS,
+                pin_memory=config.DATA.PIN_MEMORY,
+                drop_last=False
+            )
     # setup mixup / cutmix
     mixup_fn = None
     mixup_active = config.AUG.MIXUP > 0 or config.AUG.CUTMIX > 0. or config.AUG.CUTMIX_MINMAX is not None
@@ -169,13 +190,13 @@ def build_loader(config):
             prob=config.AUG.MIXUP_PROB, switch_prob=config.AUG.MIXUP_SWITCH_PROB, mode=config.AUG.MIXUP_MODE,
             label_smoothing=config.MODEL.LABEL_SMOOTHING, num_classes=config.MODEL.NUM_CLASSES)
 
-    return dataset_train, dataset_val, data_loader_train, data_loader_val, mixup_fn
+    return dataset_train, dataset_val, dataset_test, data_loader_train, data_loader_val, data_loader_test, mixup_fn
 
 
-def build_dataset(is_train, config):
+def build_dataset(is_train, config, split='val'):
     transform = build_transform(is_train, config)
     if config.DATA.DATASET == 'imagenet':
-        prefix = 'train' if is_train else 'val'
+        prefix = 'train' if is_train else split
         try:
             ddp = config.MODEL.DDP
         except:
@@ -189,6 +210,10 @@ def build_dataset(is_train, config):
                                             cache_mode=config.DATA.CACHE_MODE if is_train else 'part')
             else:
                 root = os.path.join(config.DATA.DATA_PATH, prefix)
+                if not os.path.isdir(root):
+                    if not is_train and split == 'test':
+                        return None, 0
+                    raise FileNotFoundError(f"Dataset folder not found: {root}")
                 dataset = datasets.ImageFolder(root, transform=transform)
 
     # =============================================================================

@@ -126,7 +126,7 @@ def parse_option():
 
 
 def main(config, args):
-    dataset_train, dataset_val, data_loader_train, data_loader_val, mixup_fn = build_loader(config)
+    dataset_train, dataset_val, dataset_test, data_loader_train, data_loader_val, data_loader_test, mixup_fn = build_loader(config)
 
     logger.info(f"Creating model:{config.MODEL.TYPE}/{config.MODEL.NAME}")
     model = build_model(config)
@@ -195,6 +195,12 @@ def main(config, args):
             logger.info(f'auto resuming from {resume_file}')
         else:
             logger.info(f'no checkpoint found in {config.OUTPUT}, ignoring auto resume')
+    
+    val_loader = data_loader_val
+    val_dataset = dataset_val
+
+    test_loader = data_loader_test
+    test_dataset = dataset_test
 
     if config.MODEL.RESUME:
         max_accuracy, max_accuracy_ema, steps = load_checkpoint_ema(config, model_without_ddp, optimizer, lr_scheduler,
@@ -205,20 +211,33 @@ def main(config, args):
             config.freeze()
             steps = 0
         if config.EVAL_MODE:
-            acc1, acc5, loss = validate(config, data_loader_val, model)
-            logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
+            if test_loader is not None:
+                loader = test_loader
+                dataset = test_dataset
+                name = "test"
+            else:
+                loader = val_loader
+                dataset = val_dataset
+                name = "validation"
+
+            acc1, acc5, loss = validate(config, loader, model)
+            logger.info(f"Accuracy of the network on the {len(dataset)} {name} images: {acc1:.1f}%")
+
             if model_ema is not None:
-                acc1_ema, acc5_ema, loss_ema = validate(config, data_loader_val, model_ema.ema)
-                logger.info(f"Accuracy of the network ema on the {len(dataset_val)} test images: {acc1_ema:.1f}%")
+                acc1_ema, acc5_ema, loss_ema = validate(config, loader, model_ema.ema)
+                logger.info(f"Accuracy of the EMA network on the {len(dataset)} {name} images: {acc1_ema:.1f}%")
+
             return
 
     if config.MODEL.PRETRAINED and (not config.MODEL.RESUME):
         load_pretrained_ema(config, model_without_ddp, logger, model_ema)
-        acc1, acc5, loss = validate(config, data_loader_val, model)
-        logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
+        acc1, acc5, loss = validate(config, val_loader, model)
+        logger.info(
+            f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1:.1f}%"
+        )
         if model_ema is not None:
-            acc1_ema, acc5_ema, loss_ema = validate(config, data_loader_val, model_ema.ema)
-            logger.info(f"Accuracy of the network ema on the {len(dataset_val)} test images: {acc1_ema:.1f}%")
+            acc1_ema, acc5_ema, loss_ema = validate(config, val_loader, model_ema.ema)
+            logger.info(f"Accuracy of the network ema on the {len(val_dataset)} validation images: {acc1_ema:.1f}%")
 
         if config.EVAL_MODE:
             return
@@ -251,8 +270,8 @@ def main(config, args):
         if is_main_process():
             save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                 loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='latest_ckpt')
-        acc1, acc5, loss = validate(config, data_loader_val, model)
-        logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
+        acc1, acc5, loss = validate(config, val_loader, model)
+        logger.info(f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1:.1f}%")
         # Log the accuracy to TensorBoard
         if is_main_process():
             writer.add_scalar('Accuracy/val', acc1, epoch)
@@ -266,8 +285,8 @@ def main(config, args):
                 save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                     loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='best_ckpt')
         if model_ema is not None:
-            acc1_ema, acc5_ema, loss_ema = validate(config, data_loader_val, model_ema.ema)
-            logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1_ema:.1f}%")
+            acc1_ema, acc5_ema, loss_ema = validate(config, val_loader, model_ema.ema)
+            logger.info(f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1_ema:.1f}%")
 
             # Check if current EMA accuracy is higher than the max EMA accuracy
             # Log the EMA accuracy to TensorBoard
