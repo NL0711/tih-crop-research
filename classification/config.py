@@ -87,6 +87,9 @@ _C.MODEL.DAMAMBA.EMBED_DIM = [64,128,256,512]
 _C.MODEL.DAMAMBA.MLP_RATIO = [4,4,4,4]
 _C.MODEL.DAMAMBA.HEAD_DIM = 16
 _C.MODEL.DAMAMBA.LAYERSCALE =[False,False,False,False]
+_C.MODEL.DAMAMBA.USE_ATTENTION = False
+_C.MODEL.DAMAMBA.USE_SE_ONLY = False
+
 
 
 # -----------------------------------------------------------------------------

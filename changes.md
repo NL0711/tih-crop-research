@@ -32,9 +32,21 @@
 - `classification/requirements.txt`
   - changed `triton` to `triton; sys_platform != "win32"` for Windows compatibility.
 
+## Added
+- `attention.py` in `classification/models/`, `detection/maskrcnn/`, and `segmentation/upernet/` implementing:
+  - `SEBlock` (Squeeze-and-Excitation attention)
+  - `CBAM` (Convolutional Block Attention Module)
+  - `StageAttentionWrapper` to apply attention to multi-stage features with support for SE ablation study.
+
+## Modified
+- `DAMamba.py` in `classification/models/`, `detection/maskrcnn/`, and `segmentation/upernet/`:
+  - Added `use_attention` and `use_se_only` flag support in the initialization to easily integrate and toggle attention modules.
+  - Hooked `StageAttentionWrapper` in the forward pass (`forward_features`) of the backbone to refine intermediate stage representations before head/downstream layers.
+
 ## Notes
 - Existing shell scripts (`*.sh`) remain available for Linux/macOS use.
 - PowerShell scripts provide a Windows-friendly alternative for distributed training/testing and custom op build steps.
 - The new split utility supports dataset roots where class subfolders correspond to disease categories.
 - `triton` is skipped during dependency install on Windows.
+- Attention modules are fully convolutional and can process feature maps with arbitrary spatial resolutions.
 

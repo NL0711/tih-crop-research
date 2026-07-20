@@ -19,6 +19,12 @@ try:
     from .utils import selective_scan_state_flop_jit, selective_scan_fn
 except:
     from utils import selective_scan_state_flop_jit, selective_scan_fn
+try:
+    from .attention import StageAttentionWrapper
+except ImportError:
+    from attention import StageAttentionWrapper
+
+
 
 
 class to_channels_first(nn.Module):
@@ -576,6 +582,8 @@ class DAMamba(nn.Module):
             drop_rate=0.,
             drop_path_rate=0.1,
             layerscale=[False,False,False,False],
+            use_attention=False,
+            use_se_only=False,
             **kwargs,
     ):
         super().__init__()
@@ -634,6 +642,13 @@ class DAMamba(nn.Module):
         self.stages = nn.Sequential(*stages)
         self.num_features = prev_chs
         self.head = head_fn(self.num_features, num_classes)
+        
+        self.use_attention = use_attention
+        if self.use_attention:
+            self.attention = StageAttentionWrapper(dims, use_se_only=use_se_only)
+        else:
+            self.attention = None
+
         self.apply(self._init_weights)
 
     @torch.jit.ignore
@@ -647,11 +662,15 @@ class DAMamba(nn.Module):
 
     def forward_features(self, x):
         x = self.stem(x)
+        outs = []
         for i, stage in enumerate(self.stages):
             x = stage(x)
             norm = getattr(self, f"norm{i + 1}")
             x = norm(x)
-        return x
+            outs.append(x)
+        if self.attention is not None:
+            outs = self.attention(outs)
+        return outs[-1]
 
     def forward_head(self, x):
         x = self.head(x)

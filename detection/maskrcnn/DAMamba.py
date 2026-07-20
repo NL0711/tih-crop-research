@@ -27,6 +27,10 @@ try:
     from .utils import selective_scan_state_flop_jit, selective_scan_fn
 except:
     from utils import selective_scan_state_flop_jit, selective_scan_fn
+try:
+    from .attention import StageAttentionWrapper
+except ImportError:
+    from attention import StageAttentionWrapper
 
 
 class to_channels_first(nn.Module):
@@ -600,6 +604,8 @@ class DAMamba(nn.Module):
             drop_path_rate=0.1,
             layerscale=[False,False,False,False],
             pretrained=None,
+            use_attention=False,
+            use_se_only=False,
             **kwargs,
     ):
         super().__init__()
@@ -657,6 +663,13 @@ class DAMamba(nn.Module):
             prev_chs = out_chs
         self.stages = nn.Sequential(*stages)
         self.num_features = prev_chs
+        
+        self.use_attention = use_attention
+        if self.use_attention:
+            self.attention = StageAttentionWrapper(dims, use_se_only=use_se_only)
+        else:
+            self.attention = None
+
         # self.head = head_fn(self.num_features, num_classes)
         # self.apply(self._init_weights)
         for n, m in self.named_modules():
@@ -701,7 +714,8 @@ class DAMamba(nn.Module):
             norm = getattr(self, f"norm{i + 1}")
             x = norm(x)
             outs.append(x)
-        # return x
+        if self.attention is not None:
+            outs = self.attention(outs)
         return outs
 
     def forward_head(self, x):
@@ -724,7 +738,9 @@ class DAMamba_tiny(DAMamba):
             token_mixers = [DASSM, DASSM, DASSM, DASSM],
             head_dim = 16,
             drop_rate=0.0, drop_path_rate=0.3,
-            pretrained=kwargs['pretrained'])
+            pretrained=kwargs.get('pretrained', None),
+            use_attention=kwargs.get('use_attention', False),
+            use_se_only=kwargs.get('use_se_only', False))
 
 
 
@@ -737,7 +753,9 @@ class DAMamba_small(DAMamba):
             head_dim = 16,
             drop_rate=0.0, drop_path_rate=0.4,
             layerscale=[False,False,True,True],
-            pretrained=kwargs['pretrained'])
+            pretrained=kwargs.get('pretrained', None),
+            use_attention=kwargs.get('use_attention', False),
+            use_se_only=kwargs.get('use_se_only', False))
 
 
 @BACKBONES.register_module()
@@ -749,5 +767,7 @@ class DAMamba_base(DAMamba):
             head_dim = 16,
             drop_rate=0.0, drop_path_rate=0.6,
             layerscale=[False,False,True,True],
-            pretrained=kwargs['pretrained'])
+            pretrained=kwargs.get('pretrained', None),
+            use_attention=kwargs.get('use_attention', False),
+            use_se_only=kwargs.get('use_se_only', False))
 

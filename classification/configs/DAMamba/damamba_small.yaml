@@ -8,6 +8,8 @@ MODEL:
     MLP_RATIO: (4, 4, 3, 3)
     HEAD_DIM: 16
     LAYERSCALE: [False,False,True,True]
+    USE_ATTENTION: False
+    USE_SE_ONLY: False
   DDP: 'torch'
 
 TRAIN:
