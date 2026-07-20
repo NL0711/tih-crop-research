@@ -94,7 +94,6 @@ def build_transform(is_train, config):
             # replace RandomResizedCropAndInterpolation with
             # RandomCrop
             transform.transforms[0] = transforms.RandomCrop(config.DATA.IMG_SIZE, padding=4)
-        return transform
 
     t = []
     if resize_im:

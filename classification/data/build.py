@@ -267,9 +267,18 @@ def build_transform(is_train, config):
             # replace RandomResizedCropAndInterpolation with
             # RandomCrop
             transform.transforms[0] = transforms.RandomCrop(config.DATA.IMG_SIZE, padding=4)
+        
+        if getattr(config.DATA.ENHANCEMENT, 'ENABLE', False):
+            from .enhancement import AdvancedImageEnhancer
+            transform.transforms.insert(0, AdvancedImageEnhancer(config, is_train=True))
+            
         return transform
 
     t = []
+    if getattr(config.DATA.ENHANCEMENT, 'ENABLE', False):
+        from .enhancement import AdvancedImageEnhancer
+        t.append(AdvancedImageEnhancer(config, is_train=False))
+
     if resize_im:
         if config.TEST.CROP:
             size = int((256 / 224) * config.DATA.IMG_SIZE)
