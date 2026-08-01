@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+boto3
+timm==0.6.11
+yacs
+pyyaml
+packaging
+Pillow
