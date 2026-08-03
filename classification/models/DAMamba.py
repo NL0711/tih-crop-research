@@ -2,6 +2,7 @@
 Some code is borrowed from timm: https://github.com/huggingface/pytorch-image-models
 """
 
+
 import torch
 import torch.nn as nn
 import math
@@ -158,6 +159,11 @@ class Dynamic_Adaptive_Scan(nn.Module):
             self.center_feature_scale_proj_bias = nn.Parameter(
                 torch.tensor(0.0, dtype=torch.float).view((1,)).repeat(group, ))
             self.center_feature_scale_module = CenterFeatureScaleModule()
+            
+        self.debug = False
+        # Use a dict to store debug entries keyed by a counter to avoid overwriting
+        self.debug_data = {}
+        self._debug_counter = 0
 
     def _reset_parameters(self):
         constant_(self.offset.weight.data, 0.)
@@ -182,6 +188,8 @@ class Dynamic_Adaptive_Scan(nn.Module):
             256,
             self.remove_center)
 
+        scanned_x = x.clone()
+
         if self.center_feature_scale:
             center_feature_scale = self.center_feature_scale_module(
                 x1, self.center_feature_scale_proj_weight, self.center_feature_scale_proj_bias)
@@ -190,8 +198,81 @@ class Dynamic_Adaptive_Scan(nn.Module):
                 1, 1, 1, 1, self.channels // self.group).flatten(-2)
             x = x * (1 - center_feature_scale) + x_proj * center_feature_scale
 
-        x = x.permute(0, 3, 1, 2).contiguous()
-        return x
+        x_out = x.permute(0, 3, 1, 2).contiguous()
+        
+        if self.debug:
+            from debug.recorder import get_dcnv3_grid, get_approximate_grid
+            from debug.metrics import compute_offset_metrics, compute_feature_metrics
+            
+            # Perform calculations for batch index 0 on CPU to avoid GPU memory overhead
+            offset_cpu = offset[0].detach().cpu()
+            input_cpu = input[0].detach().cpu()
+            dw_conv_cpu = x1[0].detach().cpu()
+            scanned_cpu = scanned_x[0].detach().cpu()
+            x_out_cpu = x_out[0].detach().cpu()
+            
+            # Exact DCNv3 grid calculation
+            spatial_shapes = torch.as_tensor([1, H, W, self.channels], dtype=torch.int64, device=offset.device)
+            dcn_grids = get_dcnv3_grid(
+                spatial_shapes=spatial_shapes,
+                offset=offset[0:1],
+                kernel_size=self.kernel_size,
+                stride=self.stride,
+                pad=self.pad,
+                dilation=self.dilation,
+                group=self.group,
+                offset_scale=self.offset_scale,
+                remove_center=self.remove_center,
+                device=offset.device,
+                dtype=offset.dtype
+            )
+            
+            # Approximate Grid
+            approx_grid = get_approximate_grid(
+                H=H, W=W,
+                stride=self.stride, pad=self.pad,
+                kernel_size=self.kernel_size,
+                dilation=self.dilation,
+                group=self.group,
+                num_points=self.kernel_size * self.kernel_size - self.remove_center,
+                device=offset.device, dtype=offset.dtype
+            ).detach().cpu()
+            
+            # Reshape offset to (H, W, group, num_points, 2)
+            num_points = self.kernel_size * self.kernel_size - self.remove_center
+            offset_reshaped = offset_cpu.view(H, W, self.group, num_points, 2)
+            
+            # Calculate metrics
+            offset_metrics = compute_offset_metrics(offset_reshaped)
+            feature_metrics = compute_feature_metrics(x_out_cpu)
+            
+            # Store debug info in a dict keyed by a unique counter
+            entry_key = self._debug_counter
+            self.debug_data[entry_key] = {
+                "stage": getattr(self, "stage_idx", -1),
+                "block": getattr(self, "block_idx", -1),
+                "H": H,
+                "W": W,
+                "kernel_size": self.kernel_size,
+                "group": self.group,
+                "offset_scale": self.offset_scale,
+                "input": input_cpu,
+                "dw_conv_out": dw_conv_cpu,
+                "raw_offset": offset_reshaped,
+                "base_grid": dcn_grids["base_grid_abs"].cpu(),
+                "sampling_grid": dcn_grids["sampling_grid_abs"].cpu(),
+                "base_grid_normalized": dcn_grids["base_grid_normalized"].cpu(),
+                "sampling_grid_normalized": dcn_grids["sampling_grid_normalized"].cpu(),
+                "approx_grid": approx_grid,
+                "offset_magnitude": offset_reshaped.norm(p=2, dim=-1),
+                "offset_metrics": offset_metrics,
+                "feature_metrics": feature_metrics,
+                "scanned": scanned_cpu,
+                "selective_scan_input": x_out_cpu,
+            }
+            self._debug_counter += 1
+            
+        return x_out
 
 
 class ConvFFN(nn.Module):
@@ -278,7 +359,7 @@ class DASSM(nn.Module):
         self.d_conv = d_conv
         self.expand = expand
         self.d_inner = int(self.expand * self.d_model)
-        self.dt_rank = math.ceil(self.d_model / 16) if dt_rank == "auto" else dt_rank
+        self.dt_rank = math.ceil(self.d_model / 16) if dt_rank == "auto" else int(dt_rank)
 
         self.in_proj =nn.Conv2d(self.d_model, self.d_inner, 1,bias=bias, **factory_kwargs)
 
@@ -329,7 +410,7 @@ class DASSM(nn.Module):
             with torch.no_grad():
                 dt_proj.bias.copy_(inv_dt)
             # Our initialization would set all Linear.bias to zero, need to mark this one as _no_reinit
-            dt_proj.bias._no_reinit = True
+            setattr(dt_proj.bias, "_no_reinit", True)
 
         # Initialize special dt projection to preserve variance at initialization
         dt_init_std = dt_rank**-0.5 * dt_scale
@@ -341,12 +422,12 @@ class DASSM(nn.Module):
             with torch.no_grad():
                 dt_proj.weight.copy_(0.1 * torch.randn((d_inner, dt_rank)))
                 dt_proj.bias.copy_(0.1 * torch.randn((d_inner)))
-                dt_proj.bias._no_reinit = True
+                setattr(dt_proj.bias, "_no_reinit", True)
         elif dt_init == "zero":
             with torch.no_grad():
                 dt_proj.weight.copy_(0.1 * torch.rand((d_inner, dt_rank)))
                 dt_proj.bias.copy_(0.1 * torch.rand((d_inner)))
-                dt_proj.bias._no_reinit = True
+                setattr(dt_proj.bias, "_no_reinit", True)
         else:
             raise NotImplementedError
 
@@ -354,7 +435,7 @@ class DASSM(nn.Module):
 
     @staticmethod
     def A_log_init(d_state, d_inner, init, device=None):
-        if init=="random" or "constant":
+        if init in ("random", "constant"):
             # S4D real initialization
             A = repeat(
                 torch.arange(1, d_state + 1, dtype=torch.float32, device=device),
@@ -363,7 +444,7 @@ class DASSM(nn.Module):
             ).contiguous()
             A_log = torch.log(A)
             A_log = nn.Parameter(A_log)
-            A_log._no_weight_decay = True
+            setattr(A_log, "_no_weight_decay", True)
         elif init=="simple":
             A_log = nn.Parameter(torch.randn((d_inner, d_state)))
         elif init=="zero":
@@ -374,12 +455,12 @@ class DASSM(nn.Module):
 
     @staticmethod
     def D_init(d_inner, init="random", device=None):
-        if init=="random" or "constant":
+        if init in ("random", "constant"):
             # D "skip" parameter
             D = torch.ones(d_inner, device=device)
             D = nn.Parameter(D)
-            D._no_weight_decay = True
-        elif init == "simple" or "zero":
+            setattr(D, "_no_weight_decay", True)
+        elif init in ("simple", "zero"):
             D = nn.Parameter(torch.ones(d_inner))
         else:
             raise NotImplementedError
@@ -450,6 +531,8 @@ class Block(nn.Module):
     ):
         super().__init__()
         if isinstance(token_mixer, list):
+            if index is None:
+                raise ValueError("index must be provided when token_mixer is a list")
             if index % 2 == 0:
                 self.token_mixer = token_mixer[0](dim, head_dim=head_dim)
             elif index % 2 == 1:
@@ -502,13 +585,14 @@ class DAMambaStage(nn.Module):
         super().__init__()
         self.grad_checkpointing = False
         if ds_stride > 1:
+            if norm_layer is None:
+                raise ValueError("norm_layer must be provided when ds_stride > 1")
             self.downsample = nn.Sequential(
                 nn.Conv2d(in_chs, out_chs, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)),
                 norm_layer(out_chs),
             )
         else:
             self.downsample = nn.Identity()
-
         drop_path_rates = drop_path_rates or [0.] * depth
         stage_blocks = []
 
@@ -596,6 +680,11 @@ class DAMamba(nn.Module):
         self.ffnconvs = [True, True, True, True]
         self.num_classes = num_classes
         self.drop_rate = drop_rate
+        self.debug = False
+        self.debug_data = {}
+        self._debug_counter = 0
+        self.stage_idx: int = -1
+        self.block_idx: int = -1
         self.stem = nn.Sequential(
             nn.Conv2d(in_chans, dims[0] // 2, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)),
             nn.BatchNorm2d(dims[0] // 2),
@@ -642,19 +731,66 @@ class DAMamba(nn.Module):
         self.stages = nn.Sequential(*stages)
         self.num_features = prev_chs
         self.head = head_fn(self.num_features, num_classes)
-        
         self.use_attention = use_attention
+        
         if self.use_attention:
-            self.attention = StageAttentionWrapper(dims, use_se_only=use_se_only)
+            self.attention = StageAttentionWrapper(list(dims), use_se_only=use_se_only)
         else:
             self.attention = None
+        
+        # Assign stage and block index to Dynamic_Adaptive_Scan modules
+        for stage_idx, stage in enumerate(self.stages):
+            if not isinstance(stage, DAMambaStage):
+                continue
+            for block_idx, block in enumerate(stage.blocks):
+                if not isinstance(block, Block):
+                    continue
+                token_mixer = block.token_mixer
+                if isinstance(token_mixer, list):
+                    for tm in token_mixer:
+                        if isinstance(tm, DASSM):
+                            object.__setattr__(tm.da_scan, "stage_idx", stage_idx)
+                            object.__setattr__(tm.da_scan, "block_idx", block_idx)
+                else:
+                    if isinstance(token_mixer, DASSM):
+                        object.__setattr__(token_mixer.da_scan, "stage_idx", stage_idx)
+                        object.__setattr__(token_mixer.da_scan, "block_idx", block_idx)
 
         self.apply(self._init_weights)
 
+    def enable_scan_debug(self):
+        self.debug = True
+        for m in self.modules():
+            if isinstance(m, Dynamic_Adaptive_Scan):
+                m.debug = True
+                m.debug_data = {}
+                m._debug_counter = 0
+
+    def disable_scan_debug(self):
+        self.debug = False
+        for m in self.modules():
+            if isinstance(m, Dynamic_Adaptive_Scan):
+                m.debug = False
+
+    def clear_scan_debug(self):
+        for m in self.modules():
+            if isinstance(m, Dynamic_Adaptive_Scan):
+                m.debug_data = {}
+                m._debug_counter = 0
+
+    def get_scan_debug_data(self):
+        records = []
+        for m in self.modules():
+            if isinstance(m, Dynamic_Adaptive_Scan):
+                records.extend(m.debug_data.values())
+        records.sort(key=lambda r: (r["stage"], r["block"]))
+        return records
+        
     @torch.jit.ignore
     def set_grad_checkpointing(self, enable=True):
         for s in self.stages:
-            s.grad_checkpointing = enable
+            if isinstance(s, DAMambaStage):
+                s.grad_checkpointing = enable
 
     @torch.jit.ignore
     def no_weight_decay(self):
