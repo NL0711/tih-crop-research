@@ -1,3 +1,8 @@
+import argparse
+import os
+import sys
+from pathlib import Path
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -5,6 +10,12 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from typing import Dict, List, Optional, Union
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+CLASSIFICATION_DIR = SCRIPT_DIR.parent
+if str(CLASSIFICATION_DIR) not in sys.path:
+    sys.path.insert(0, str(CLASSIFICATION_DIR))
+
 try:
     from .attention import SEBlock
 except ImportError:
@@ -321,3 +332,199 @@ def compare_all_stages(
     plt.close(fig)
 
     gradcam.remove_hooks()
+
+from PIL import Image
+from torchvision import transforms
+from config import get_config
+
+
+def _load_checkpoint(model_path: str, device: torch.device):
+    try:
+        return torch.load(model_path, map_location=device, weights_only=False)
+    except TypeError:
+        return torch.load(model_path, map_location=device)
+
+
+def _make_config_args(cfg_path: str) -> argparse.Namespace:
+    return argparse.Namespace(
+        cfg=cfg_path,
+        opts=None,
+        batch_size=None,
+        data_path=None,
+        zip=False,
+        cache_mode='part',
+        pretrained=None,
+        resume=None,
+        accumulation_steps=None,
+        use_checkpoint=False,
+        disable_amp=False,
+        output=None,
+        tag=None,
+        oversample=False,
+        eval=False,
+        throughput=False,
+        traincost=False,
+        enable_persistance=False,
+        enable_amp=False,
+        fused_layernorm=False,
+        optim=None,
+        ddp=None,
+    )
+
+
+def _clean_state_dict(state_dict):
+    cleaned = {}
+    for key, value in state_dict.items():
+        new_key = key
+        for prefix in ("module.", "model.", "backbone."):
+            if new_key.startswith(prefix):
+                new_key = new_key[len(prefix):]
+        cleaned[new_key] = value
+    return cleaned
+
+def _resolve_output_path(output: str) -> Path:
+    output_path = Path(output)
+    if not output_path.is_absolute():
+        output_path = SCRIPT_DIR / output_path
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    return output_path
+
+def load_model(model_path: str, device: torch.device, cfg_path: str):
+    """
+    Load a saved PyTorch model.
+
+    Modify this function depending on how your model was saved.
+    """
+
+    checkpoint = _load_checkpoint(model_path, device)
+    model = None
+
+    # Case 1: Entire model saved
+    if isinstance(checkpoint, nn.Module):
+        model = checkpoint
+
+    # Case 2: State dict only
+    else:
+        # Replace YourModelClass() with your model constructor
+        from models import build_model
+        config = get_config(_make_config_args(cfg_path))  # Load your model configuration
+        model = build_model(config)
+        if model is None:
+            raise ValueError(f"Unsupported model type in config: {config.MODEL.TYPE}")
+
+        if isinstance(checkpoint, dict):
+            state_dict = None
+            for key in ("state_dict", "model", "module", "model_ema", "ema"):
+                value = checkpoint.get(key)
+                if isinstance(value, dict):
+                    state_dict = value
+                    break
+            if state_dict is None:
+                state_dict = checkpoint
+            try:
+                model.load_state_dict(state_dict)
+            except RuntimeError:
+                model.load_state_dict(_clean_state_dict(state_dict), strict=False)
+        else:
+            raise TypeError(
+                f"Unsupported checkpoint type: {type(checkpoint)!r}. "
+                "Expected a saved module or a checkpoint dictionary."
+            )
+
+    model.to(device)
+    model.eval()
+    return model
+
+
+def load_image(image_path: str):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+    ])
+
+    image = Image.open(image_path).convert("RGB")
+    tensor = transform(image).unsqueeze(0)
+    return tensor
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Generate SE GradCAM visualizations"
+    )
+
+    parser.add_argument(
+        "--model",
+        # required=True,
+        help="Path to .pth model",
+        default=str((CLASSIFICATION_DIR.parent / "output_new-arch" / "tiny" / "finetune" / "best_ckpt.pth").resolve())
+    )
+
+    parser.add_argument(
+        "--cfg",
+        help="Path to the classification config YAML",
+        default=str((CLASSIFICATION_DIR / "configs" / "DAMamba" / "damamba_tiny.yaml").resolve())
+    )
+
+    parser.add_argument(
+        "--image",
+        # required=True,
+        help="Input image",
+        default="C:\\Users\\blais\\Downloads\\caulieval\\Cauliflower_split\\test\\Black rot\\Black Rot(7).jpeg"
+    )
+
+    parser.add_argument(
+        "--stage",
+        type=int,
+        default=2,
+        help="Stage index (0-3)"
+    )
+
+    parser.add_argument(
+        "--class-idx",
+        type=int,
+        default=None,
+        help="Target class index"
+    )
+
+    parser.add_argument(
+        "--output",
+        default="se_impact.png",
+        help="Output visualization"
+    )
+
+    parser.add_argument(
+        "--all-stages",
+        action="store_true",
+        help="Generate visualization for all stages"
+    )
+
+    args = parser.parse_args()
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    model = load_model(args.model, device, args.cfg)
+    image_tensor = load_image(args.image).to(device)
+
+    output_path = _resolve_output_path(args.output)
+
+    if args.all_stages:
+        compare_all_stages(
+            model,
+            image_tensor,
+            class_idx=args.class_idx,
+            save_path=str(output_path),
+        )
+    else:
+        compare_se_impact(
+            model,
+            image_tensor,
+            stage_idx=args.stage,
+            class_idx=args.class_idx,
+            save_path=str(output_path),
+        )
+
+    print(f"Saved visualization to {output_path}")
+
+
+if __name__ == "__main__":
+    main()
