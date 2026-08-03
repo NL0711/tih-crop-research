@@ -8,7 +8,6 @@ from torchvision import datasets
 
 from data.build import build_dataset
 from config import get_config
-from main import get_device
 
 
 class DummyArgs:
@@ -60,11 +59,13 @@ def test_build_dataset_can_use_test_split(tmp_path):
     config.freeze()
 
     train_ds, _ = build_dataset(is_train=True, config=config)
+    assert train_ds is not None
     val_ds, _ = build_dataset(is_train=False, config=config)
-
+    assert val_ds is not None
     assert len(train_ds) == 4
     assert len(val_ds) == 4
 
     test_ds, _ = build_dataset(is_train=False, config=config, split='test')
+    assert test_ds is not None
     assert len(test_ds) == 4
     assert isinstance(test_ds, datasets.ImageFolder)
