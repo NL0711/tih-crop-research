@@ -25,6 +25,7 @@ class SEBlock(nn.Module):
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         B, C, H, W = x.shape
+        self._input_feat = x
         
         # Squeeze: Global average pooling
         squeezed = self.global_avg_pool(x)  # (B, C, 1, 1)
@@ -33,6 +34,7 @@ class SEBlock(nn.Module):
         # Excitation: MLP to get channel attention weights
         channel_weights = self.mlp(squeezed)  # (B, C)
         channel_weights = channel_weights.view(B, C, 1, 1)  # (B, C, 1, 1)
+        self._channel_weights = channel_weights
         
         # Scale: Multiply weights back onto input
         return x * channel_weights
