@@ -67,11 +67,11 @@ _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
 _C.MODEL.NUM_CLASSES = 5
 # Dropout rate
-_C.MODEL.DROP_RATE = 0.2 # Increase from 0.0
+_C.MODEL.DROP_RATE = 0.2 
 # Drop path rate
-_C.MODEL.DROP_PATH_RATE = 0.3 # Increase from 0.1 to 0.3 (prevents overfitting)
+_C.MODEL.DROP_PATH_RATE = 0.3 
 # Label Smoothing
-_C.MODEL.LABEL_SMOOTHING = 0.2 # Increase from 0.1
+_C.MODEL.LABEL_SMOOTHING = 0.2
 #for ddp platform
 _C.MODEL.DDP = 'torch'
 
@@ -96,11 +96,11 @@ _C.MODEL.DAMAMBA.USE_SE_ONLY = False
 # -----------------------------------------------------------------------------
 _C.TRAIN = CN()
 _C.TRAIN.START_EPOCH = 0
-_C.TRAIN.EPOCHS = 100  # Reduce from 300
-_C.TRAIN.WARMUP_EPOCHS = 5 # Reduce from 20
+_C.TRAIN.EPOCHS = 10
+_C.TRAIN.WARMUP_EPOCHS = 1 # Reduce from 20
 _C.TRAIN.WEIGHT_DECAY = 0.1 # Increase from 0.05
-_C.TRAIN.BASE_LR = 1e-4 # Lower from 5e-4 for fine-tuning
-_C.TRAIN.WARMUP_LR = 5e-7
+_C.TRAIN.BASE_LR = 6e-5
+_C.TRAIN.WARMUP_LR = 1e-5
 _C.TRAIN.MIN_LR = 5e-6
 # Clip gradient norm
 _C.TRAIN.CLIP_GRAD = 5.0
@@ -117,7 +117,7 @@ _C.TRAIN.USE_CHECKPOINT = False
 _C.TRAIN.LR_SCHEDULER = CN()
 _C.TRAIN.LR_SCHEDULER.NAME = 'cosine'
 # Epoch interval to decay LR, used in StepLRScheduler
-_C.TRAIN.LR_SCHEDULER.DECAY_EPOCHS = 30
+_C.TRAIN.LR_SCHEDULER.DECAY_EPOCHS = 20
 # LR decay rate, used in StepLRScheduler
 _C.TRAIN.LR_SCHEDULER.DECAY_RATE = 0.1
 # warmup_prefix used in CosineLRScheduler
@@ -137,7 +137,7 @@ _C.TRAIN.OPTIMIZER.BETAS = (0.9, 0.999)
 _C.TRAIN.OPTIMIZER.MOMENTUM = 0.9
 
 # [SimMIM] Layer decay for fine-tuning
-_C.TRAIN.LAYER_DECAY = 1.0
+_C.TRAIN.LAYER_DECAY = 0.9
 
 # MoE
 _C.TRAIN.MOE = CN()
@@ -150,7 +150,7 @@ _C.TRAIN.MESA = -1.0
 # -----------------------------------------------------------------------------
 _C.AUG = CN()
 # Color jitter factor
-_C.AUG.COLOR_JITTER = 0.4
+_C.AUG.COLOR_JITTER = 0.0
 # Use AutoAugment policy. "v0" or "original"
 _C.AUG.AUTO_AUGMENT = 'rand-m9-mstd0.5-inc1'
 # Random erase prob
@@ -177,7 +177,7 @@ _C.AUG.MIXUP_MODE = 'batch'
 # -----------------------------------------------------------------------------
 _C.TEST = CN()
 # Whether to use center crop when testing
-_C.TEST.CROP = True
+_C.TEST.CROP = False
 # Whether to use SequentialSampler as validation sampler
 _C.TEST.SEQUENTIAL = False
 _C.TEST.SHUFFLE = False
