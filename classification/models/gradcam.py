@@ -152,9 +152,18 @@ def compare_se_impact(
     norm_name = stage_names.get(stage_idx)
     se_blocks_list = [(n, m) for n, m in model.named_modules() if isinstance(m, SEBlock)]
 
-    if not se_blocks_list or stage_idx >= len(se_blocks_list) or norm_name is None:
-        gradcam.remove_hooks()
-        return
+    if not se_blocks_list:
+        raise RuntimeError(
+            "No SEBlock modules found in the loaded model."
+        )
+
+    if stage_idx >= len(se_blocks_list):
+        raise RuntimeError(
+            f"Stage {stage_idx} requested, but only {len(se_blocks_list)} SE blocks exist."
+        )
+
+    if norm_name is None:
+        raise RuntimeError("Invalid stage name.")
 
     se_name, se_block = se_blocks_list[stage_idx]
     has_after_gradcam = se_name in cams
@@ -246,8 +255,25 @@ def compare_se_impact(
     ax.set_xlim(0, len(weights_sorted))
 
     plt.tight_layout()
-    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+
+    print(f"Saving figure to: {save_path}")
+
+    plt.savefig(
+        save_path,
+        dpi=300,
+        bbox_inches="tight",
+        facecolor="white",
+    )
+
     plt.close(fig)
+
+    from pathlib import Path
+
+    if Path(save_path).exists():
+        print("✓ Figure saved successfully")
+        print(Path(save_path).resolve())
+    else:
+        print("✗ Figure was NOT saved!")
 
     gradcam.remove_hooks()
 
@@ -327,9 +353,27 @@ def compare_all_stages(
         ax.axis('off')
 
     plt.suptitle("SE Impact Across All Stages", fontsize=14)
+
     plt.tight_layout()
-    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+
+    print(f"Saving figure to: {save_path}")
+
+    plt.savefig(
+        save_path,
+        dpi=300,
+        bbox_inches="tight",
+        facecolor="white",
+    )
+
     plt.close(fig)
+
+    from pathlib import Path
+
+    if Path(save_path).exists():
+        print("✓ Figure saved successfully")
+        print(Path(save_path).resolve())
+    else:
+        print("✗ Figure was NOT saved!")
 
     gradcam.remove_hooks()
 
@@ -384,9 +428,17 @@ def _clean_state_dict(state_dict):
 
 def _resolve_output_path(output: str) -> Path:
     output_path = Path(output)
+
     if not output_path.is_absolute():
-        output_path = SCRIPT_DIR / output_path
+        output_path = (SCRIPT_DIR / output_path).resolve()
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print("=" * 80)
+    print("Saving output to:")
+    print(output_path)
+    print("=" * 80)
+
     return output_path
 
 def load_model(model_path: str, device: torch.device, cfg_path: str):
@@ -523,7 +575,12 @@ def main():
             save_path=str(output_path),
         )
 
-    print(f"Saved visualization to {output_path}")
+    from pathlib import Path
+
+    if output_path.exists():
+        print(f"\n✓ Saved visualization to:\n{output_path}")
+    else:
+        print("\n✗ No output image was created.")
 
 
 if __name__ == "__main__":
