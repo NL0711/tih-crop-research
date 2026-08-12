@@ -16,3 +16,5 @@ seaborn
 opencv-python
 tensorboard
 Cython
+scikit-learn
+pandas

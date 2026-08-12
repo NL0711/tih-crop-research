@@ -209,6 +209,21 @@ _C.TRAINCOST_MODE = False
 # for acceleration
 _C.FUSED_LAYERNORM = False
 
+# -----------------------------------------------------------------------------
+# Experiment tracking settings
+# -----------------------------------------------------------------------------
+_C.EXPERIMENT = CN()
+# Root folder on Google Drive (used in Colab only)
+_C.EXPERIMENT.DRIVE_ROOT = '/content/drive/MyDrive/DAMamba_Experiments'
+# Root folder for local experiment storage
+_C.EXPERIMENT.LOCAL_ROOT = './experiments'
+# Whether to attempt Drive sync when in Colab
+_C.EXPERIMENT.ENABLE_DRIVE = True
+
+# Hybrid model settings
+_C.MODEL.HYBRID = CN()
+_C.MODEL.HYBRID.ENABLE = False
+
 
 def _update_config_from_file(config, cfg_file):
     config.defrost()

@@ -44,6 +44,8 @@ from fvcore.nn import FlopCountAnalysis, flop_count_str, flop_count
 
 from timm.utils import ModelEma as ModelEma
 from torch.utils.tensorboard import SummaryWriter
+from utils.experiment_tracker import ExperimentTracker
+from utils.evaluate_test import run_test_evaluation
 
 
 def import_abspy(name="models", path="classification/"):
@@ -130,6 +132,23 @@ def main(config, args):
 
     logger.info(f"Creating model:{config.MODEL.TYPE}/{config.MODEL.NAME}")
     model = build_model(config)
+
+    # ---- Experiment tracker ----
+    tracker = ExperimentTracker(config, args)
+    n_trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    n_total     = sum(p.numel() for p in model.parameters())
+    tracker.set_dataset_info({
+        "train_size":      len(dataset_train),
+        "val_size":        len(dataset_val),
+        "test_size":       len(dataset_test) if dataset_test is not None else 0,
+        "num_classes":     config.MODEL.NUM_CLASSES,
+        "class_names":     getattr(dataset_val, "classes", []),
+        "class_to_idx":    getattr(dataset_val, "class_to_idx", {}),
+        "parameter_count": n_trainable,
+        "total_parameters": n_total,
+    })
+    tracker.start()
+    # ----------------------------
 
     if not args.mute_repeat:
         if is_main_process():
@@ -227,6 +246,12 @@ def main(config, args):
                 acc1_ema, acc5_ema, loss_ema = validate(config, loader, model_ema.ema)
                 logger.info(f"Accuracy of the EMA network on the {len(dataset)} {name} images: {acc1_ema:.1f}%")
 
+            # Full test-set evaluation in eval mode
+            if name == "test" and test_loader is not None:
+                class_names = getattr(dataset_test, "classes", [])
+                eval_dir = os.path.join(config.OUTPUT, "test_eval")
+                run_test_evaluation(config, model, test_loader, class_names,
+                                    eval_dir, tracker=tracker)
             return
 
     if config.MODEL.PRETRAINED and (not config.MODEL.RESUME):
@@ -261,7 +286,7 @@ def main(config, args):
         # set_epoch is required for DistributedSampler; safe no-op on other samplers
         if hasattr(data_loader_train.sampler, 'set_epoch'):
             data_loader_train.sampler.set_epoch(epoch)
-        train_one_epoch(config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler,
+        train_metrics = train_one_epoch(config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler,
                         loss_scaler, model_ema, steps=steps, max_accuracy=max_accuracy,
                         max_accuracy_ema=max_accuracy_ema,
                         tb_writer=writer,
@@ -270,6 +295,9 @@ def main(config, args):
         if is_main_process():
             save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                 loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='latest_ckpt')
+            tracker.sync_checkpoint_to_drive(
+                os.path.join(config.OUTPUT, 'latest_ckpt.pth')
+            )
         acc1, acc5, loss = validate(config, val_loader, model)
         logger.info(f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1:.1f}%")
         # Log the accuracy to TensorBoard
@@ -284,6 +312,10 @@ def main(config, args):
             if is_main_process():
                 save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                     loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='best_ckpt')
+                tracker.on_best_model(epoch, acc1)
+                tracker.sync_checkpoint_to_drive(
+                    os.path.join(config.OUTPUT, 'best_ckpt.pth')
+                )
         if model_ema is not None:
             acc1_ema, acc5_ema, loss_ema = validate(config, val_loader, model_ema.ema)
             logger.info(f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1_ema:.1f}%")
@@ -301,11 +333,53 @@ def main(config, args):
                     save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                         loss_scaler, logger, model_ema, max_accuracy_ema, steps=0,
                                         ckpt_name='best_ckpt_ema')
+                    tracker.sync_checkpoint_to_drive(
+                        os.path.join(config.OUTPUT, 'best_ckpt_ema.pth')
+                    )
+
+        # ---- Log epoch metrics to tracker ----
+        if is_main_process():
+            epoch_metrics = {
+                # Training
+                "train_loss": train_metrics["train_loss"],
+                "grad_norm": train_metrics["grad_norm"],
+                "batch_time": train_metrics["batch_time"],
+                "data_time": train_metrics["data_time"],
+                "model_time": train_metrics["model_time"],
+                "loss_scale": train_metrics["loss_scale"],
+                "epoch_time": train_metrics["epoch_time"],
+
+                # Validation
+                "val_acc1": acc1,
+                "val_acc5": acc5,
+                "val_loss": loss,
+
+                # Optimizer
+                "lr": optimizer.param_groups[0]["lr"],
+                "weight_decay": optimizer.param_groups[0]["weight_decay"],
+            }
+            if model_ema is not None:
+                epoch_metrics["val_acc1_ema"] = acc1_ema
+            tracker.log_epoch(epoch, epoch_metrics)
+        # --------------------------------------
 
     writer.close()
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     logger.info('Training time {}'.format(total_time_str))
+
+    # ---- Post-training: test evaluation + tracker finalisation ----
+    if is_main_process():
+        # Run test evaluation automatically if test set is available
+        if test_loader is not None:
+            class_names = getattr(dataset_test, "classes", [])
+            eval_dir = os.path.join(config.OUTPUT, "test_eval")
+            run_test_evaluation(
+                config, model, test_loader, class_names,
+                eval_dir, tracker=tracker
+            )
+        tracker.on_training_complete(total_time)
+    # ---------------------------------------------------------------
 
 
 def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mixup_fn,
@@ -392,6 +466,16 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
                 f'mem {memory_used:.0f}MB')
     epoch_time = time.time() - start
     logger.info(f"EPOCH {epoch} training takes {datetime.timedelta(seconds=int(epoch_time))}")
+
+    return {
+        "train_loss": loss_meter.avg,
+        "grad_norm": norm_meter.avg,
+        "batch_time": batch_time.avg,
+        "data_time": data_time.avg,
+        "model_time": model_time.avg,
+        "loss_scale": scaler_meter.avg,
+        "epoch_time": epoch_time,
+    }
 
 
 @torch.no_grad()
