@@ -3,6 +3,8 @@ Some code is borrowed from timm: https://github.com/huggingface/pytorch-image-mo
 """
 
 import torch
+import torch.nn.functional as F
+from torch.nn import init
 import torch.nn as nn
 import math
 from timm.models.layers import trunc_normal_, DropPath
@@ -86,6 +88,61 @@ class CenterFeatureScaleModule(nn.Module):
                                         bias=center_feature_scale_proj_bias).sigmoid()
         return center_feature_scale
 
+
+class LocalCNN(nn.Module):
+    """Lightweight CNN for local lesion features.
+    Three 3x3 conv stages, each downsampling by stride‑2.
+    Total params ~0.2 M.
+    """
+    def __init__(self, in_chans=3, base_ch=32):
+        super().__init__()
+        self.stage1 = nn.Sequential(
+            nn.Conv2d(in_chans, base_ch, 3, stride=2, padding=1, bias=False),
+            nn.BatchNorm2d(base_ch),
+            nn.GELU()
+        )
+        self.stage2 = nn.Sequential(
+            nn.Conv2d(base_ch, base_ch * 2, 3, stride=2, padding=1, bias=False),
+            nn.BatchNorm2d(base_ch * 2),
+            nn.GELU()
+        )
+        self.stage3 = nn.Sequential(
+            nn.Conv2d(base_ch * 2, base_ch * 4, 3, stride=2, padding=1, bias=False),
+            nn.BatchNorm2d(base_ch * 4),
+            nn.GELU()
+        )
+        self.out_channels = base_ch * 4
+
+    def forward(self, x):
+        x = self.stage1(x)
+        x = self.stage2(x)
+        x = self.stage3(x)
+        return x
+
+class HybridFusion(nn.Module):
+    """Gated fusion of local CNN features and global DAMamba features.
+    proj_local: 1×1 conv to match global channel dim.
+    gate: sigmoid(MLP(pool(local))) producing a scalar per batch.
+    """
+    def __init__(self, local_ch, global_ch, hidden=64):
+        super().__init__()
+        self.proj_local = nn.Conv2d(local_ch, global_ch, kernel_size=1, bias=False)
+        self.gate_mlp = nn.Sequential(
+            nn.AdaptiveAvgPool2d(1),
+            nn.Flatten(),
+            nn.Linear(local_ch, hidden),
+            nn.GELU(),
+            nn.Linear(hidden, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, local_feat, global_feat):
+        # global_feat: [B, Cg] (pooled), local_feat: [B, Cl, H, W]
+        proj = self.proj_local(local_feat)  # [B, Cg, H, W]
+        proj = proj.mean(dim=[2, 3])       # global‑avg → [B, Cg]
+        gate = self.gate_mlp(local_feat)   # [B, 1]
+        fused = gate * global_feat + (1 - gate) * proj
+        return fused
 
 class Dynamic_Adaptive_Scan(nn.Module):
     def __init__(
@@ -576,9 +633,16 @@ class DAMamba(nn.Module):
             drop_rate=0.,
             drop_path_rate=0.1,
             layerscale=[False,False,False,False],
+            hybrid_enable=False,
             **kwargs,
     ):
         super().__init__()
+        self.in_chans = in_chans
+        # store hybrid flag
+        self.hybrid_enabled = hybrid_enable
+        # placeholder for optional modules (instantiated later)
+        self.local_cnn = None
+        self.fusion = None
         print(depths,dims,layerscale)
         num_stage = len(depths)
         if not isinstance(token_mixers, (list, tuple)):
@@ -634,6 +698,13 @@ class DAMamba(nn.Module):
         self.stages = nn.Sequential(*stages)
         self.num_features = prev_chs
         self.head = head_fn(self.num_features, num_classes)
+        # instantiate hybrid modules if enabled
+        if self.hybrid_enabled:
+            # lightweight CNN operates on the original input image size
+            self.local_cnn = LocalCNN(in_chans=self.in_chans, base_ch=32)
+            self.fusion = HybridFusion(local_ch=self.local_cnn.out_channels,
+                                        global_ch=self.num_features,
+                                        hidden=64)
         self.apply(self._init_weights)
 
     @torch.jit.ignore
@@ -651,16 +722,42 @@ class DAMamba(nn.Module):
             x = stage(x)
             norm = getattr(self, f"norm{i + 1}")
             x = norm(x)
-        return x
+        # x is the final global feature map [B, Cg, H', W']
+        if self.hybrid_enabled:
+            # compute local CNN features from the original input image (stored earlier in forward)
+            # forward_features now expects the original input as an extra argument; will be handled in forward()
+            return x, None  # placeholder, real local_feat will be computed in forward()
+        else:
+            return x, None
 
     def forward_head(self, x):
-        x = self.head(x)
-        return x
+        global_feat, _ = x if isinstance(x, tuple) else (x, None)
+        # MlpHead expects the unpooled feature map [B, Cg, H, W]
+        # and performs global average pooling internally.
+        if self.hybrid_enabled and self.fusion is not None and self.local_cnn is not None:
+            # HybridFusion expects a pooled DAMamba feature [B, Cg].
+            pooled = global_feat.mean(dim=[2, 3])
+            fused = self.fusion(self._cached_local, pooled)
+            # Fusion already returns [B, Cg], so bypass MlpHead.forward()
+            # and apply its existing classifier directly.
+            out = self.head.fc(fused)
+        else:
+            # Preserve the original DAMamba classifier path exactly:
+            # MlpHead performs the global average pooling itself.
+            out = self.head(global_feat)
+        return out
 
     def forward(self, x):
-        x = self.forward_features(x)
-        x = self.forward_head(x)
-        return x
+        # Forward with parallel branches
+        # Store original input for CNN branch
+        if self.hybrid_enabled:
+            # compute local features first
+            self._cached_local = self.local_cnn(x)
+        # global path
+        global_feat, _ = self.forward_features(x)
+        # head (fusion / classifier)
+        logits = self.forward_head((global_feat, None))
+        return logits
 
     def _init_weights(self, m):
         if isinstance(m, (nn.Conv2d, nn.Linear)):
@@ -711,8 +808,3 @@ def DAMamba_B(pretrained=False, **kwargs):
          **kwargs
     )
     return model
-
-
-
-
-
