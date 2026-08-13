@@ -58,6 +58,8 @@ def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, log
     max_accuracy = 0.0
     max_accuracy_ema = 0.0
     steps = 0
+    patience = 0
+    best_acc_epoch = -1
     if not config.EVAL_MODE and 'optimizer' in checkpoint and 'lr_scheduler' in checkpoint and 'epoch' in checkpoint:
         optimizer.load_state_dict(checkpoint['optimizer'])
         lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
@@ -72,10 +74,14 @@ def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, log
             max_accuracy = checkpoint['max_accuracy']
         if 'max_accuracy_ema' in checkpoint:
             max_accuracy_ema = checkpoint['max_accuracy_ema']
+        if 'early_stop_patience' in checkpoint:
+            patience = checkpoint['early_stop_patience']
+        if 'best_acc_epoch' in checkpoint:
+            best_acc_epoch = checkpoint['best_acc_epoch']
 
     del checkpoint
     torch.cuda.empty_cache()
-    return max_accuracy, max_accuracy_ema, steps
+    return max_accuracy, max_accuracy_ema, steps, patience, best_acc_epoch
 
 
 def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
@@ -107,7 +113,8 @@ def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
 
 
 def save_checkpoint_ema(config, epoch, model, max_accuracy, optimizer, lr_scheduler, loss_scaler,
-                        logger, model_ema: ModelEma=None, max_accuracy_ema=None,steps=0, ckpt_name=None):
+                        logger, model_ema: ModelEma=None, max_accuracy_ema=None,steps=0, ckpt_name=None,
+                        patience=0, best_acc_epoch=-1):
     save_state = {'model': model.state_dict(),
                   'optimizer': optimizer.state_dict(),
                   'lr_scheduler': lr_scheduler.state_dict(),
@@ -120,6 +127,10 @@ def save_checkpoint_ema(config, epoch, model, max_accuracy, optimizer, lr_schedu
     if model_ema is not None:
         save_state.update({'model_ema': model_ema.ema.state_dict(),
             'max_accuray_ema': max_accuracy_ema})
+    if patience is not None:
+        save_state['early_stop_patience'] = patience
+    if best_acc_epoch is not None:
+        save_state['best_acc_epoch'] = best_acc_epoch
     if ckpt_name is None:
         save_path = os.path.join(config.OUTPUT, f'ckpt_epoch_{epoch}.pth')
     else:

@@ -205,6 +205,8 @@ def main(config, args):
     max_accuracy = 0.0
     max_accuracy_ema = 0.0
     steps = 0
+    patience = 0
+    best_acc_epoch = -1
     if config.TRAIN.AUTO_RESUME:
         resume_file = auto_resume_helper(config.OUTPUT)
         if resume_file:
@@ -224,8 +226,10 @@ def main(config, args):
     test_dataset = dataset_test
 
     if config.MODEL.RESUME:
-        max_accuracy, max_accuracy_ema, steps = load_checkpoint_ema(config, model_without_ddp, optimizer, lr_scheduler,
-                                                                    loss_scaler, logger, model_ema)
+        max_accuracy, max_accuracy_ema, steps, patience, best_acc_epoch = load_checkpoint_ema(config, model_without_ddp, optimizer, lr_scheduler,
+                                                                                              loss_scaler, logger, model_ema)
+        if best_acc_epoch < 0:
+            best_acc_epoch = config.TRAIN.START_EPOCH - 1
         if steps + 1 == len(data_loader_train):
             config.defrost()
             config.TRAIN.START_EPOCH += 1
@@ -335,7 +339,8 @@ def main(config, args):
         steps = 0
         if is_main_process():
             save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
-                                loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='latest_ckpt')
+                                loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='latest_ckpt',
+                                patience=patience, best_acc_epoch=best_acc_epoch)
             tracker.sync_checkpoint_to_drive(
                 os.path.join(config.OUTPUT, 'latest_ckpt.pth')
             )
@@ -348,15 +353,20 @@ def main(config, args):
         # Check if current accuracy is higher than the max accuracy
         if acc1 > max_accuracy:
             max_accuracy = acc1
+            patience = 0
+            best_acc_epoch = epoch
             logger.info(f'New max accuracy: {max_accuracy:.2f}%')
             # Save the model if this is the best accuracy so far
             if is_main_process():
                 save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
-                                    loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='best_ckpt')
+                                    loss_scaler, logger, model_ema, max_accuracy_ema, steps=0, ckpt_name='best_ckpt',
+                                    patience=patience, best_acc_epoch=best_acc_epoch)
                 tracker.on_best_model(epoch, acc1)
                 tracker.sync_checkpoint_to_drive(
                     os.path.join(config.OUTPUT, 'best_ckpt.pth')
                 )
+        else:
+            patience += 1
         if model_ema is not None:
             acc1_ema, acc5_ema, loss_ema = validate(config, val_loader, model_ema.ema)
             logger.info(f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1_ema:.1f}%")
@@ -373,7 +383,7 @@ def main(config, args):
                 if is_main_process():
                     save_checkpoint_ema(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler,
                                         loss_scaler, logger, model_ema, max_accuracy_ema, steps=0,
-                                        ckpt_name='best_ckpt_ema')
+                                        ckpt_name='best_ckpt_ema', patience=patience, best_acc_epoch=best_acc_epoch)
                     tracker.sync_checkpoint_to_drive(
                         os.path.join(config.OUTPUT, 'best_ckpt_ema.pth')
                     )
@@ -403,6 +413,16 @@ def main(config, args):
                 epoch_metrics["val_acc1_ema"] = acc1_ema
             tracker.log_epoch(epoch, epoch_metrics)
         # --------------------------------------
+
+        # ---- Early stopping: stop after PATIENCE epochs without improvement ----
+        if patience >= config.TRAIN.PATIENCE:
+            logger.info(
+                f"Early stopping triggered at epoch {epoch}: no validation Acc@1 improvement for "
+                f"{patience} consecutive epochs (patience={config.TRAIN.PATIENCE}). "
+                f"Best Acc@1 {max_accuracy:.2f}% achieved at epoch {best_acc_epoch}."
+            )
+            break
+        # ------------------------------------------------------------------------
 
     writer.close()
     total_time = time.time() - start_time

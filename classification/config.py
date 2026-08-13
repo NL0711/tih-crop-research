@@ -40,7 +40,7 @@ _C.DATA.PIN_MEMORY = True
 # Number of data loading threads
 _C.DATA.NUM_WORKERS = 0
 # Enable class-balanced oversampling for the training dataset
-_C.DATA.OVERSAMPLE = False
+_C.DATA.OVERSAMPLE = True
 # If oversampling is enabled, samples are drawn with replacement from the weighted distribution
 _C.DATA.OVERSAMPLE_REPLACEMENT = True
 
@@ -67,11 +67,11 @@ _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
 _C.MODEL.NUM_CLASSES = 5
 # Dropout rate
-_C.MODEL.DROP_RATE = 0.2 # Increase from 0.0
+_C.MODEL.DROP_RATE = 0.1 
 # Drop path rate
-_C.MODEL.DROP_PATH_RATE = 0.3 # Increase from 0.1 to 0.3 (prevents overfitting)
+_C.MODEL.DROP_PATH_RATE = 0.2 
 # Label Smoothing
-_C.MODEL.LABEL_SMOOTHING = 0.2 # Increase from 0.1
+_C.MODEL.LABEL_SMOOTHING = 0.1 
 #for ddp platform
 _C.MODEL.DDP = 'torch'
 
@@ -94,12 +94,12 @@ _C.MODEL.DAMAMBA.LAYERSCALE =[False,False,False,False]
 # -----------------------------------------------------------------------------
 _C.TRAIN = CN()
 _C.TRAIN.START_EPOCH = 0
-_C.TRAIN.EPOCHS = 100  # Reduce from 300
+_C.TRAIN.EPOCHS = 50  # Reduce from 300
 _C.TRAIN.WARMUP_EPOCHS = 5 # Reduce from 20
-_C.TRAIN.WEIGHT_DECAY = 0.1 # Increase from 0.05
-_C.TRAIN.BASE_LR = 1e-4 # Lower from 5e-4 for fine-tuning
-_C.TRAIN.WARMUP_LR = 5e-7
-_C.TRAIN.MIN_LR = 5e-6
+_C.TRAIN.WEIGHT_DECAY = 0.05
+_C.TRAIN.BASE_LR = 0.0016 
+_C.TRAIN.WARMUP_LR = 0.000001
+_C.TRAIN.MIN_LR = 0.000002
 # Clip gradient norm
 _C.TRAIN.CLIP_GRAD = 5.0
 # Auto resume from latest checkpoint
@@ -110,6 +110,8 @@ _C.TRAIN.ACCUMULATION_STEPS = 1
 # Whether to use gradient checkpointing to save memory
 # could be overwritten by command line argument
 _C.TRAIN.USE_CHECKPOINT = False
+# Stop training after this many consecutive epochs without validation Acc@1 improvement
+_C.TRAIN.PATIENCE = 10
 
 # LR scheduler
 _C.TRAIN.LR_SCHEDULER = CN()
@@ -148,11 +150,11 @@ _C.TRAIN.MESA = -1.0
 # -----------------------------------------------------------------------------
 _C.AUG = CN()
 # Color jitter factor
-_C.AUG.COLOR_JITTER = 0.4
+_C.AUG.COLOR_JITTER = 0.0
 # Use AutoAugment policy. "v0" or "original"
 _C.AUG.AUTO_AUGMENT = 'rand-m9-mstd0.5-inc1'
 # Random erase prob
-_C.AUG.REPROB = 0.5 # Increase from 0.25 (more random erasing)
+_C.AUG.REPROB = 0.25 # Increase from 0.25 (more random erasing)
 # Random erase mode
 _C.AUG.REMODE = 'pixel'
 # Random erase count
