@@ -527,7 +527,7 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
             etas = batch_time.avg * (num_steps - idx)
             logger.info(
                 f'Train: [{epoch}/{config.TRAIN.EPOCHS}][{idx}/{num_steps}]\t'
-                f'eta {datetime.timedelta(seconds=int(etas))} lr {lr:.6f}\t wd {wd:.4f}\t'
+                f'eta {datetime.timedelta(seconds=int(etas))} lr {lr:.2e}\t wd {wd:.4f}\t'
                 f'time {batch_time.val:.4f} ({batch_time.avg:.4f})\t'
                 f'data time {data_time.val:.4f} ({data_time.avg:.4f})\t'
                 f'model time {model_time.val:.4f} ({model_time.avg:.4f})\t'
