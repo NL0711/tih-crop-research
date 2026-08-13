@@ -11,7 +11,8 @@ def build_model(config, is_pretrain=False):
             head_dim=config.MODEL.DAMAMBA.HEAD_DIM,
             drop_rate=config.MODEL.DROP_RATE,
             drop_path_rate=config.MODEL.DROP_PATH_RATE,
-            layerscale=config.MODEL.DAMAMBA.LAYERSCALE
+            layerscale=config.MODEL.DAMAMBA.LAYERSCALE,
+            hybrid_enable=config.MODEL.HYBRID.ENABLE
         )
         return model
     return None

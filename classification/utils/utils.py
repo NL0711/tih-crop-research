@@ -13,6 +13,27 @@ import torch
 from timm.utils import ModelEma as ModelEma
 from utils.distributed import reduce_tensor as _dist_reduce_tensor
 
+def _filter_shape_incompatible(state_dict, module, logger):
+    """Drop checkpoint keys whose tensor shape conflicts with the target module.
+
+    Name-level validation (strict=False) is otherwise preserved; only
+    shape-incompatible keys are removed so that, e.g., a 1000-class pretrained
+    head is never copied into a 5-class head. This is required on torch 2.2+
+    where strict=False still raises on size mismatches.
+    """
+    target = module.state_dict()
+    filtered = {}
+    dropped = []
+    for k, v in state_dict.items():
+        if k in target and tuple(target[k].shape) != tuple(v.shape):
+            dropped.append(k)
+            continue
+        filtered[k] = v
+    if dropped:
+        logger.warning(f"Dropping shape-incompatible pretrained keys: {dropped}")
+    return filtered, dropped
+
+
 def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, logger, model_ema: ModelEma=None):
     logger.info(f"==============> Resuming form {config.MODEL.RESUME}....................")
     if config.MODEL.RESUME.startswith('https'):
@@ -62,7 +83,8 @@ def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
     checkpoint = torch.load(config.MODEL.PRETRAINED, map_location='cpu')
     
     if 'model' in checkpoint:
-        msg = model.load_state_dict(checkpoint['model'], strict=False)
+        ckpt_model, _ = _filter_shape_incompatible(checkpoint['model'], model, logger)
+        msg = model.load_state_dict(ckpt_model, strict=False)
         logger.warning(msg)
         logger.info(f"=> loaded 'model' successfully from '{config.MODEL.PRETRAINED}'")
     else:
@@ -73,7 +95,8 @@ def load_pretrained_ema(config, model, logger, model_ema: ModelEma=None):
             logger.info(f"=> loading 'model_ema' separately...")
         key = "model_ema" if ("model_ema" in checkpoint) else "model"
         if key in checkpoint:
-            msg = model_ema.ema.load_state_dict(checkpoint[key], strict=False)
+            ckpt_ema, _ = _filter_shape_incompatible(checkpoint[key], model_ema.ema, logger)
+            msg = model_ema.ema.load_state_dict(ckpt_ema, strict=False)
             logger.warning(msg)
             logger.info(f"=> loaded '{key}' successfully from '{config.MODEL.PRETRAINED}' for model_ema")
         else:

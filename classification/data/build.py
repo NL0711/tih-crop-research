@@ -234,7 +234,7 @@ def build_dataset(is_train, config, split='val'):
 
 # =============================================================================
 
-        nb_classes = 1000
+        nb_classes = len(dataset.classes)
     elif config.DATA.DATASET == 'imagenet22K':
         prefix = 'ILSVRC2011fall_whole'
         if is_train:

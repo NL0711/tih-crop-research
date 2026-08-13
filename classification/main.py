@@ -8,6 +8,7 @@
 # Modified by Chaodong Xiao
 # -----------------------------------------------------------------------------------
 
+from fvcore.nn import print_model_statistics
 import os
 import time
 import json
@@ -18,6 +19,7 @@ import tqdm
 import numpy as np
 
 import torch
+import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
@@ -256,6 +258,45 @@ def main(config, args):
 
     if config.MODEL.PRETRAINED and (not config.MODEL.RESUME):
         load_pretrained_ema(config, model_without_ddp, logger, model_ema)
+        if model_ema is not None:
+            model_ema.ema.load_state_dict(model_without_ddp.state_dict())
+            logger.info("EMA initialized from loaded pretrained model weights")
+        print("\n========== PRETRAINED OUTPUT DEBUG ==========")
+        print("NUM_CLASSES:", config.MODEL.NUM_CLASSES)
+
+        print("\nClassifier:")
+        for name, module in model_without_ddp.named_modules():
+            if "head" in name.lower() or "classifier" in name.lower():
+                print(name, module)
+
+        print("\nHybrid:")
+        print("hybrid_enabled:",
+            getattr(model_without_ddp, "hybrid_enabled", "NOT_FOUND"))
+
+        print("local_cnn:",
+            getattr(model_without_ddp, "local_cnn", "NOT_FOUND"))
+
+        print("fusion:",
+            getattr(model_without_ddp, "fusion", "NOT_FOUND"))
+
+        images, targets = next(iter(val_loader))
+        images = images.cuda(non_blocking=True)
+        targets = targets.cuda(non_blocking=True)
+
+        model_without_ddp.eval()
+
+        with torch.no_grad():
+            outputs = model_without_ddp(images)
+
+        print("\nInput shape:", images.shape)
+        print("Target shape:", targets.shape)
+        print("Target values:", targets[:20].detach().cpu().tolist())
+        print("OUTPUT SHAPE:", outputs.shape)
+        print("Output min:", outputs.min().item())
+        print("Output max:", outputs.max().item())
+        print("Predictions:", outputs.argmax(dim=1)[:20].detach().cpu().tolist())
+
+        print("============================================\n")
         acc1, acc5, loss = validate(config, val_loader, model)
         logger.info(
             f"Accuracy of the network on the {len(val_dataset)} validation images: {acc1:.1f}%"
@@ -417,7 +458,10 @@ def train_one_epoch(config, model, criterion, data_loader, optimizer, epoch, mix
                     ema_output = model_ema.ema(samples).detach()
                 ema_output = torch.clone(ema_output)
                 ema_output = ema_output.softmax(dim=-1).detach()
-                ema_loss = criterion(outputs, ema_output) * mesa
+                ema_loss = F.kl_div(
+                    F.log_softmax(outputs.float(), dim=-1),
+                    ema_output.float(),
+                    reduction='batchmean') * mesa
 
         if mesa > 0.0:
             loss = criterion(outputs, targets) + ema_loss
