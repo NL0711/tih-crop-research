@@ -12,6 +12,9 @@ def _is_colab():
         return False
 
 def _mount_drive(mount_point="/content/drive"):
+    if os.path.isdir(mount_point):
+        log.info(f"Google Drive already mounted at {mount_point}")
+        return True
     try:
         from google.colab import drive
         drive.mount(mount_point, force_remount=False)
@@ -179,7 +182,30 @@ class ExperimentTracker:
         return d
 
     def sync_checkpoint_to_drive(self, ckpt_path):
-        self._sync_file(ckpt_path, subdir="checkpoints")
+        if not self.drive_exp_dir:
+            log.debug(f"[Tracker] Drive mirror disabled; skipping checkpoint sync: {ckpt_path}")
+            return
+        if not os.path.isfile(ckpt_path):
+            raise RuntimeError(f"[Tracker] Checkpoint sync failed: local source missing: {ckpt_path}")
+        dest = os.path.join(self.drive_exp_dir, "checkpoints", os.path.basename(ckpt_path))
+        log.info(f"[Tracker] Syncing checkpoint {ckpt_path} -> {dest}")
+        try:
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            shutil.copy2(ckpt_path, dest)
+        except Exception as exc:
+            raise RuntimeError(
+                f"[Tracker] Checkpoint sync failed: could not copy {ckpt_path} to {dest}: {exc}"
+            ) from exc
+        if not os.path.isfile(dest):
+            raise RuntimeError(
+                f"[Tracker] Checkpoint sync failed: destination missing after copy: {dest}"
+            )
+        size = os.path.getsize(dest)
+        if size == 0:
+            raise RuntimeError(
+                f"[Tracker] Checkpoint sync failed: destination has zero size: {dest}"
+            )
+        log.info(f"[Tracker] Checkpoint synced: {dest} ({size} bytes)")
 
     # ---------- private ----------
 
