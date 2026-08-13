@@ -63,14 +63,20 @@ def load_checkpoint_ema(config, model, optimizer, lr_scheduler, loss_scaler, log
         checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu')
     
     if 'model' in checkpoint:
-        msg = load_state_dict_with_mismatch_filtering(model, checkpoint['model'], logger)
+        ckpt_model, _ = _filter_shape_incompatible(
+            checkpoint['model'], model, logger
+        )
+        msg = model.load_state_dict(ckpt_model, strict=False)
         logger.info(f"resuming model: {msg}")
     else:
         logger.warning(f"No 'model' found in {config.MODEL.RESUME}! ")
 
     if model_ema is not None:
         if 'model_ema' in checkpoint:
-            msg = load_state_dict_with_mismatch_filtering(model_ema.ema, checkpoint['model_ema'], logger)
+            ckpt_ema, _ = _filter_shape_incompatible(
+                checkpoint['model_ema'], model_ema.ema, logger
+            )
+            msg = model_ema.ema.load_state_dict(ckpt_ema, strict=False)
             logger.info(f"resuming model_ema: {msg}")
             
             # Check for EMA stagnation bug (happens if saved under the old bugged EMA implementation)
