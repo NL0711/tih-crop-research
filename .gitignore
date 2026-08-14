@@ -85,3 +85,9 @@ install_manifest.txt
 .DS_Store
 Thumbs.db
 ml/
+output/
+output_new-arch/
+output_old/
+scan_viz_45/
+scan_viz_60/
+scan_viz_base/

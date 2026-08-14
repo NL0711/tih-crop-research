@@ -15,7 +15,11 @@ import numpy as np
 import torch
 from PIL import Image
 from torchvision import transforms
-
+import sys
+import os
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 from models.DAMamba import DAMamba_T, DAMamba_S, DAMamba_B
 from debug.export import export_debug_data
 from debug.visualizer import DASVisualizer
