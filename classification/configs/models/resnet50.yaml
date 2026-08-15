@@ -1,0 +1,50 @@
+# =============================================================================
+# configs/models/resnet50.yaml
+# ----------------------------
+# ResNet-50 CNN baseline configuration.
+#
+# Inherits all common benchmark settings from benchmark_common.yaml.
+# Only architecture-specific and ResNet-specific overrides live here.
+#
+# Train command (from classification/ directory):
+#   python main.py \
+#     --cfg configs/models/resnet50.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/resnet50 \
+#     --no-subdir
+#
+# Eval-only command:
+#   python main.py \
+#     --cfg configs/models/resnet50.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/resnet50 \
+#     --no-subdir \
+#     --resume output/benchmark/resnet50/best_ckpt.pth \
+#     --eval
+# =============================================================================
+
+BASE: ['../benchmark_common.yaml']
+
+MODEL:
+  TYPE: resnet50
+  NAME: resnet50
+  # PRETRAINED left empty: torchvision loads ImageNet-1K V2 weights internally.
+  # Setting this to a non-empty path would trigger load_pretrained_ema() which
+  # is DAMamba-specific. Leave empty to use the torchvision weight-download path.
+  PRETRAINED: ''
+  DROP_RATE: 0.0          # Dropout before fc head; 0.0 = disabled
+  DROP_PATH_RATE: 0.0     # Stochastic depth (not used by ResNet; kept for config schema compat)
+  LABEL_SMOOTHING: 0.1
+
+DATA:
+  IMG_SIZE: 224
+  DATASET: imagenet       # Uses the existing ImageFolder-based build_dataset()
+  INTERPOLATION: bilinear # Standard for ResNet; DAMamba uses bicubic
+
+TRAIN:
+  # Linear LR scaling: 0.01 * 64 / 256 = 0.0025 effective LR at batch=64
+  # The main.py linear_scaled_lr formula will scale this automatically.
+  BASE_LR: 0.01
+  OPTIMIZER:
+    NAME: sgd
+    MOMENTUM: 0.9

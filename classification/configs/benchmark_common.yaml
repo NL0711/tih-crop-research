@@ -1,0 +1,53 @@
+# =============================================================================
+# benchmark_common.yaml
+# ---------------------
+# Shared benchmark settings inherited by ALL CNN baseline model configs.
+#
+# Rules:
+#   - Only settings shared across ALL benchmark models go here.
+#   - Architecture-specific parameters belong in the individual model config.
+#   - Stage-2 / fine-tuning settings are NOT included here.
+#   - DAMamba-specific settings (MESA, DROP_PATH_RATE, etc.) are NOT here.
+#
+# Usage (in a model config):
+#   BASE: ['../benchmark_common.yaml']
+# =============================================================================
+
+DATA:
+  BATCH_SIZE: 64
+  NUM_WORKERS: 8
+  OVERSAMPLE: True
+  OVERSAMPLE_REPLACEMENT: True
+
+MODEL:
+  NUM_CLASSES: 5
+
+TRAIN:
+  EPOCHS: 50
+  PATIENCE: 10
+  WARMUP_EPOCHS: 5
+  # SGD with cosine LR is the canonical CNN baseline schedule.
+  # Individual model configs may override if architecture warrants it.
+  BASE_LR: 0.01
+  MIN_LR: 0.000001
+  WARMUP_LR: 0.0001
+  WEIGHT_DECAY: 0.0001
+  CLIP_GRAD: 5.0
+  OPTIMIZER:
+    NAME: sgd
+    MOMENTUM: 0.9
+  LR_SCHEDULER:
+    NAME: cosine
+
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  REPROB: 0.25
+  REMODE: pixel
+  RECOUNT: 1
+  COLOR_JITTER: 0.0
+  # yacs requires exact type match with the default in config.py.
+  # _C.AUG.MIXUP = 0 (int), so YAML value must be an int (not 0.0).
+  MIXUP: 0
+  CUTMIX: 0
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0

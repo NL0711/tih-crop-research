@@ -209,6 +209,9 @@ _C.EVAL_MODE = False
 _C.THROUGHPUT_MODE = False
 # Test traincost only, overwritten by command line argument
 _C.TRAINCOST_MODE = False
+# When True, OUTPUT is used as-is (no MODEL.NAME/TAG sub-folder appended).
+# Set via --no-subdir CLI flag for benchmark models with pre-structured output paths.
+_C.NO_SUBDIR = False
 # for acceleration
 _C.FUSED_LAYERNORM = False
 
@@ -301,8 +304,13 @@ def update_config(config, args):
 
     if _check_args('ddp'):
         config.MODEL.DDP = args.ddp
+    if hasattr(args, 'no_subdir') and args.no_subdir:
+        config.NO_SUBDIR = True
     # output folder
-    config.OUTPUT = os.path.join(config.OUTPUT, config.MODEL.NAME, config.TAG)
+    # --no-subdir: use OUTPUT as-is (benchmark models supply their own structured path)
+    # default:     append MODEL.NAME / TAG (existing DAMamba behaviour, unchanged)
+    if not config.NO_SUBDIR:
+        config.OUTPUT = os.path.join(config.OUTPUT, config.MODEL.NAME, config.TAG)
 
     config.freeze()
 

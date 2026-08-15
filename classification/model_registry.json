@@ -1,0 +1,60 @@
+{
+  "_comment": [
+    "Model registry for the TIH crop-research classification benchmark.",
+    "Contains model provenance, external benchmark metrics, and references.",
+    "External metrics are NOT our cauliflower results — they are from the source library/paper.",
+    "Our cauliflower results are stored in output/benchmark/<model>/test_eval/ and",
+    "referenced here via 'our_results.eval_dir' once training is complete.",
+    "",
+    "Schema version: 1.0",
+    "Add future models by inserting a new key under 'models'."
+  ],
+  "registry_version": "1.0",
+  "dataset": "Cauliflower_split (5-class plant disease classification)",
+  "models": {
+    "resnet50": {
+      "name": "ResNet-50",
+      "family": "ResNet",
+      "provider": "torchvision",
+      "model_identifier": "torchvision.models.resnet50",
+      "weights_identifier": "ResNet50_Weights.IMAGENET1K_V2",
+      "weights_download_url": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth",
+      "paper": "Deep Residual Learning for Image Recognition",
+      "paper_authors": "He, K., Zhang, X., Ren, S., Sun, J.",
+      "paper_year": 2016,
+      "paper_url": "https://arxiv.org/abs/1512.03385",
+      "pretrained_dataset": "ImageNet-1K",
+      "external_metrics": {
+        "_comment": "Metrics from the torchvision model documentation (IMAGENET1K_V2 recipe). Do NOT confuse with our cauliflower results.",
+        "top1_accuracy_pct": 80.858,
+        "top5_accuracy_pct": 95.434,
+        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
+        "source": "https://pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html",
+        "training_recipe": "torchvision new training recipe (V2)",
+        "recipe_url": "https://pytorch.org/blog/how-to-train-state-of-the-art-models-using-torchvision-latest-primitives/"
+      },
+      "parameter_count": 25557032,
+      "parameter_count_source": "torchvision documentation and sum(p.numel() for p in model.parameters())",
+      "config_path": "configs/models/resnet50.yaml",
+      "our_results": {
+        "_comment": "Populated after training. Full 50-epoch results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
+        "eval_dir": "output/benchmark/resnet50/test_eval/",
+        "checkpoint": "output/benchmark/resnet50/best_ckpt.pth"
+      }
+    },
+    "_future_models": {
+      "_comment": [
+        "Planned future additions. Do NOT create implementations until explicitly requested.",
+        "Each will follow the same schema as resnet50 above.",
+        "",
+        "ConvNeXt-T      : torchvision / timm",
+        "Swin-T          : timm",
+        "VMamba-T        : custom",
+        "EfficientNet-B3 : torchvision / timm",
+        "EfficientNet-B4 : torchvision / timm",
+        "DAMamba-T       : local (models/DAMamba.py)",
+        "CNN + DAMamba-T : local (models/DAMamba.py hybrid)"
+      ]
+    }
+  }
+}

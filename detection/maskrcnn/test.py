@@ -16,13 +16,12 @@ from mmdet.apis import multi_gpu_test, single_gpu_test
 from mmdet.datasets import (build_dataloader, build_dataset,
                             replace_ImageToTensor)
 from mmdet.models import build_detector
-import pkg_resources
-
 def is_installed(package_name):
     try:
-        pkg_resources.get_distribution(package_name)
+        import importlib.metadata as importlib_metadata
+        importlib_metadata.distribution(package_name)
         return True
-    except pkg_resources.DistributionNotFound:
+    except Exception:
         return False
 
 import DAMamba

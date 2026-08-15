@@ -1,0 +1,118 @@
+AMP_ENABLE: true
+AMP_OPT_LEVEL: ''
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.0
+  CUTMIX: 0
+  CUTMIX_MINMAX: null
+  MIXUP: 0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ../benchmark_common.yaml
+DATA:
+  BATCH_SIZE: 64
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: C:\Users\blais\Downloads\caulieval\Cauliflower_split
+  IMG_SIZE: 224
+  INTERPOLATION: bilinear
+  MASK_PATCH_SIZE: 32
+  MASK_RATIO: 0.6
+  NUM_WORKERS: 0
+  OVERSAMPLE: true
+  OVERSAMPLE_REPLACEMENT: true
+  PERSISTENT_WORKERS: false
+  PIN_MEMORY: true
+  ZIP_MODE: false
+ENABLE_AMP: false
+EVAL_MODE: true
+EXPERIMENT:
+  DRIVE_ROOT: /content/drive/MyDrive/DAMamba_Experiments
+  ENABLE_DRIVE: true
+  LOCAL_ROOT: ./experiments
+FUSED_LAYERNORM: false
+MODEL:
+  DAMAMBA:
+    DEPTHS:
+    - 2
+    - 2
+    - 6
+    - 2
+    EMBED_DIM:
+    - 64
+    - 128
+    - 256
+    - 512
+    HEAD_DIM: 16
+    IMAGE_SIZE: 224
+    IN_CHANS: 3
+    LAYERSCALE:
+    - false
+    - false
+    - false
+    - false
+    MLP_RATIO:
+    - 4
+    - 4
+    - 4
+    - 4
+  DDP: torch
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.0
+  HYBRID:
+    ENABLE: false
+  LABEL_SMOOTHING: 0.1
+  MMCKPT: false
+  NAME: resnet50
+  NUM_CLASSES: 5
+  PRETRAINED: ''
+  RESUME: c:\Users\blais\Desktop\Full-Stack-Projects\tih-crop-research\output\benchmark\resnet50\best_ckpt.pth
+  TYPE: resnet50
+NO_SUBDIR: true
+OUTPUT: c:\Users\blais\Desktop\Full-Stack-Projects\tih-crop-research\output\benchmark\resnet50
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: '20260814225354'
+TEST:
+  CROP: false
+  SEQUENTIAL: false
+  SHUFFLE: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 1
+  AUTO_RESUME: true
+  BASE_LR: 0.00125
+  CLIP_GRAD: 5.0
+  EPOCHS: 50
+  LAYER_DECAY: 0.9
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 20
+    DECAY_RATE: 0.1
+    GAMMA: 0.1
+    MULTISTEPS: []
+    NAME: cosine
+    WARMUP_PREFIX: true
+  MESA: -1.0
+  MIN_LR: 1.25e-07
+  MOE:
+    SAVE_MASTER: false
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: sgd
+  PATIENCE: 10
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 5
+  WARMUP_LR: 1.25e-05
+  WEIGHT_DECAY: 0.0001
+TRAINCOST_MODE: false

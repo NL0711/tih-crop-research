@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+resnet50_VANILLA,2026-08-15_12-10-47,resnet50,False,91.11111150670935,21,91.11111150670935,,,,,,,,,,,23518277,5579.4,,./experiments\resnet50_VANILLA\2026-08-15_12-10-47

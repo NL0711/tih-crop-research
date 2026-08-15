@@ -1,0 +1,53 @@
+[
+  {
+    "epoch": 4,
+    "timestamp": "2026-08-15T12:03:49.442193",
+    "train_loss": 1.41943359375,
+    "grad_norm": "tensor(2.2119, device='cuda:0')",
+    "batch_time": 2.5892753856522694,
+    "data_time": 2.2093184675489153,
+    "model_time": 0,
+    "loss_scale": 32768.0,
+    "epoch_time": 74.11568331718445,
+    "val_acc1": 56.296296465838395,
+    "val_acc5": 100.00000039559824,
+    "val_loss": 1.3926215277777778,
+    "lr": 1.25e-07,
+    "weight_decay": 0.0001,
+    "val_acc1_ema": 56.296296465838395
+  },
+  {
+    "epoch": 5,
+    "timestamp": "2026-08-15T12:07:05.914435",
+    "train_loss": 1.4205845424107142,
+    "grad_norm": "tensor(2.2043, device='cuda:0')",
+    "batch_time": 3.156408292906625,
+    "data_time": 2.9070125988551547,
+    "model_time": 0,
+    "loss_scale": 32768.0,
+    "epoch_time": 90.17175245285034,
+    "val_acc1": 56.296296465838395,
+    "val_acc5": 100.00000039559824,
+    "val_loss": 1.400998263888889,
+    "lr": 1.25e-07,
+    "weight_decay": 0.0001,
+    "val_acc1_ema": 56.296296465838395
+  },
+  {
+    "epoch": 6,
+    "timestamp": "2026-08-15T12:10:02.155413",
+    "train_loss": 1.4215959821428572,
+    "grad_norm": "tensor(2.1244, device='cuda:0')",
+    "batch_time": 2.5324290565082004,
+    "data_time": 2.2893696086747304,
+    "model_time": 0,
+    "loss_scale": 32768.0,
+    "epoch_time": 72.60703587532043,
+    "val_acc1": 56.296296465838395,
+    "val_acc5": 100.00000039559824,
+    "val_loss": 1.4009548611111111,
+    "lr": 1.25e-07,
+    "weight_decay": 0.0001,
+    "val_acc1_ema": 56.296296465838395
+  }
+]

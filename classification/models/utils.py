@@ -1,7 +1,10 @@
 import torch
 import torch.nn as nn
 from einops import rearrange
-from timm.models.layers import to_2tuple
+try:
+    from timm.layers import to_2tuple
+except ImportError:
+    from timm.models.layers import to_2tuple
 import selective_scan_cuda_oflex_rh
 
 def print_jit_input_names(inputs):

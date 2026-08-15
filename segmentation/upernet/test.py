@@ -11,14 +11,13 @@ from mmcv.utils import DictAction
 from mmseg.apis import multi_gpu_test, single_gpu_test
 from mmseg.datasets import build_dataloader, build_dataset
 from mmseg.models import build_segmentor
-import pkg_resources
-
 import DAMamba
 def is_installed(package_name):
     try:
-        pkg_resources.get_distribution(package_name)
+        import importlib.metadata as importlib_metadata
+        importlib_metadata.distribution(package_name)
         return True
-    except pkg_resources.DistributionNotFound:
+    except Exception:
         return False
 
 

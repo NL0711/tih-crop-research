@@ -1,4 +1,4 @@
-﻿"""
+"""
 evaluate_test.py
 ================
 Full test-set evaluation for DAMamba / CNN+DAMamba.
@@ -22,7 +22,20 @@ Usage (from main.py)
 
 from __future__ import annotations
 
-import csv, json, logging, os, time
+import os
+import sys
+import warnings
+
+# Suppress TensorFlow / oneDNN info & warning messages
+os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")
+
+# Suppress deprecated API warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning, module=r"pkg_resources.*")
+warnings.filterwarnings("ignore", message=r".*pkg_resources is deprecated.*")
+
+import csv, json, logging, time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -126,9 +139,12 @@ def run_test_evaluation(
         except Exception as exc:
             log.warning(f"[Eval] Could not update tracker summary: {exc}")
 
-    log.info(f"[Eval] Test Acc@1 : {s.get('top1_accuracy', 'N/A'):.2f}%")
-    log.info(f"[Eval] Macro F1   : {s.get('macro_f1', 'N/A'):.4f}")
     log.info(f"[Eval] Results saved to {output_dir}")
+    _acc = s.get('top1_accuracy', 'N/A')
+    _f1  = s.get('macro_f1', 'N/A')
+    log.info(f"[Eval] Test Acc@1 : {_acc:.2f}%" if isinstance(_acc, (int, float)) else f"[Eval] Test Acc@1 : {_acc}")
+    log.info(f"[Eval] Macro F1   : {_f1:.4f}"   if isinstance(_f1,  (int, float)) else f"[Eval] Macro F1   : {_f1}")
+
     return metrics
 
 

@@ -1,0 +1,6 @@
+class,pr_auc
+Bacterial spot rot,1.0
+Black rot,0.9323881446538786
+Downy Mildew,0.9756397896185249
+Healthy,0.9562175010772797
+Tobbacco caterpillar,0.8749581822185548

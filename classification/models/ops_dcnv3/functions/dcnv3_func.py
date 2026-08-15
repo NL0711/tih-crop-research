@@ -15,8 +15,18 @@ from torch.autograd.function import once_differentiable
 from torch.cuda.amp import custom_bwd, custom_fwd
 import DCNv3
 
-import pkg_resources
-dcn_version = float(pkg_resources.get_distribution('DCNv3').version)
+try:
+    from importlib.metadata import version
+    dcn_version = float(version('DCNv3'))
+except Exception:
+    try:
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=UserWarning)
+            import pkg_resources
+            dcn_version = float(pkg_resources.get_distribution('DCNv3').version)
+    except Exception:
+        dcn_version = 1.0
 
 
 class DCNv3Function(Function):

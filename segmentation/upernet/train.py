@@ -14,14 +14,14 @@ from mmseg.apis import set_random_seed, train_segmentor
 from mmseg.datasets import build_dataset
 from mmseg.models import build_segmentor
 from mmseg.utils import collect_env, get_root_logger
-import pkg_resources
 import DAMamba
 
 def is_installed(package_name):
     try:
-        pkg_resources.get_distribution(package_name)
+        import importlib.metadata as importlib_metadata
+        importlib_metadata.distribution(package_name)
         return True
-    except pkg_resources.DistributionNotFound:
+    except Exception:
         return False
 
 

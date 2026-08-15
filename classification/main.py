@@ -8,8 +8,20 @@
 # Modified by Chaodong Xiao
 # -----------------------------------------------------------------------------------
 
-from fvcore.nn import print_model_statistics
 import os
+import sys
+import warnings
+
+# Suppress TensorFlow / oneDNN info & warning messages
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+# Suppress deprecated API warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning, module=r"pkg_resources.*")
+warnings.filterwarnings("ignore", message=r".*pkg_resources is deprecated.*")
+
+from fvcore.nn import print_model_statistics
 import time
 import json
 import random
@@ -122,6 +134,11 @@ def parse_option():
     parser.add_argument('--ddp', type=str, default='torch', help='distributed data parallel')
     parser.add_argument('--enable_preload', action='store_true', help='tricks to fix the bug of DataLoader')
     parser.add_argument('--enable_persistance', action='store_true', help='tricks to fix the bug of DataLoader')
+    # Benchmark flag: use --output as-is, skip MODEL.NAME/TAG sub-folder creation.
+    # Use this for benchmark models that supply a pre-structured output path,
+    # e.g. --output output/benchmark/resnet50 --no-subdir
+    parser.add_argument('--no-subdir', action='store_true', default=False,
+                        help='Do not append MODEL.NAME/TAG to --output (for benchmark runs)')
 
     args, unparsed = parser.parse_known_args()
 

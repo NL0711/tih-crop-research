@@ -1,0 +1,1 @@
+.\classification\main.py --cfg .\classification\configs\models\resnet50.yaml --data-path C:\Users\blais\Downloads\caulieval\Cauliflower_split --output output/benchmark/resnet50 --no-subdir

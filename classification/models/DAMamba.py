@@ -7,8 +7,15 @@ import torch.nn.functional as F
 from torch.nn import init
 import torch.nn as nn
 import math
-from timm.models.layers import trunc_normal_, DropPath
-from timm.models.registry import register_model
+try:
+    from timm.layers import trunc_normal_, DropPath
+except ImportError:
+    from timm.models.layers import trunc_normal_, DropPath
+
+try:
+    from timm.models import register_model
+except ImportError:
+    from timm.models.registry import register_model
 import torch.nn.functional as F
 from torch.nn.init import constant_
 from einops import repeat

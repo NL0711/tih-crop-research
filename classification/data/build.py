@@ -6,6 +6,13 @@
 # --------------------------------------------------------
 
 import os
+import sys
+import warnings
+
+# Suppress warnings in data loader workers
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
 import torch
 import numpy as np
 from torch.utils.data import RandomSampler, SequentialSampler
