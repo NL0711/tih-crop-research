@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import csv, json, logging, os, platform, shutil, subprocess, sys, time, datetime
 from typing import Any, Dict, List, Optional
 
@@ -67,7 +67,8 @@ def _safe_plot(x, y_dict, xlabel, ylabel, title, save_path, legend=True):
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(8, 5))
         for lbl, y in y_dict.items():
-            ax.plot(x[:len(y)], y, label=lbl, linewidth=1.5)
+            y_clean = [v.item() if hasattr(v, 'item') else v for v in y]
+            ax.plot(x[:len(y_clean)], y_clean, label=lbl, linewidth=1.5)
         ax.set_xlabel(xlabel); ax.set_ylabel(ylabel); ax.set_title(title)
         if legend: ax.legend()
         ax.grid(True, alpha=0.3)

@@ -1,0 +1,1 @@
+.\classification\main.py --cfg .\classification\configs\models\inception_resnet_v2.yaml --data-path C:\Users\blais\Downloads\caulieval\Cauliflower_split --output output/benchmark/InceptioResNetV2 --no-subdir

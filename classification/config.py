@@ -58,20 +58,23 @@ _C.MODEL = CN()
 # Model type
 _C.MODEL.TYPE = 'DAMamba'
 # Model name
-_C.MODEL.NAME = 'DAMamba_tiny'
-# Pretrained weight from checkpoint, could be imagenet22k pretrained weight
-# could be overwritten by command line argument
-_C.MODEL.PRETRAINED = 'classification\weights\DAMamba-T.pth'
+_C.MODEL.NAME = 'damamba_tiny'
 # Checkpoint to resume, could be overwritten by command line argument
 _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
-_C.MODEL.NUM_CLASSES = 5
+_C.MODEL.NUM_CLASSES = 1000
 # Dropout rate
-_C.MODEL.DROP_RATE = 0.1 
+_C.MODEL.DROP_RATE = 0.0
 # Drop path rate
-_C.MODEL.DROP_PATH_RATE = 0.2 
+_C.MODEL.DROP_PATH_RATE = 0.1
 # Label Smoothing
-_C.MODEL.LABEL_SMOOTHING = 0.1 
+_C.MODEL.LABEL_SMOOTHING = 0.1
+# Pretrained weights path / identifier
+_C.MODEL.PRETRAINED = ''
+# Fine-tuning: freeze all backbone weights (train only classifier head)
+_C.MODEL.FREEZE_BACKBONE = False
+# Fine-tuning: freeze stages 0..N (e.g. 0, 1, 2)
+_C.MODEL.FREEZE_STAGES = -1 
 #for ddp platform
 _C.MODEL.DDP = 'torch'
 
@@ -87,6 +90,13 @@ _C.MODEL.DAMAMBA.EMBED_DIM = [64,128,256,512]
 _C.MODEL.DAMAMBA.MLP_RATIO = [4,4,4,4]
 _C.MODEL.DAMAMBA.HEAD_DIM = 16
 _C.MODEL.DAMAMBA.LAYERSCALE =[False,False,False,False]
+
+# VMamba parameters
+_C.MODEL.VMAMBA = CN()
+_C.MODEL.VMAMBA.DEPTHS = [2, 2, 9, 2]
+_C.MODEL.VMAMBA.EMBED_DIM = [96, 192, 384, 768]
+_C.MODEL.VMAMBA.MLP_RATIO = 4.0
+_C.MODEL.VMAMBA.D_STATE = 1
 
 
 # -----------------------------------------------------------------------------

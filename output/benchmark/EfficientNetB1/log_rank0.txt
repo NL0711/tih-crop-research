@@ -1,0 +1,758 @@
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 712): INFO Full config saved to output/benchmark/EfficientNetB1\config.json
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 716): INFO AMP_ENABLE: true
+AMP_OPT_LEVEL: ''
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.0
+  CUTMIX: 0
+  CUTMIX_MINMAX: null
+  MIXUP: 0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ../benchmark_common.yaml
+DATA:
+  BATCH_SIZE: 32
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: C:\Users\blais\Downloads\caulieval\Cauliflower_split
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  MASK_PATCH_SIZE: 32
+  MASK_RATIO: 0.6
+  NUM_WORKERS: 2
+  OVERSAMPLE: true
+  OVERSAMPLE_REPLACEMENT: true
+  PERSISTENT_WORKERS: false
+  PIN_MEMORY: true
+  ZIP_MODE: false
+ENABLE_AMP: false
+EVAL_MODE: false
+EXPERIMENT:
+  DRIVE_ROOT: /content/drive/MyDrive/DAMamba_Experiments
+  ENABLE_DRIVE: true
+  LOCAL_ROOT: ./experiments
+FUSED_LAYERNORM: false
+MODEL:
+  DAMAMBA:
+    DEPTHS:
+    - 2
+    - 2
+    - 6
+    - 2
+    EMBED_DIM:
+    - 64
+    - 128
+    - 256
+    - 512
+    HEAD_DIM: 16
+    IMAGE_SIZE: 224
+    IN_CHANS: 3
+    LAYERSCALE:
+    - false
+    - false
+    - false
+    - false
+    MLP_RATIO:
+    - 4
+    - 4
+    - 4
+    - 4
+  DDP: torch
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.2
+  FREEZE_BACKBONE: false
+  FREEZE_STAGES: -1
+  HYBRID:
+    ENABLE: false
+  LABEL_SMOOTHING: 0.1
+  MMCKPT: false
+  NAME: efficientnet_b1
+  NUM_CLASSES: 5
+  PRETRAINED: ''
+  RESUME: ''
+  TYPE: efficientnet_b1
+  VMAMBA:
+    DEPTHS:
+    - 2
+    - 2
+    - 9
+    - 2
+    D_STATE: 1
+    EMBED_DIM:
+    - 96
+    - 192
+    - 384
+    - 768
+    MLP_RATIO: 4.0
+NO_SUBDIR: true
+OUTPUT: output/benchmark/EfficientNetB1
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: '20260815211813'
+TEST:
+  CROP: false
+  SEQUENTIAL: false
+  SHUFFLE: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 2
+  AUTO_RESUME: true
+  BASE_LR: 3.125e-05
+  CLIP_GRAD: 5.0
+  EPOCHS: 50
+  LAYER_DECAY: 0.9
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 20
+    DECAY_RATE: 0.1
+    GAMMA: 0.1
+    MULTISTEPS: []
+    NAME: cosine
+    WARMUP_PREFIX: true
+  MESA: -1.0
+  MIN_LR: 3.125e-07
+  MOE:
+    SAVE_MASTER: false
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: adamw
+  PATIENCE: 10
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 2
+  WARMUP_LR: 3.125e-06
+  WEIGHT_DECAY: 0.05
+TRAINCOST_MODE: false
+
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 717): INFO {"cfg": ".\\classification\\configs\\models\\efficientnet_b1.yaml", "opts": null, "batch_size": null, "data_path": "C:\\Users\\blais\\Downloads\\caulieval\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": "output/benchmark/EfficientNetB1", "tag": "20260815211813", "eval": false, "throughput": false, "oversample": false, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "no_subdir": true, "mute_repeat": false}
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 153): INFO Creating model:efficientnet_b1/efficientnet_b1
+[2026-08-15 21:18:13 efficientnet_b1] (optimizer.py 18): INFO ==============> building optimizer adamw....................
+[2026-08-15 21:18:13 efficientnet_b1] (optimizer.py 27): INFO No weight decay list: ['model.features.0.1.weight', 'model.features.0.1.bias', 'model.features.1.0.block.0.1.weight', 'model.features.1.0.block.0.1.bias', 'model.features.1.0.block.1.fc1.bias', 'model.features.1.0.block.1.fc2.bias', 'model.features.1.0.block.2.1.weight', 'model.features.1.0.block.2.1.bias', 'model.features.1.1.block.0.1.weight', 'model.features.1.1.block.0.1.bias', 'model.features.1.1.block.1.fc1.bias', 'model.features.1.1.block.1.fc2.bias', 'model.features.1.1.block.2.1.weight', 'model.features.1.1.block.2.1.bias', 'model.features.2.0.block.0.1.weight', 'model.features.2.0.block.0.1.bias', 'model.features.2.0.block.1.1.weight', 'model.features.2.0.block.1.1.bias', 'model.features.2.0.block.2.fc1.bias', 'model.features.2.0.block.2.fc2.bias', 'model.features.2.0.block.3.1.weight', 'model.features.2.0.block.3.1.bias', 'model.features.2.1.block.0.1.weight', 'model.features.2.1.block.0.1.bias', 'model.features.2.1.block.1.1.weight', 'model.features.2.1.block.1.1.bias', 'model.features.2.1.block.2.fc1.bias', 'model.features.2.1.block.2.fc2.bias', 'model.features.2.1.block.3.1.weight', 'model.features.2.1.block.3.1.bias', 'model.features.2.2.block.0.1.weight', 'model.features.2.2.block.0.1.bias', 'model.features.2.2.block.1.1.weight', 'model.features.2.2.block.1.1.bias', 'model.features.2.2.block.2.fc1.bias', 'model.features.2.2.block.2.fc2.bias', 'model.features.2.2.block.3.1.weight', 'model.features.2.2.block.3.1.bias', 'model.features.3.0.block.0.1.weight', 'model.features.3.0.block.0.1.bias', 'model.features.3.0.block.1.1.weight', 'model.features.3.0.block.1.1.bias', 'model.features.3.0.block.2.fc1.bias', 'model.features.3.0.block.2.fc2.bias', 'model.features.3.0.block.3.1.weight', 'model.features.3.0.block.3.1.bias', 'model.features.3.1.block.0.1.weight', 'model.features.3.1.block.0.1.bias', 'model.features.3.1.block.1.1.weight', 'model.features.3.1.block.1.1.bias', 'model.features.3.1.block.2.fc1.bias', 'model.features.3.1.block.2.fc2.bias', 'model.features.3.1.block.3.1.weight', 'model.features.3.1.block.3.1.bias', 'model.features.3.2.block.0.1.weight', 'model.features.3.2.block.0.1.bias', 'model.features.3.2.block.1.1.weight', 'model.features.3.2.block.1.1.bias', 'model.features.3.2.block.2.fc1.bias', 'model.features.3.2.block.2.fc2.bias', 'model.features.3.2.block.3.1.weight', 'model.features.3.2.block.3.1.bias', 'model.features.4.0.block.0.1.weight', 'model.features.4.0.block.0.1.bias', 'model.features.4.0.block.1.1.weight', 'model.features.4.0.block.1.1.bias', 'model.features.4.0.block.2.fc1.bias', 'model.features.4.0.block.2.fc2.bias', 'model.features.4.0.block.3.1.weight', 'model.features.4.0.block.3.1.bias', 'model.features.4.1.block.0.1.weight', 'model.features.4.1.block.0.1.bias', 'model.features.4.1.block.1.1.weight', 'model.features.4.1.block.1.1.bias', 'model.features.4.1.block.2.fc1.bias', 'model.features.4.1.block.2.fc2.bias', 'model.features.4.1.block.3.1.weight', 'model.features.4.1.block.3.1.bias', 'model.features.4.2.block.0.1.weight', 'model.features.4.2.block.0.1.bias', 'model.features.4.2.block.1.1.weight', 'model.features.4.2.block.1.1.bias', 'model.features.4.2.block.2.fc1.bias', 'model.features.4.2.block.2.fc2.bias', 'model.features.4.2.block.3.1.weight', 'model.features.4.2.block.3.1.bias', 'model.features.4.3.block.0.1.weight', 'model.features.4.3.block.0.1.bias', 'model.features.4.3.block.1.1.weight', 'model.features.4.3.block.1.1.bias', 'model.features.4.3.block.2.fc1.bias', 'model.features.4.3.block.2.fc2.bias', 'model.features.4.3.block.3.1.weight', 'model.features.4.3.block.3.1.bias', 'model.features.5.0.block.0.1.weight', 'model.features.5.0.block.0.1.bias', 'model.features.5.0.block.1.1.weight', 'model.features.5.0.block.1.1.bias', 'model.features.5.0.block.2.fc1.bias', 'model.features.5.0.block.2.fc2.bias', 'model.features.5.0.block.3.1.weight', 'model.features.5.0.block.3.1.bias', 'model.features.5.1.block.0.1.weight', 'model.features.5.1.block.0.1.bias', 'model.features.5.1.block.1.1.weight', 'model.features.5.1.block.1.1.bias', 'model.features.5.1.block.2.fc1.bias', 'model.features.5.1.block.2.fc2.bias', 'model.features.5.1.block.3.1.weight', 'model.features.5.1.block.3.1.bias', 'model.features.5.2.block.0.1.weight', 'model.features.5.2.block.0.1.bias', 'model.features.5.2.block.1.1.weight', 'model.features.5.2.block.1.1.bias', 'model.features.5.2.block.2.fc1.bias', 'model.features.5.2.block.2.fc2.bias', 'model.features.5.2.block.3.1.weight', 'model.features.5.2.block.3.1.bias', 'model.features.5.3.block.0.1.weight', 'model.features.5.3.block.0.1.bias', 'model.features.5.3.block.1.1.weight', 'model.features.5.3.block.1.1.bias', 'model.features.5.3.block.2.fc1.bias', 'model.features.5.3.block.2.fc2.bias', 'model.features.5.3.block.3.1.weight', 'model.features.5.3.block.3.1.bias', 'model.features.6.0.block.0.1.weight', 'model.features.6.0.block.0.1.bias', 'model.features.6.0.block.1.1.weight', 'model.features.6.0.block.1.1.bias', 'model.features.6.0.block.2.fc1.bias', 'model.features.6.0.block.2.fc2.bias', 'model.features.6.0.block.3.1.weight', 'model.features.6.0.block.3.1.bias', 'model.features.6.1.block.0.1.weight', 'model.features.6.1.block.0.1.bias', 'model.features.6.1.block.1.1.weight', 'model.features.6.1.block.1.1.bias', 'model.features.6.1.block.2.fc1.bias', 'model.features.6.1.block.2.fc2.bias', 'model.features.6.1.block.3.1.weight', 'model.features.6.1.block.3.1.bias', 'model.features.6.2.block.0.1.weight', 'model.features.6.2.block.0.1.bias', 'model.features.6.2.block.1.1.weight', 'model.features.6.2.block.1.1.bias', 'model.features.6.2.block.2.fc1.bias', 'model.features.6.2.block.2.fc2.bias', 'model.features.6.2.block.3.1.weight', 'model.features.6.2.block.3.1.bias', 'model.features.6.3.block.0.1.weight', 'model.features.6.3.block.0.1.bias', 'model.features.6.3.block.1.1.weight', 'model.features.6.3.block.1.1.bias', 'model.features.6.3.block.2.fc1.bias', 'model.features.6.3.block.2.fc2.bias', 'model.features.6.3.block.3.1.weight', 'model.features.6.3.block.3.1.bias', 'model.features.6.4.block.0.1.weight', 'model.features.6.4.block.0.1.bias', 'model.features.6.4.block.1.1.weight', 'model.features.6.4.block.1.1.bias', 'model.features.6.4.block.2.fc1.bias', 'model.features.6.4.block.2.fc2.bias', 'model.features.6.4.block.3.1.weight', 'model.features.6.4.block.3.1.bias', 'model.features.7.0.block.0.1.weight', 'model.features.7.0.block.0.1.bias', 'model.features.7.0.block.1.1.weight', 'model.features.7.0.block.1.1.bias', 'model.features.7.0.block.2.fc1.bias', 'model.features.7.0.block.2.fc2.bias', 'model.features.7.0.block.3.1.weight', 'model.features.7.0.block.3.1.bias', 'model.features.7.1.block.0.1.weight', 'model.features.7.1.block.0.1.bias', 'model.features.7.1.block.1.1.weight', 'model.features.7.1.block.1.1.bias', 'model.features.7.1.block.2.fc1.bias', 'model.features.7.1.block.2.fc2.bias', 'model.features.7.1.block.3.1.weight', 'model.features.7.1.block.3.1.bias', 'model.features.8.1.weight', 'model.features.8.1.bias', 'model.classifier.1.bias']
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 238): INFO no checkpoint found in output/benchmark/EfficientNetB1, ignoring auto resume
+[2026-08-15 21:18:13 efficientnet_b1] (main.py 338): INFO Start training
+[2026-08-15 21:18:33 efficientnet_b1] (main.py 545): INFO Train: [0/50][0/56]	eta 0:18:27 lr 3.13e-06	 wd 0.0500	time 19.7760 (19.7760)	data time 14.6147 (14.6147)	model time 0.0000 (0.0000)	loss 0.8145 (0.8145)	grad_norm 0.0000 (0.0000)	loss_scale 65536.0000 (65536.0000)	mem 2318MB
+[2026-08-15 21:18:42 efficientnet_b1] (main.py 545): INFO Train: [0/50][10/56]	eta 0:02:00 lr 5.13e-06	 wd 0.0500	time 0.4515 (2.6227)	data time 0.3723 (2.0493)	model time 0.0000 (0.0000)	loss 0.8037 (0.8088)	grad_norm 1.2100 (nan)	loss_scale 32768.0000 (35746.9091)	mem 2124MB
+[2026-08-15 21:18:56 efficientnet_b1] (main.py 545): INFO Train: [0/50][20/56]	eta 0:01:12 lr 7.65e-06	 wd 0.0500	time 0.2283 (2.0211)	data time 0.0793 (1.6382)	model time 0.0000 (0.0000)	loss 0.8013 (0.8064)	grad_norm 1.1502 (nan)	loss_scale 32768.0000 (34328.3810)	mem 2124MB
+[2026-08-15 21:19:10 efficientnet_b1] (main.py 545): INFO Train: [0/50][30/56]	eta 0:00:47 lr 1.02e-05	 wd 0.0500	time 1.0512 (1.8194)	data time 0.9108 (1.5115)	model time 0.0000 (0.0000)	loss 0.8105 (0.8063)	grad_norm 1.2044 (nan)	loss_scale 32768.0000 (33825.0323)	mem 2124MB
+[2026-08-15 21:19:23 efficientnet_b1] (main.py 545): INFO Train: [0/50][40/56]	eta 0:00:27 lr 1.27e-05	 wd 0.0500	time 0.5001 (1.6943)	data time 0.3520 (1.4207)	model time 0.0000 (0.0000)	loss 0.7886 (0.8066)	grad_norm 0.9492 (nan)	loss_scale 32768.0000 (33567.2195)	mem 2124MB
+[2026-08-15 21:19:37 efficientnet_b1] (main.py 545): INFO Train: [0/50][50/56]	eta 0:00:09 lr 1.52e-05	 wd 0.0500	time 0.8361 (1.6350)	data time 0.6925 (1.3811)	model time 0.0000 (0.0000)	loss 0.8130 (0.8048)	grad_norm 1.0989 (nan)	loss_scale 32768.0000 (33410.5098)	mem 2124MB
+[2026-08-15 21:19:45 efficientnet_b1] (main.py 556): INFO EPOCH 0 training takes 0:01:31
+[2026-08-15 21:19:45 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:19:45 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:20:00 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.646 (14.646)	Loss 1.5566 (1.5566)	Acc@1 31.250 (31.250)	Acc@5 100.000 (100.000)	Mem 2141MB
+[2026-08-15 21:20:07 efficientnet_b1] (main.py 617): INFO  * Acc@1 29.630 Acc@5 100.000
+[2026-08-15 21:20:07 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 29.6%
+[2026-08-15 21:20:07 efficientnet_b1] (main.py 376): INFO New max accuracy: 29.63%
+[2026-08-15 21:20:07 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:20:07 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:20:20 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.207 (13.207)	Loss 1.5684 (1.5684)	Acc@1 28.125 (28.125)	Acc@5 100.000 (100.000)	Mem 2141MB
+[2026-08-15 21:20:25 efficientnet_b1] (main.py 617): INFO  * Acc@1 25.926 Acc@5 100.000
+[2026-08-15 21:20:25 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 25.9%
+[2026-08-15 21:20:25 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 25.93%
+[2026-08-15 21:20:25 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:20:25 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:20:39 efficientnet_b1] (main.py 545): INFO Train: [1/50][0/56]	eta 0:13:06 lr 1.67e-05	 wd 0.0500	time 14.0532 (14.0532)	data time 13.7152 (13.7152)	model time 0.0000 (0.0000)	loss 0.7749 (0.7749)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2122MB
+[2026-08-15 21:20:53 efficientnet_b1] (main.py 545): INFO Train: [1/50][10/56]	eta 0:01:54 lr 1.92e-05	 wd 0.0500	time 2.0331 (2.4802)	data time 1.8805 (2.3139)	model time 0.0000 (0.0000)	loss 0.7886 (0.7936)	grad_norm 0.7879 (1.0410)	loss_scale 32768.0000 (32768.0000)	mem 2124MB
+[2026-08-15 21:21:06 efficientnet_b1] (main.py 545): INFO Train: [1/50][20/56]	eta 0:01:08 lr 2.17e-05	 wd 0.0500	time 1.1330 (1.9158)	data time 1.0253 (1.7706)	model time 0.0000 (0.0000)	loss 0.7817 (0.7925)	grad_norm 1.4054 (1.0727)	loss_scale 32768.0000 (32768.0000)	mem 2124MB
+[2026-08-15 21:21:20 efficientnet_b1] (main.py 545): INFO Train: [1/50][30/56]	eta 0:00:45 lr 2.42e-05	 wd 0.0500	time 2.7691 (1.7646)	data time 2.4540 (1.6234)	model time 0.0000 (0.0000)	loss 0.7764 (0.7902)	grad_norm inf (inf)	loss_scale 16384.0000 (31710.9677)	mem 2124MB
+[2026-08-15 21:21:33 efficientnet_b1] (main.py 545): INFO Train: [1/50][40/56]	eta 0:00:26 lr 2.67e-05	 wd 0.0500	time 1.6072 (1.6461)	data time 1.4549 (1.4960)	model time 0.0000 (0.0000)	loss 0.7729 (0.7896)	grad_norm 0.7646 (inf)	loss_scale 16384.0000 (27972.6829)	mem 2124MB
+[2026-08-15 21:21:47 efficientnet_b1] (main.py 545): INFO Train: [1/50][50/56]	eta 0:00:09 lr 2.92e-05	 wd 0.0500	time 1.5493 (1.5930)	data time 1.3911 (1.4441)	model time 0.0000 (0.0000)	loss 0.7705 (0.7879)	grad_norm 1.0188 (inf)	loss_scale 16384.0000 (25700.3922)	mem 2124MB
+[2026-08-15 21:21:54 efficientnet_b1] (main.py 556): INFO EPOCH 1 training takes 0:01:28
+[2026-08-15 21:21:54 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:21:55 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:22:09 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.557 (14.557)	Loss 1.4688 (1.4688)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:22:14 efficientnet_b1] (main.py 617): INFO  * Acc@1 47.407 Acc@5 100.000
+[2026-08-15 21:22:14 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 47.4%
+[2026-08-15 21:22:14 efficientnet_b1] (main.py 376): INFO New max accuracy: 47.41%
+[2026-08-15 21:22:14 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:22:15 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:22:28 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 12.866 (12.866)	Loss 1.5078 (1.5078)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:22:32 efficientnet_b1] (main.py 617): INFO  * Acc@1 43.704 Acc@5 100.000
+[2026-08-15 21:22:32 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 43.7%
+[2026-08-15 21:22:32 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 43.70%
+[2026-08-15 21:22:32 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:22:33 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:22:47 efficientnet_b1] (main.py 545): INFO Train: [2/50][0/56]	eta 0:13:13 lr 3.07e-05	 wd 0.0500	time 14.1613 (14.1613)	data time 13.8511 (13.8511)	model time 0.0000 (0.0000)	loss 0.7646 (0.7646)	grad_norm 0.0000 (0.0000)	loss_scale 16384.0000 (16384.0000)	mem 2124MB
+[2026-08-15 21:23:01 efficientnet_b1] (main.py 545): INFO Train: [2/50][10/56]	eta 0:01:57 lr 3.12e-05	 wd 0.0500	time 2.5452 (2.5496)	data time 2.3105 (2.3591)	model time 0.0000 (0.0000)	loss 0.7612 (0.7644)	grad_norm 11.4182 (3.1773)	loss_scale 16384.0000 (16384.0000)	mem 2124MB
+[2026-08-15 21:23:13 efficientnet_b1] (main.py 545): INFO Train: [2/50][20/56]	eta 0:01:09 lr 3.12e-05	 wd 0.0500	time 2.0630 (1.9225)	data time 1.8902 (1.7432)	model time 0.0000 (0.0000)	loss 0.7754 (0.7646)	grad_norm 0.9916 (nan)	loss_scale 8192.0000 (14823.6190)	mem 2124MB
+[2026-08-15 21:23:26 efficientnet_b1] (main.py 545): INFO Train: [2/50][30/56]	eta 0:00:45 lr 3.12e-05	 wd 0.0500	time 1.5430 (1.7362)	data time 1.3377 (1.5619)	model time 0.0000 (0.0000)	loss 0.7261 (0.7607)	grad_norm 1.2369 (nan)	loss_scale 8192.0000 (12684.3871)	mem 2124MB
+[2026-08-15 21:23:40 efficientnet_b1] (main.py 545): INFO Train: [2/50][40/56]	eta 0:00:26 lr 3.12e-05	 wd 0.0500	time 2.1855 (1.6359)	data time 1.9633 (1.4702)	model time 0.0000 (0.0000)	loss 0.7686 (0.7582)	grad_norm 1.8473 (nan)	loss_scale 8192.0000 (11588.6829)	mem 2124MB
+[2026-08-15 21:23:54 efficientnet_b1] (main.py 545): INFO Train: [2/50][50/56]	eta 0:00:09 lr 3.12e-05	 wd 0.0500	time 2.2185 (1.5955)	data time 2.0105 (1.4289)	model time 0.0000 (0.0000)	loss 0.7368 (0.7538)	grad_norm 1.1652 (nan)	loss_scale 8192.0000 (10922.6667)	mem 2124MB
+[2026-08-15 21:24:01 efficientnet_b1] (main.py 556): INFO EPOCH 2 training takes 0:01:28
+[2026-08-15 21:24:01 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:24:01 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:24:16 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.489 (14.489)	Loss 1.2979 (1.2979)	Acc@1 78.125 (78.125)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:24:21 efficientnet_b1] (main.py 617): INFO  * Acc@1 54.074 Acc@5 100.000
+[2026-08-15 21:24:21 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 54.1%
+[2026-08-15 21:24:21 efficientnet_b1] (main.py 376): INFO New max accuracy: 54.07%
+[2026-08-15 21:24:21 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:24:21 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:24:34 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.102 (13.102)	Loss 1.3926 (1.3926)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:24:40 efficientnet_b1] (main.py 617): INFO  * Acc@1 50.370 Acc@5 100.000
+[2026-08-15 21:24:40 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 50.4%
+[2026-08-15 21:24:40 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 50.37%
+[2026-08-15 21:24:40 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:24:40 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:24:54 efficientnet_b1] (main.py 545): INFO Train: [3/50][0/56]	eta 0:12:51 lr 3.12e-05	 wd 0.0500	time 13.7743 (13.7743)	data time 13.3307 (13.3307)	model time 0.0000 (0.0000)	loss 0.7549 (0.7549)	grad_norm 0.0000 (0.0000)	loss_scale 8192.0000 (8192.0000)	mem 2124MB
+[2026-08-15 21:25:07 efficientnet_b1] (main.py 545): INFO Train: [3/50][10/56]	eta 0:01:53 lr 3.12e-05	 wd 0.0500	time 2.1898 (2.4628)	data time 1.9828 (2.2595)	model time 0.0000 (0.0000)	loss 0.7285 (0.7345)	grad_norm 1.4122 (1.4386)	loss_scale 8192.0000 (8192.0000)	mem 2124MB
+[2026-08-15 21:25:20 efficientnet_b1] (main.py 545): INFO Train: [3/50][20/56]	eta 0:01:08 lr 3.12e-05	 wd 0.0500	time 0.6034 (1.8932)	data time 0.5225 (1.7337)	model time 0.0000 (0.0000)	loss 0.7163 (0.7267)	grad_norm 1.1758 (1.3417)	loss_scale 8192.0000 (8192.0000)	mem 2124MB
+[2026-08-15 21:25:33 efficientnet_b1] (main.py 545): INFO Train: [3/50][30/56]	eta 0:00:44 lr 3.12e-05	 wd 0.0500	time 0.2053 (1.7058)	data time 0.0731 (1.5481)	model time 0.0000 (0.0000)	loss 0.7012 (0.7239)	grad_norm 1.2525 (1.3098)	loss_scale 8192.0000 (8192.0000)	mem 2124MB
+[2026-08-15 21:25:47 efficientnet_b1] (main.py 545): INFO Train: [3/50][40/56]	eta 0:00:26 lr 3.12e-05	 wd 0.0500	time 0.1426 (1.6297)	data time 0.0020 (1.4662)	model time 0.0000 (0.0000)	loss 0.7056 (0.7179)	grad_norm 1.3182 (1.2894)	loss_scale 8192.0000 (8192.0000)	mem 2124MB
+[2026-08-15 21:26:01 efficientnet_b1] (main.py 545): INFO Train: [3/50][50/56]	eta 0:00:09 lr 3.11e-05	 wd 0.0500	time 0.1473 (1.5816)	data time 0.0000 (1.4132)	model time 0.0000 (0.0000)	loss 0.7217 (0.7156)	grad_norm 1.3702 (nan)	loss_scale 4096.0000 (7388.8627)	mem 2124MB
+[2026-08-15 21:26:09 efficientnet_b1] (main.py 556): INFO EPOCH 3 training takes 0:01:29
+[2026-08-15 21:26:09 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:26:09 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:26:24 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.506 (14.506)	Loss 1.1260 (1.1260)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:26:29 efficientnet_b1] (main.py 617): INFO  * Acc@1 57.037 Acc@5 100.000
+[2026-08-15 21:26:29 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 57.0%
+[2026-08-15 21:26:29 efficientnet_b1] (main.py 376): INFO New max accuracy: 57.04%
+[2026-08-15 21:26:29 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:26:29 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:26:43 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.157 (13.157)	Loss 1.2656 (1.2656)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:26:48 efficientnet_b1] (main.py 617): INFO  * Acc@1 51.852 Acc@5 100.000
+[2026-08-15 21:26:48 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 51.9%
+[2026-08-15 21:26:48 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 51.85%
+[2026-08-15 21:26:48 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:26:48 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:27:02 efficientnet_b1] (main.py 545): INFO Train: [4/50][0/56]	eta 0:13:12 lr 3.11e-05	 wd 0.0500	time 14.1432 (14.1432)	data time 13.8655 (13.8655)	model time 0.0000 (0.0000)	loss 0.7095 (0.7095)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:27:15 efficientnet_b1] (main.py 545): INFO Train: [4/50][10/56]	eta 0:01:53 lr 3.11e-05	 wd 0.0500	time 1.9459 (2.4739)	data time 1.7564 (2.3026)	model time 0.0000 (0.0000)	loss 0.7197 (0.6860)	grad_norm 1.2612 (1.2780)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:27:29 efficientnet_b1] (main.py 545): INFO Train: [4/50][20/56]	eta 0:01:10 lr 3.11e-05	 wd 0.0500	time 2.6592 (1.9610)	data time 2.4055 (1.7930)	model time 0.0000 (0.0000)	loss 0.6436 (0.6806)	grad_norm 4.2249 (1.5820)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:27:43 efficientnet_b1] (main.py 545): INFO Train: [4/50][30/56]	eta 0:00:45 lr 3.10e-05	 wd 0.0500	time 2.2717 (1.7595)	data time 2.0754 (1.5900)	model time 0.0000 (0.0000)	loss 0.6357 (0.6742)	grad_norm 1.4985 (1.9577)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:27:55 efficientnet_b1] (main.py 545): INFO Train: [4/50][40/56]	eta 0:00:26 lr 3.10e-05	 wd 0.0500	time 1.0806 (1.6293)	data time 0.9863 (1.4679)	model time 0.0000 (0.0000)	loss 0.6772 (0.6707)	grad_norm 1.5082 (1.8056)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:28:09 efficientnet_b1] (main.py 545): INFO Train: [4/50][50/56]	eta 0:00:09 lr 3.10e-05	 wd 0.0500	time 2.5347 (1.5935)	data time 2.3173 (1.4345)	model time 0.0000 (0.0000)	loss 0.6118 (0.6652)	grad_norm 1.5333 (1.7579)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:28:16 efficientnet_b1] (main.py 556): INFO EPOCH 4 training takes 0:01:28
+[2026-08-15 21:28:16 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:28:16 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:28:31 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.597 (14.597)	Loss 0.9150 (0.9150)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:28:36 efficientnet_b1] (main.py 617): INFO  * Acc@1 65.185 Acc@5 100.000
+[2026-08-15 21:28:36 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 65.2%
+[2026-08-15 21:28:36 efficientnet_b1] (main.py 376): INFO New max accuracy: 65.19%
+[2026-08-15 21:28:36 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:28:36 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:28:49 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.073 (13.073)	Loss 1.0879 (1.0879)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:28:55 efficientnet_b1] (main.py 617): INFO  * Acc@1 61.481 Acc@5 100.000
+[2026-08-15 21:28:55 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 61.5%
+[2026-08-15 21:28:55 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 61.48%
+[2026-08-15 21:28:55 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:28:55 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:29:09 efficientnet_b1] (main.py 545): INFO Train: [5/50][0/56]	eta 0:13:11 lr 3.10e-05	 wd 0.0500	time 14.1394 (14.1394)	data time 13.6790 (13.6790)	model time 0.0000 (0.0000)	loss 0.6035 (0.6035)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:29:23 efficientnet_b1] (main.py 545): INFO Train: [5/50][10/56]	eta 0:01:57 lr 3.09e-05	 wd 0.0500	time 3.0894 (2.5593)	data time 2.8528 (2.3771)	model time 0.0000 (0.0000)	loss 0.5874 (0.6299)	grad_norm 1.5158 (1.4251)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:29:37 efficientnet_b1] (main.py 545): INFO Train: [5/50][20/56]	eta 0:01:11 lr 3.09e-05	 wd 0.0500	time 2.3130 (1.9836)	data time 2.0818 (1.8038)	model time 0.0000 (0.0000)	loss 0.5835 (0.6248)	grad_norm 1.3649 (1.3831)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:29:49 efficientnet_b1] (main.py 545): INFO Train: [5/50][30/56]	eta 0:00:45 lr 3.08e-05	 wd 0.0500	time 1.4757 (1.7520)	data time 1.3336 (1.5794)	model time 0.0000 (0.0000)	loss 0.6079 (0.6181)	grad_norm 1.3540 (1.3487)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:30:03 efficientnet_b1] (main.py 545): INFO Train: [5/50][40/56]	eta 0:00:26 lr 3.08e-05	 wd 0.0500	time 0.1512 (1.6455)	data time 0.0000 (1.4813)	model time 0.0000 (0.0000)	loss 0.6182 (0.6132)	grad_norm 1.3569 (1.4282)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:30:16 efficientnet_b1] (main.py 545): INFO Train: [5/50][50/56]	eta 0:00:09 lr 3.08e-05	 wd 0.0500	time 0.0918 (1.5753)	data time 0.0000 (1.4108)	model time 0.0000 (0.0000)	loss 0.6382 (0.6127)	grad_norm 1.2121 (1.4129)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:30:25 efficientnet_b1] (main.py 556): INFO EPOCH 5 training takes 0:01:29
+[2026-08-15 21:30:25 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:30:25 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:30:40 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.807 (14.807)	Loss 0.7720 (0.7720)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:30:45 efficientnet_b1] (main.py 617): INFO  * Acc@1 71.111 Acc@5 100.000
+[2026-08-15 21:30:45 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 71.1%
+[2026-08-15 21:30:45 efficientnet_b1] (main.py 376): INFO New max accuracy: 71.11%
+[2026-08-15 21:30:45 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:30:45 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:30:59 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.351 (13.351)	Loss 0.9258 (0.9258)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:31:04 efficientnet_b1] (main.py 617): INFO  * Acc@1 65.185 Acc@5 100.000
+[2026-08-15 21:31:04 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 65.2%
+[2026-08-15 21:31:04 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 65.19%
+[2026-08-15 21:31:04 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:31:04 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:31:18 efficientnet_b1] (main.py 545): INFO Train: [6/50][0/56]	eta 0:12:50 lr 3.07e-05	 wd 0.0500	time 13.7594 (13.7594)	data time 13.4418 (13.4418)	model time 0.0000 (0.0000)	loss 0.5723 (0.5723)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:31:30 efficientnet_b1] (main.py 545): INFO Train: [6/50][10/56]	eta 0:01:48 lr 3.07e-05	 wd 0.0500	time 0.6610 (2.3555)	data time 0.5491 (2.2080)	model time 0.0000 (0.0000)	loss 0.5488 (0.5799)	grad_norm 1.8441 (1.4414)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:31:45 efficientnet_b1] (main.py 545): INFO Train: [6/50][20/56]	eta 0:01:10 lr 3.06e-05	 wd 0.0500	time 2.6359 (1.9449)	data time 2.3235 (1.7881)	model time 0.0000 (0.0000)	loss 0.5073 (0.5787)	grad_norm 1.4912 (1.4121)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:31:58 efficientnet_b1] (main.py 545): INFO Train: [6/50][30/56]	eta 0:00:45 lr 3.06e-05	 wd 0.0500	time 2.3192 (1.7358)	data time 2.1031 (1.5734)	model time 0.0000 (0.0000)	loss 0.6191 (0.5852)	grad_norm 1.4802 (1.4040)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:32:11 efficientnet_b1] (main.py 545): INFO Train: [6/50][40/56]	eta 0:00:26 lr 3.05e-05	 wd 0.0500	time 2.2065 (1.6314)	data time 2.0142 (1.4654)	model time 0.0000 (0.0000)	loss 0.5234 (0.5787)	grad_norm 1.5116 (1.6869)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:32:26 efficientnet_b1] (main.py 545): INFO Train: [6/50][50/56]	eta 0:00:09 lr 3.05e-05	 wd 0.0500	time 2.8656 (1.5990)	data time 2.6296 (1.4297)	model time 0.0000 (0.0000)	loss 0.5498 (0.5727)	grad_norm 2.0945 (1.6646)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:32:32 efficientnet_b1] (main.py 556): INFO EPOCH 6 training takes 0:01:28
+[2026-08-15 21:32:32 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:32:32 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:32:47 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.385 (14.385)	Loss 0.6855 (0.6855)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:32:52 efficientnet_b1] (main.py 617): INFO  * Acc@1 71.111 Acc@5 100.000
+[2026-08-15 21:32:52 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 71.1%
+[2026-08-15 21:32:52 efficientnet_b1] (main.py 376): INFO New max accuracy: 71.11%
+[2026-08-15 21:32:52 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:32:52 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:33:05 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 12.941 (12.941)	Loss 0.8018 (0.8018)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:33:10 efficientnet_b1] (main.py 617): INFO  * Acc@1 71.111 Acc@5 100.000
+[2026-08-15 21:33:10 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 71.1%
+[2026-08-15 21:33:10 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 71.11%
+[2026-08-15 21:33:10 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:33:11 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:33:24 efficientnet_b1] (main.py 545): INFO Train: [7/50][0/56]	eta 0:12:40 lr 3.04e-05	 wd 0.0500	time 13.5772 (13.5772)	data time 13.2771 (13.2771)	model time 0.0000 (0.0000)	loss 0.5283 (0.5283)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:33:37 efficientnet_b1] (main.py 545): INFO Train: [7/50][10/56]	eta 0:01:49 lr 3.04e-05	 wd 0.0500	time 0.9921 (2.3710)	data time 0.8529 (2.2056)	model time 0.0000 (0.0000)	loss 0.5967 (0.5705)	grad_norm 1.5028 (1.4464)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:33:50 efficientnet_b1] (main.py 545): INFO Train: [7/50][20/56]	eta 0:01:07 lr 3.03e-05	 wd 0.0500	time 1.0648 (1.8721)	data time 0.9791 (1.7213)	model time 0.0000 (0.0000)	loss 0.5186 (0.5498)	grad_norm 1.1314 (1.4161)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:34:03 efficientnet_b1] (main.py 545): INFO Train: [7/50][30/56]	eta 0:00:44 lr 3.03e-05	 wd 0.0500	time 0.1374 (1.6943)	data time 0.0171 (1.5480)	model time 0.0000 (0.0000)	loss 0.5298 (0.5467)	grad_norm 1.2880 (1.3736)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:34:17 efficientnet_b1] (main.py 545): INFO Train: [7/50][40/56]	eta 0:00:25 lr 3.02e-05	 wd 0.0500	time 0.8031 (1.6215)	data time 0.6924 (1.4719)	model time 0.0000 (0.0000)	loss 0.4883 (0.5362)	grad_norm 1.2884 (1.3990)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:34:31 efficientnet_b1] (main.py 545): INFO Train: [7/50][50/56]	eta 0:00:09 lr 3.01e-05	 wd 0.0500	time 0.1443 (1.5691)	data time 0.0570 (1.4133)	model time 0.0000 (0.0000)	loss 0.6064 (0.5305)	grad_norm 1.2058 (1.3566)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:34:39 efficientnet_b1] (main.py 556): INFO EPOCH 7 training takes 0:01:28
+[2026-08-15 21:34:39 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:34:40 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:34:54 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.581 (14.581)	Loss 0.6460 (0.6460)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:34:59 efficientnet_b1] (main.py 617): INFO  * Acc@1 74.074 Acc@5 100.000
+[2026-08-15 21:34:59 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 74.1%
+[2026-08-15 21:34:59 efficientnet_b1] (main.py 376): INFO New max accuracy: 74.07%
+[2026-08-15 21:34:59 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:34:59 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:35:13 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.151 (13.151)	Loss 0.7173 (0.7173)	Acc@1 68.750 (68.750)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:35:18 efficientnet_b1] (main.py 617): INFO  * Acc@1 72.593 Acc@5 100.000
+[2026-08-15 21:35:18 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 72.6%
+[2026-08-15 21:35:18 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 72.59%
+[2026-08-15 21:35:18 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:35:18 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:35:32 efficientnet_b1] (main.py 545): INFO Train: [8/50][0/56]	eta 0:12:58 lr 3.01e-05	 wd 0.0500	time 13.9021 (13.9021)	data time 13.4443 (13.4443)	model time 0.0000 (0.0000)	loss 0.5859 (0.5859)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:35:45 efficientnet_b1] (main.py 545): INFO Train: [8/50][10/56]	eta 0:01:54 lr 3.00e-05	 wd 0.0500	time 2.6043 (2.4931)	data time 2.2882 (2.2910)	model time 0.0000 (0.0000)	loss 0.4602 (0.5139)	grad_norm 1.5058 (1.4659)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:35:58 efficientnet_b1] (main.py 545): INFO Train: [8/50][20/56]	eta 0:01:09 lr 2.99e-05	 wd 0.0500	time 1.7650 (1.9278)	data time 1.6689 (1.7447)	model time 0.0000 (0.0000)	loss 0.5142 (0.5161)	grad_norm 1.6374 (1.5078)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:36:12 efficientnet_b1] (main.py 545): INFO Train: [8/50][30/56]	eta 0:00:45 lr 2.99e-05	 wd 0.0500	time 1.5740 (1.7437)	data time 1.4941 (1.5789)	model time 0.0000 (0.0000)	loss 0.4597 (0.5136)	grad_norm 1.5083 (1.4922)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:36:25 efficientnet_b1] (main.py 545): INFO Train: [8/50][40/56]	eta 0:00:26 lr 2.98e-05	 wd 0.0500	time 2.3436 (1.6445)	data time 2.1259 (1.4782)	model time 0.0000 (0.0000)	loss 0.5747 (0.5087)	grad_norm 1.2650 (1.4650)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:36:39 efficientnet_b1] (main.py 545): INFO Train: [8/50][50/56]	eta 0:00:09 lr 2.97e-05	 wd 0.0500	time 2.5844 (1.5895)	data time 2.3500 (1.4200)	model time 0.0000 (0.0000)	loss 0.4714 (0.5034)	grad_norm 1.3179 (1.4312)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:36:45 efficientnet_b1] (main.py 556): INFO EPOCH 8 training takes 0:01:27
+[2026-08-15 21:36:45 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:36:46 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:37:00 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.720 (14.720)	Loss 0.5942 (0.5942)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:37:06 efficientnet_b1] (main.py 617): INFO  * Acc@1 77.037 Acc@5 100.000
+[2026-08-15 21:37:06 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 77.0%
+[2026-08-15 21:37:06 efficientnet_b1] (main.py 376): INFO New max accuracy: 77.04%
+[2026-08-15 21:37:06 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:37:06 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:37:19 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 12.953 (12.953)	Loss 0.6499 (0.6499)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:37:24 efficientnet_b1] (main.py 617): INFO  * Acc@1 76.296 Acc@5 100.000
+[2026-08-15 21:37:24 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 76.3%
+[2026-08-15 21:37:24 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 76.30%
+[2026-08-15 21:37:24 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:37:24 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:37:38 efficientnet_b1] (main.py 545): INFO Train: [9/50][0/56]	eta 0:12:59 lr 2.97e-05	 wd 0.0500	time 13.9207 (13.9207)	data time 13.5004 (13.5004)	model time 0.0000 (0.0000)	loss 0.4448 (0.4448)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:37:51 efficientnet_b1] (main.py 545): INFO Train: [9/50][10/56]	eta 0:01:53 lr 2.96e-05	 wd 0.0500	time 2.4853 (2.4759)	data time 2.2719 (2.2883)	model time 0.0000 (0.0000)	loss 0.5249 (0.4720)	grad_norm 1.6900 (1.4342)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:38:04 efficientnet_b1] (main.py 545): INFO Train: [9/50][20/56]	eta 0:01:09 lr 2.95e-05	 wd 0.0500	time 2.4740 (1.9245)	data time 2.2035 (1.7534)	model time 0.0000 (0.0000)	loss 0.4141 (0.4784)	grad_norm 1.1999 (1.4185)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:38:18 efficientnet_b1] (main.py 545): INFO Train: [9/50][30/56]	eta 0:00:45 lr 2.94e-05	 wd 0.0500	time 2.6574 (1.7476)	data time 2.4045 (1.5752)	model time 0.0000 (0.0000)	loss 0.4424 (0.4847)	grad_norm 1.1413 (1.4022)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:38:31 efficientnet_b1] (main.py 545): INFO Train: [9/50][40/56]	eta 0:00:26 lr 2.93e-05	 wd 0.0500	time 1.7904 (1.6313)	data time 1.7031 (1.4617)	model time 0.0000 (0.0000)	loss 0.4265 (0.4860)	grad_norm 1.3611 (1.4061)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:38:45 efficientnet_b1] (main.py 545): INFO Train: [9/50][50/56]	eta 0:00:09 lr 2.92e-05	 wd 0.0500	time 2.2239 (1.5847)	data time 2.0504 (1.4183)	model time 0.0000 (0.0000)	loss 0.3953 (0.4852)	grad_norm 1.4200 (1.4223)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:38:52 efficientnet_b1] (main.py 556): INFO EPOCH 9 training takes 0:01:27
+[2026-08-15 21:38:52 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:38:52 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:39:07 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.743 (14.743)	Loss 0.5796 (0.5796)	Acc@1 81.250 (81.250)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:39:12 efficientnet_b1] (main.py 617): INFO  * Acc@1 79.259 Acc@5 100.000
+[2026-08-15 21:39:12 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 79.3%
+[2026-08-15 21:39:12 efficientnet_b1] (main.py 376): INFO New max accuracy: 79.26%
+[2026-08-15 21:39:12 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:39:12 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:39:25 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.190 (13.190)	Loss 0.6255 (0.6255)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:39:30 efficientnet_b1] (main.py 617): INFO  * Acc@1 76.296 Acc@5 100.000
+[2026-08-15 21:39:30 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 76.3%
+[2026-08-15 21:39:44 efficientnet_b1] (main.py 545): INFO Train: [10/50][0/56]	eta 0:12:36 lr 2.92e-05	 wd 0.0500	time 13.5116 (13.5116)	data time 13.1565 (13.1565)	model time 0.0000 (0.0000)	loss 0.4744 (0.4744)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:40:01 efficientnet_b1] (main.py 545): INFO Train: [10/50][10/56]	eta 0:02:08 lr 2.91e-05	 wd 0.0500	time 2.7713 (2.8013)	data time 2.4980 (2.6138)	model time 0.0000 (0.0000)	loss 0.4153 (0.4816)	grad_norm 1.4126 (1.5546)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:40:23 efficientnet_b1] (main.py 545): INFO Train: [10/50][20/56]	eta 0:01:30 lr 2.90e-05	 wd 0.0500	time 1.7643 (2.5072)	data time 1.6726 (2.3029)	model time 0.0000 (0.0000)	loss 0.4890 (0.4751)	grad_norm 1.8205 (1.4845)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:40:41 efficientnet_b1] (main.py 545): INFO Train: [10/50][30/56]	eta 0:00:58 lr 2.89e-05	 wd 0.0500	time 0.7240 (2.2637)	data time 0.6520 (2.0698)	model time 0.0000 (0.0000)	loss 0.4236 (0.4776)	grad_norm 1.4547 (1.5885)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:40:58 efficientnet_b1] (main.py 545): INFO Train: [10/50][40/56]	eta 0:00:34 lr 2.88e-05	 wd 0.0500	time 1.0431 (2.1349)	data time 0.9523 (1.9525)	model time 0.0000 (0.0000)	loss 0.5059 (0.4782)	grad_norm 1.4977 (1.6363)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:41:18 efficientnet_b1] (main.py 545): INFO Train: [10/50][50/56]	eta 0:00:12 lr 2.87e-05	 wd 0.0500	time 3.6760 (2.1141)	data time 3.3858 (1.9257)	model time 0.0000 (0.0000)	loss 0.5103 (0.4800)	grad_norm 1.7961 (1.6249)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:41:26 efficientnet_b1] (main.py 556): INFO EPOCH 10 training takes 0:01:55
+[2026-08-15 21:41:26 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:41:26 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:41:44 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 17.235 (17.235)	Loss 0.5181 (0.5181)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:41:50 efficientnet_b1] (main.py 617): INFO  * Acc@1 82.963 Acc@5 100.000
+[2026-08-15 21:41:50 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 83.0%
+[2026-08-15 21:41:50 efficientnet_b1] (main.py 376): INFO New max accuracy: 82.96%
+[2026-08-15 21:41:50 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:41:50 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:42:06 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.548 (15.548)	Loss 0.5791 (0.5791)	Acc@1 71.875 (71.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:42:13 efficientnet_b1] (main.py 617): INFO  * Acc@1 77.037 Acc@5 100.000
+[2026-08-15 21:42:13 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 77.0%
+[2026-08-15 21:42:13 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 77.04%
+[2026-08-15 21:42:13 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:42:13 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:42:30 efficientnet_b1] (main.py 545): INFO Train: [11/50][0/56]	eta 0:15:18 lr 2.87e-05	 wd 0.0500	time 16.4039 (16.4039)	data time 16.0033 (16.0033)	model time 0.0000 (0.0000)	loss 0.4192 (0.4192)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:42:47 efficientnet_b1] (main.py 545): INFO Train: [11/50][10/56]	eta 0:02:22 lr 2.86e-05	 wd 0.0500	time 3.3444 (3.1074)	data time 3.0873 (2.8834)	model time 0.0000 (0.0000)	loss 0.4192 (0.4546)	grad_norm 1.2637 (3.7471)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:43:05 efficientnet_b1] (main.py 545): INFO Train: [11/50][20/56]	eta 0:01:28 lr 2.85e-05	 wd 0.0500	time 2.3364 (2.4624)	data time 2.1215 (2.2639)	model time 0.0000 (0.0000)	loss 0.5190 (0.4619)	grad_norm 1.2680 (2.6682)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:43:24 efficientnet_b1] (main.py 545): INFO Train: [11/50][30/56]	eta 0:00:59 lr 2.84e-05	 wd 0.0500	time 2.7223 (2.3017)	data time 2.5578 (2.1083)	model time 0.0000 (0.0000)	loss 0.4021 (0.4606)	grad_norm 1.5997 (2.2560)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:43:43 efficientnet_b1] (main.py 545): INFO Train: [11/50][40/56]	eta 0:00:35 lr 2.82e-05	 wd 0.0500	time 2.2762 (2.2010)	data time 2.0354 (2.0081)	model time 0.0000 (0.0000)	loss 0.3938 (0.4607)	grad_norm 1.3178 (2.0741)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:44:03 efficientnet_b1] (main.py 545): INFO Train: [11/50][50/56]	eta 0:00:12 lr 2.81e-05	 wd 0.0500	time 3.7376 (2.1470)	data time 3.4262 (1.9551)	model time 0.0000 (0.0000)	loss 0.4695 (0.4585)	grad_norm 1.4840 (1.9236)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:44:12 efficientnet_b1] (main.py 556): INFO EPOCH 11 training takes 0:01:59
+[2026-08-15 21:44:12 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:44:13 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:44:30 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 17.260 (17.260)	Loss 0.4895 (0.4895)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:44:37 efficientnet_b1] (main.py 617): INFO  * Acc@1 85.185 Acc@5 100.000
+[2026-08-15 21:44:37 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 85.2%
+[2026-08-15 21:44:37 efficientnet_b1] (main.py 376): INFO New max accuracy: 85.19%
+[2026-08-15 21:44:37 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:44:37 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:44:52 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.452 (15.452)	Loss 0.5444 (0.5444)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:44:59 efficientnet_b1] (main.py 617): INFO  * Acc@1 78.519 Acc@5 100.000
+[2026-08-15 21:44:59 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 78.5%
+[2026-08-15 21:44:59 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 78.52%
+[2026-08-15 21:44:59 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:44:59 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:45:16 efficientnet_b1] (main.py 545): INFO Train: [12/50][0/56]	eta 0:15:21 lr 2.81e-05	 wd 0.0500	time 16.4471 (16.4471)	data time 16.0903 (16.0903)	model time 0.0000 (0.0000)	loss 0.4368 (0.4368)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:45:35 efficientnet_b1] (main.py 545): INFO Train: [12/50][10/56]	eta 0:02:27 lr 2.80e-05	 wd 0.0500	time 2.9631 (3.2072)	data time 2.7007 (2.9979)	model time 0.0000 (0.0000)	loss 0.4292 (0.4493)	grad_norm 1.2525 (1.4826)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:45:50 efficientnet_b1] (main.py 545): INFO Train: [12/50][20/56]	eta 0:01:27 lr 2.79e-05	 wd 0.0500	time 2.2918 (2.4210)	data time 2.1003 (2.2254)	model time 0.0000 (0.0000)	loss 0.5830 (0.4644)	grad_norm 1.3858 (1.4743)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:46:10 efficientnet_b1] (main.py 545): INFO Train: [12/50][30/56]	eta 0:00:59 lr 2.77e-05	 wd 0.0500	time 2.3785 (2.2886)	data time 2.0286 (2.0908)	model time 0.0000 (0.0000)	loss 0.3818 (0.4646)	grad_norm 1.3671 (1.4569)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:46:30 efficientnet_b1] (main.py 545): INFO Train: [12/50][40/56]	eta 0:00:35 lr 2.76e-05	 wd 0.0500	time 3.0039 (2.2179)	data time 2.7353 (2.0185)	model time 0.0000 (0.0000)	loss 0.4453 (0.4610)	grad_norm 1.3551 (1.9576)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:46:47 efficientnet_b1] (main.py 545): INFO Train: [12/50][50/56]	eta 0:00:12 lr 2.75e-05	 wd 0.0500	time 1.8152 (2.1199)	data time 1.6850 (1.9274)	model time 0.0000 (0.0000)	loss 0.4377 (0.4581)	grad_norm 2.2106 (1.8878)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:46:59 efficientnet_b1] (main.py 556): INFO EPOCH 12 training takes 0:01:59
+[2026-08-15 21:46:59 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:46:59 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:47:15 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.071 (16.071)	Loss 0.4866 (0.4866)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:47:23 efficientnet_b1] (main.py 617): INFO  * Acc@1 84.444 Acc@5 100.000
+[2026-08-15 21:47:23 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 84.4%
+[2026-08-15 21:47:38 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.425 (15.425)	Loss 0.5342 (0.5342)	Acc@1 78.125 (78.125)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:47:44 efficientnet_b1] (main.py 617): INFO  * Acc@1 80.741 Acc@5 100.000
+[2026-08-15 21:47:44 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 80.7%
+[2026-08-15 21:47:44 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 80.74%
+[2026-08-15 21:47:44 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:47:45 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:48:01 efficientnet_b1] (main.py 545): INFO Train: [13/50][0/56]	eta 0:15:26 lr 2.74e-05	 wd 0.0500	time 16.5498 (16.5498)	data time 16.2247 (16.2247)	model time 0.0000 (0.0000)	loss 0.4553 (0.4553)	grad_norm 0.0000 (0.0000)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:48:18 efficientnet_b1] (main.py 545): INFO Train: [13/50][10/56]	eta 0:02:18 lr 2.73e-05	 wd 0.0500	time 2.9494 (3.0056)	data time 2.6569 (2.7864)	model time 0.0000 (0.0000)	loss 0.4062 (0.4554)	grad_norm 1.6595 (1.3012)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:48:35 efficientnet_b1] (main.py 545): INFO Train: [13/50][20/56]	eta 0:01:26 lr 2.72e-05	 wd 0.0500	time 3.7570 (2.4119)	data time 3.5034 (2.2010)	model time 0.0000 (0.0000)	loss 0.3931 (0.4402)	grad_norm 1.5192 (1.4250)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:48:52 efficientnet_b1] (main.py 545): INFO Train: [13/50][30/56]	eta 0:00:56 lr 2.71e-05	 wd 0.0500	time 3.0427 (2.1701)	data time 2.7048 (1.9604)	model time 0.0000 (0.0000)	loss 0.4797 (0.4427)	grad_norm 1.7316 (1.4069)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:49:09 efficientnet_b1] (main.py 545): INFO Train: [13/50][40/56]	eta 0:00:33 lr 2.69e-05	 wd 0.0500	time 2.7913 (2.0648)	data time 2.5919 (1.8629)	model time 0.0000 (0.0000)	loss 0.4983 (0.4415)	grad_norm 2.4388 (1.4791)	loss_scale 4096.0000 (4096.0000)	mem 2124MB
+[2026-08-15 21:49:30 efficientnet_b1] (main.py 545): INFO Train: [13/50][50/56]	eta 0:00:12 lr 2.68e-05	 wd 0.0500	time 3.3517 (2.0662)	data time 3.0677 (1.8557)	model time 0.0000 (0.0000)	loss 0.3899 (0.4386)	grad_norm 1.7744 (nan)	loss_scale 2048.0000 (3694.4314)	mem 2124MB
+[2026-08-15 21:49:38 efficientnet_b1] (main.py 556): INFO EPOCH 13 training takes 0:01:53
+[2026-08-15 21:49:38 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:49:39 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:49:56 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 17.135 (17.135)	Loss 0.4475 (0.4475)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:50:03 efficientnet_b1] (main.py 617): INFO  * Acc@1 86.667 Acc@5 100.000
+[2026-08-15 21:50:03 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 86.7%
+[2026-08-15 21:50:03 efficientnet_b1] (main.py 376): INFO New max accuracy: 86.67%
+[2026-08-15 21:50:03 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:50:03 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:50:19 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.577 (15.577)	Loss 0.5029 (0.5029)	Acc@1 84.375 (84.375)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:50:25 efficientnet_b1] (main.py 617): INFO  * Acc@1 82.963 Acc@5 100.000
+[2026-08-15 21:50:25 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 83.0%
+[2026-08-15 21:50:25 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 82.96%
+[2026-08-15 21:50:25 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:50:25 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:50:42 efficientnet_b1] (main.py 545): INFO Train: [14/50][0/56]	eta 0:15:54 lr 2.67e-05	 wd 0.0500	time 17.0522 (17.0522)	data time 16.5860 (16.5860)	model time 0.0000 (0.0000)	loss 0.5327 (0.5327)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:50:59 efficientnet_b1] (main.py 545): INFO Train: [14/50][10/56]	eta 0:02:22 lr 2.66e-05	 wd 0.0500	time 3.5037 (3.1073)	data time 3.2865 (2.8848)	model time 0.0000 (0.0000)	loss 0.4331 (0.4298)	grad_norm 1.3743 (1.4389)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:51:17 efficientnet_b1] (main.py 545): INFO Train: [14/50][20/56]	eta 0:01:28 lr 2.65e-05	 wd 0.0500	time 3.6502 (2.4651)	data time 3.4105 (2.2490)	model time 0.0000 (0.0000)	loss 0.4216 (0.4308)	grad_norm 1.3919 (1.4973)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:51:36 efficientnet_b1] (main.py 545): INFO Train: [14/50][30/56]	eta 0:00:59 lr 2.64e-05	 wd 0.0500	time 3.5128 (2.2956)	data time 3.2290 (2.0862)	model time 0.0000 (0.0000)	loss 0.4497 (0.4276)	grad_norm 1.2324 (1.4399)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:51:53 efficientnet_b1] (main.py 545): INFO Train: [14/50][40/56]	eta 0:00:34 lr 2.62e-05	 wd 0.0500	time 2.8767 (2.1405)	data time 2.6270 (1.9348)	model time 0.0000 (0.0000)	loss 0.5215 (0.4274)	grad_norm 1.2450 (1.4333)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:52:10 efficientnet_b1] (main.py 545): INFO Train: [14/50][50/56]	eta 0:00:12 lr 2.61e-05	 wd 0.0500	time 3.1507 (2.0538)	data time 2.8771 (1.8532)	model time 0.0000 (0.0000)	loss 0.4231 (0.4259)	grad_norm 1.4895 (1.4385)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:52:18 efficientnet_b1] (main.py 556): INFO EPOCH 14 training takes 0:01:52
+[2026-08-15 21:52:18 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:52:18 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:52:35 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.422 (16.422)	Loss 0.4182 (0.4182)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:52:41 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-15 21:52:41 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-15 21:52:41 efficientnet_b1] (main.py 376): INFO New max accuracy: 88.15%
+[2026-08-15 21:52:41 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 21:52:42 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 21:52:57 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.377 (15.377)	Loss 0.4712 (0.4712)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:53:04 efficientnet_b1] (main.py 617): INFO  * Acc@1 85.185 Acc@5 100.000
+[2026-08-15 21:53:04 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 85.2%
+[2026-08-15 21:53:04 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 85.19%
+[2026-08-15 21:53:04 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:53:04 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:53:20 efficientnet_b1] (main.py 545): INFO Train: [15/50][0/56]	eta 0:14:53 lr 2.60e-05	 wd 0.0500	time 15.9637 (15.9637)	data time 15.5031 (15.5031)	model time 0.0000 (0.0000)	loss 0.4219 (0.4219)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:53:33 efficientnet_b1] (main.py 545): INFO Train: [15/50][10/56]	eta 0:02:02 lr 2.59e-05	 wd 0.0500	time 0.8196 (2.6536)	data time 0.7383 (2.4865)	model time 0.0000 (0.0000)	loss 0.4490 (0.4287)	grad_norm 1.3387 (1.4264)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:53:47 efficientnet_b1] (main.py 545): INFO Train: [15/50][20/56]	eta 0:01:13 lr 2.57e-05	 wd 0.0500	time 0.1580 (2.0324)	data time 0.0000 (1.8582)	model time 0.0000 (0.0000)	loss 0.4077 (0.4218)	grad_norm 1.2912 (1.4157)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:54:00 efficientnet_b1] (main.py 545): INFO Train: [15/50][30/56]	eta 0:00:47 lr 2.56e-05	 wd 0.0500	time 0.9134 (1.8169)	data time 0.8177 (1.6487)	model time 0.0000 (0.0000)	loss 0.4382 (0.4227)	grad_norm 1.7319 (1.4347)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:54:14 efficientnet_b1] (main.py 545): INFO Train: [15/50][40/56]	eta 0:00:27 lr 2.55e-05	 wd 0.0500	time 1.5392 (1.6988)	data time 1.4201 (1.5436)	model time 0.0000 (0.0000)	loss 0.4751 (0.4248)	grad_norm 1.3314 (1.4018)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:54:27 efficientnet_b1] (main.py 545): INFO Train: [15/50][50/56]	eta 0:00:09 lr 2.53e-05	 wd 0.0500	time 1.2939 (1.6205)	data time 1.2083 (1.4713)	model time 0.0000 (0.0000)	loss 0.4224 (0.4233)	grad_norm 1.3333 (1.4333)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:54:37 efficientnet_b1] (main.py 556): INFO EPOCH 15 training takes 0:01:33
+[2026-08-15 21:54:37 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:54:38 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:54:55 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 17.064 (17.064)	Loss 0.4185 (0.4185)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:55:01 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-15 21:55:01 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-15 21:55:17 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.159 (15.159)	Loss 0.4648 (0.4648)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:55:22 efficientnet_b1] (main.py 617): INFO  * Acc@1 85.926 Acc@5 100.000
+[2026-08-15 21:55:22 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 85.9%
+[2026-08-15 21:55:22 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 85.93%
+[2026-08-15 21:55:22 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:55:22 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:55:36 efficientnet_b1] (main.py 545): INFO Train: [16/50][0/56]	eta 0:13:35 lr 2.52e-05	 wd 0.0500	time 14.5650 (14.5650)	data time 14.1901 (14.1901)	model time 0.0000 (0.0000)	loss 0.5381 (0.5381)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:55:56 efficientnet_b1] (main.py 545): INFO Train: [16/50][10/56]	eta 0:02:22 lr 2.51e-05	 wd 0.0500	time 3.5008 (3.1020)	data time 3.1837 (2.8814)	model time 0.0000 (0.0000)	loss 0.4919 (0.4392)	grad_norm 1.7766 (1.4799)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:56:13 efficientnet_b1] (main.py 545): INFO Train: [16/50][20/56]	eta 0:01:27 lr 2.49e-05	 wd 0.0500	time 3.0586 (2.4226)	data time 2.8359 (2.2149)	model time 0.0000 (0.0000)	loss 0.4993 (0.4373)	grad_norm 1.2809 (1.4300)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:56:30 efficientnet_b1] (main.py 545): INFO Train: [16/50][30/56]	eta 0:00:57 lr 2.48e-05	 wd 0.0500	time 1.8418 (2.2114)	data time 1.7469 (2.0187)	model time 0.0000 (0.0000)	loss 0.3933 (0.4331)	grad_norm 1.5381 (1.4633)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:56:46 efficientnet_b1] (main.py 545): INFO Train: [16/50][40/56]	eta 0:00:32 lr 2.46e-05	 wd 0.0500	time 1.2613 (2.0623)	data time 1.1155 (1.8784)	model time 0.0000 (0.0000)	loss 0.4170 (0.4272)	grad_norm 1.5983 (1.4332)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:57:05 efficientnet_b1] (main.py 545): INFO Train: [16/50][50/56]	eta 0:00:12 lr 2.45e-05	 wd 0.0500	time 3.8607 (2.0288)	data time 3.5319 (1.8406)	model time 0.0000 (0.0000)	loss 0.3169 (0.4222)	grad_norm 1.3405 (1.4821)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:57:14 efficientnet_b1] (main.py 556): INFO EPOCH 16 training takes 0:01:51
+[2026-08-15 21:57:14 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:57:14 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 21:57:31 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.973 (16.973)	Loss 0.3718 (0.3718)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:57:38 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-15 21:57:38 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-15 21:57:54 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.592 (15.592)	Loss 0.4163 (0.4163)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 21:58:00 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-15 21:58:00 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-15 21:58:00 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 88.15%
+[2026-08-15 21:58:00 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 21:58:00 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 21:58:17 efficientnet_b1] (main.py 545): INFO Train: [17/50][0/56]	eta 0:15:25 lr 2.44e-05	 wd 0.0500	time 16.5255 (16.5255)	data time 16.0577 (16.0577)	model time 0.0000 (0.0000)	loss 0.4951 (0.4951)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:58:34 efficientnet_b1] (main.py 545): INFO Train: [17/50][10/56]	eta 0:02:20 lr 2.43e-05	 wd 0.0500	time 3.8489 (3.0617)	data time 3.5979 (2.8641)	model time 0.0000 (0.0000)	loss 0.5073 (0.4481)	grad_norm 1.6040 (1.5702)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:58:53 efficientnet_b1] (main.py 545): INFO Train: [17/50][20/56]	eta 0:01:29 lr 2.41e-05	 wd 0.0500	time 3.2335 (2.4965)	data time 3.0171 (2.2920)	model time 0.0000 (0.0000)	loss 0.4426 (0.4282)	grad_norm 1.3827 (1.5758)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:59:11 efficientnet_b1] (main.py 545): INFO Train: [17/50][30/56]	eta 0:00:58 lr 2.39e-05	 wd 0.0500	time 2.5885 (2.2648)	data time 2.2780 (2.0636)	model time 0.0000 (0.0000)	loss 0.4150 (0.4195)	grad_norm 1.9435 (1.5846)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:59:29 efficientnet_b1] (main.py 545): INFO Train: [17/50][40/56]	eta 0:00:34 lr 2.38e-05	 wd 0.0500	time 2.9165 (2.1469)	data time 2.6932 (1.9493)	model time 0.0000 (0.0000)	loss 0.3967 (0.4196)	grad_norm 1.5049 (1.5947)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:59:45 efficientnet_b1] (main.py 545): INFO Train: [17/50][50/56]	eta 0:00:12 lr 2.36e-05	 wd 0.0500	time 2.1833 (2.0435)	data time 2.0201 (1.8531)	model time 0.0000 (0.0000)	loss 0.3523 (0.4217)	grad_norm 1.3175 (1.5579)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 21:59:55 efficientnet_b1] (main.py 556): INFO EPOCH 17 training takes 0:01:54
+[2026-08-15 21:59:55 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 21:59:55 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:00:12 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.738 (16.738)	Loss 0.3430 (0.3430)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:00:19 efficientnet_b1] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-15 22:00:19 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-15 22:00:19 efficientnet_b1] (main.py 376): INFO New max accuracy: 89.63%
+[2026-08-15 22:00:19 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 22:00:19 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 22:00:34 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.401 (15.401)	Loss 0.3882 (0.3882)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:00:40 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-15 22:00:40 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-15 22:00:40 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 88.89%
+[2026-08-15 22:00:40 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:00:40 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:01:01 efficientnet_b1] (main.py 545): INFO Train: [18/50][0/56]	eta 0:19:28 lr 2.35e-05	 wd 0.0500	time 20.8672 (20.8672)	data time 20.4079 (20.4079)	model time 0.0000 (0.0000)	loss 0.4028 (0.4028)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:01:20 efficientnet_b1] (main.py 545): INFO Train: [18/50][10/56]	eta 0:02:46 lr 2.34e-05	 wd 0.0500	time 3.6595 (3.6293)	data time 3.3697 (3.3868)	model time 0.0000 (0.0000)	loss 0.3992 (0.4009)	grad_norm 1.6105 (1.4501)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:01:39 efficientnet_b1] (main.py 545): INFO Train: [18/50][20/56]	eta 0:01:40 lr 2.32e-05	 wd 0.0500	time 3.4837 (2.7901)	data time 3.2091 (2.5632)	model time 0.0000 (0.0000)	loss 0.4216 (0.4100)	grad_norm 1.5264 (1.3999)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:01:58 efficientnet_b1] (main.py 545): INFO Train: [18/50][30/56]	eta 0:01:05 lr 2.31e-05	 wd 0.0500	time 3.7153 (2.5084)	data time 3.4277 (2.2888)	model time 0.0000 (0.0000)	loss 0.3960 (0.4089)	grad_norm 1.6359 (1.4131)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:02:17 efficientnet_b1] (main.py 545): INFO Train: [18/50][40/56]	eta 0:00:37 lr 2.29e-05	 wd 0.0500	time 3.7742 (2.3729)	data time 3.4699 (2.1580)	model time 0.0000 (0.0000)	loss 0.4353 (0.4069)	grad_norm 1.3373 (1.3864)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:02:36 efficientnet_b1] (main.py 545): INFO Train: [18/50][50/56]	eta 0:00:13 lr 2.28e-05	 wd 0.0500	time 3.0590 (2.2773)	data time 2.7687 (2.0597)	model time 0.0000 (0.0000)	loss 0.3933 (0.4082)	grad_norm 1.2446 (1.4060)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:02:45 efficientnet_b1] (main.py 556): INFO EPOCH 18 training takes 0:02:05
+[2026-08-15 22:02:45 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:02:46 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:03:05 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 19.062 (19.062)	Loss 0.3428 (0.3428)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:03:12 efficientnet_b1] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-15 22:03:12 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-15 22:03:29 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.870 (16.870)	Loss 0.3828 (0.3828)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:03:37 efficientnet_b1] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-15 22:03:37 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-15 22:03:37 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 89.63%
+[2026-08-15 22:03:37 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:03:37 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:03:56 efficientnet_b1] (main.py 545): INFO Train: [19/50][0/56]	eta 0:17:48 lr 2.27e-05	 wd 0.0500	time 19.0735 (19.0735)	data time 18.6571 (18.6571)	model time 0.0000 (0.0000)	loss 0.5083 (0.5083)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:04:13 efficientnet_b1] (main.py 545): INFO Train: [19/50][10/56]	eta 0:02:30 lr 2.25e-05	 wd 0.0500	time 1.2602 (3.2787)	data time 1.1213 (3.0838)	model time 0.0000 (0.0000)	loss 0.3782 (0.4168)	grad_norm 1.1448 (1.4182)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:04:31 efficientnet_b1] (main.py 545): INFO Train: [19/50][20/56]	eta 0:01:32 lr 2.23e-05	 wd 0.0500	time 0.1009 (2.5795)	data time 0.0013 (2.3921)	model time 0.0000 (0.0000)	loss 0.4392 (0.4198)	grad_norm 1.4162 (1.5049)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:04:50 efficientnet_b1] (main.py 545): INFO Train: [19/50][30/56]	eta 0:01:00 lr 2.22e-05	 wd 0.0500	time 0.6798 (2.3451)	data time 0.5932 (2.1569)	model time 0.0000 (0.0000)	loss 0.5020 (0.4256)	grad_norm 1.5955 (1.4969)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:05:08 efficientnet_b1] (main.py 545): INFO Train: [19/50][40/56]	eta 0:00:35 lr 2.20e-05	 wd 0.0500	time 0.9238 (2.2236)	data time 0.8454 (2.0388)	model time 0.0000 (0.0000)	loss 0.3782 (0.4186)	grad_norm 1.3178 (1.4969)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:05:27 efficientnet_b1] (main.py 545): INFO Train: [19/50][50/56]	eta 0:00:12 lr 2.18e-05	 wd 0.0500	time 0.4777 (2.1589)	data time 0.3646 (1.9699)	model time 0.0000 (0.0000)	loss 0.4309 (0.4162)	grad_norm 1.3132 (1.4821)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:05:39 efficientnet_b1] (main.py 556): INFO EPOCH 19 training takes 0:02:02
+[2026-08-15 22:05:39 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:05:39 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:05:59 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 19.871 (19.871)	Loss 0.3059 (0.3059)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:06:07 efficientnet_b1] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-15 22:06:07 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-15 22:06:07 efficientnet_b1] (main.py 376): INFO New max accuracy: 90.37%
+[2026-08-15 22:06:08 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 22:06:08 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 22:06:25 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.813 (16.813)	Loss 0.3479 (0.3479)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:06:33 efficientnet_b1] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-15 22:06:33 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-15 22:06:49 efficientnet_b1] (main.py 545): INFO Train: [20/50][0/56]	eta 0:15:31 lr 2.17e-05	 wd 0.0500	time 16.6383 (16.6383)	data time 16.2771 (16.2771)	model time 0.0000 (0.0000)	loss 0.3345 (0.3345)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:07:03 efficientnet_b1] (main.py 545): INFO Train: [20/50][10/56]	eta 0:02:07 lr 2.16e-05	 wd 0.0500	time 3.0069 (2.7747)	data time 2.7190 (2.5644)	model time 0.0000 (0.0000)	loss 0.4575 (0.3786)	grad_norm 1.4188 (1.2973)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:07:19 efficientnet_b1] (main.py 545): INFO Train: [20/50][20/56]	eta 0:01:19 lr 2.14e-05	 wd 0.0500	time 2.3918 (2.1965)	data time 2.1407 (1.9953)	model time 0.0000 (0.0000)	loss 0.4165 (0.3877)	grad_norm 1.6388 (1.3770)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:07:34 efficientnet_b1] (main.py 545): INFO Train: [20/50][30/56]	eta 0:00:51 lr 2.12e-05	 wd 0.0500	time 2.5463 (1.9785)	data time 2.3383 (1.7847)	model time 0.0000 (0.0000)	loss 0.4858 (0.3949)	grad_norm 1.1437 (1.4350)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:07:50 efficientnet_b1] (main.py 545): INFO Train: [20/50][40/56]	eta 0:00:30 lr 2.11e-05	 wd 0.0500	time 3.3179 (1.8762)	data time 3.0934 (1.6872)	model time 0.0000 (0.0000)	loss 0.4741 (0.3914)	grad_norm 1.5795 (1.4252)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:08:05 efficientnet_b1] (main.py 545): INFO Train: [20/50][50/56]	eta 0:00:10 lr 2.09e-05	 wd 0.0500	time 3.1474 (1.8178)	data time 2.8789 (1.6298)	model time 0.0000 (0.0000)	loss 0.3984 (0.3944)	grad_norm 1.5483 (1.4338)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:08:12 efficientnet_b1] (main.py 556): INFO EPOCH 20 training takes 0:01:39
+[2026-08-15 22:08:12 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:08:12 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:08:29 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.699 (16.699)	Loss 0.3069 (0.3069)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:08:35 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:08:35 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:08:35 efficientnet_b1] (main.py 376): INFO New max accuracy: 91.85%
+[2026-08-15 22:08:35 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 22:08:35 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 22:08:50 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.450 (14.450)	Loss 0.3640 (0.3640)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:08:56 efficientnet_b1] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-15 22:08:56 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-15 22:08:56 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 90.37%
+[2026-08-15 22:08:56 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:08:56 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:09:11 efficientnet_b1] (main.py 545): INFO Train: [21/50][0/56]	eta 0:14:12 lr 2.08e-05	 wd 0.0500	time 15.2308 (15.2308)	data time 14.9268 (14.9268)	model time 0.0000 (0.0000)	loss 0.4202 (0.4202)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:09:25 efficientnet_b1] (main.py 545): INFO Train: [21/50][10/56]	eta 0:02:02 lr 2.06e-05	 wd 0.0500	time 1.6314 (2.6624)	data time 1.4962 (2.4971)	model time 0.0000 (0.0000)	loss 0.3867 (0.4071)	grad_norm 1.4561 (1.4730)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:09:41 efficientnet_b1] (main.py 545): INFO Train: [21/50][20/56]	eta 0:01:16 lr 2.04e-05	 wd 0.0500	time 2.5554 (2.1301)	data time 2.3229 (1.9732)	model time 0.0000 (0.0000)	loss 0.3987 (0.3999)	grad_norm 1.3328 (1.9174)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:09:54 efficientnet_b1] (main.py 545): INFO Train: [21/50][30/56]	eta 0:00:48 lr 2.03e-05	 wd 0.0500	time 1.8261 (1.8701)	data time 1.6677 (1.7163)	model time 0.0000 (0.0000)	loss 0.3616 (0.3970)	grad_norm 1.5722 (1.7116)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:10:08 efficientnet_b1] (main.py 545): INFO Train: [21/50][40/56]	eta 0:00:28 lr 2.01e-05	 wd 0.0500	time 1.4006 (1.7610)	data time 1.2869 (1.6164)	model time 0.0000 (0.0000)	loss 0.4778 (0.3963)	grad_norm 1.4221 (1.7552)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:10:24 efficientnet_b1] (main.py 545): INFO Train: [21/50][50/56]	eta 0:00:10 lr 1.99e-05	 wd 0.0500	time 2.5708 (1.7324)	data time 2.3808 (1.5835)	model time 0.0000 (0.0000)	loss 0.3958 (0.3968)	grad_norm 1.4730 (1.7112)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:10:32 efficientnet_b1] (main.py 556): INFO EPOCH 21 training takes 0:01:36
+[2026-08-15 22:10:32 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:10:33 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:10:49 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.034 (16.034)	Loss 0.2849 (0.2849)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:10:55 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:10:55 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:11:09 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.279 (14.279)	Loss 0.3494 (0.3494)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:11:15 efficientnet_b1] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-15 22:11:15 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-15 22:11:31 efficientnet_b1] (main.py 545): INFO Train: [22/50][0/56]	eta 0:14:16 lr 1.98e-05	 wd 0.0500	time 15.2866 (15.2866)	data time 14.9755 (14.9755)	model time 0.0000 (0.0000)	loss 0.3762 (0.3762)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:11:45 efficientnet_b1] (main.py 545): INFO Train: [22/50][10/56]	eta 0:02:03 lr 1.96e-05	 wd 0.0500	time 3.0842 (2.6893)	data time 2.8560 (2.5135)	model time 0.0000 (0.0000)	loss 0.3511 (0.3716)	grad_norm 1.4855 (1.3449)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:12:00 efficientnet_b1] (main.py 545): INFO Train: [22/50][20/56]	eta 0:01:16 lr 1.95e-05	 wd 0.0500	time 2.7576 (2.1244)	data time 2.5510 (1.9496)	model time 0.0000 (0.0000)	loss 0.3462 (0.3787)	grad_norm 1.2772 (1.4295)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:12:15 efficientnet_b1] (main.py 545): INFO Train: [22/50][30/56]	eta 0:00:50 lr 1.93e-05	 wd 0.0500	time 2.5291 (1.9371)	data time 2.3387 (1.7627)	model time 0.0000 (0.0000)	loss 0.3359 (0.3808)	grad_norm 1.6229 (1.4258)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:12:31 efficientnet_b1] (main.py 545): INFO Train: [22/50][40/56]	eta 0:00:29 lr 1.91e-05	 wd 0.0500	time 3.0315 (1.8469)	data time 2.8092 (1.6710)	model time 0.0000 (0.0000)	loss 0.3496 (0.3874)	grad_norm 1.7469 (1.5754)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:12:46 efficientnet_b1] (main.py 545): INFO Train: [22/50][50/56]	eta 0:00:10 lr 1.89e-05	 wd 0.0500	time 3.0658 (1.7834)	data time 2.8318 (1.6057)	model time 0.0000 (0.0000)	loss 0.4111 (0.3895)	grad_norm 1.4663 (1.5327)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:12:54 efficientnet_b1] (main.py 556): INFO EPOCH 22 training takes 0:01:38
+[2026-08-15 22:12:54 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:12:54 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:13:10 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.333 (15.333)	Loss 0.2769 (0.2769)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:13:16 efficientnet_b1] (main.py 617): INFO  * Acc@1 93.333 Acc@5 100.000
+[2026-08-15 22:13:16 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 93.3%
+[2026-08-15 22:13:16 efficientnet_b1] (main.py 376): INFO New max accuracy: 93.33%
+[2026-08-15 22:13:16 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saving......
+[2026-08-15 22:13:16 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt.pth saved !!!
+[2026-08-15 22:13:30 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.128 (14.128)	Loss 0.3340 (0.3340)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:13:36 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-15 22:13:36 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-15 22:13:36 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 91.11%
+[2026-08-15 22:13:36 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:13:36 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:13:52 efficientnet_b1] (main.py 545): INFO Train: [23/50][0/56]	eta 0:14:21 lr 1.88e-05	 wd 0.0500	time 15.3891 (15.3891)	data time 15.0110 (15.0110)	model time 0.0000 (0.0000)	loss 0.3823 (0.3823)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:14:06 efficientnet_b1] (main.py 545): INFO Train: [23/50][10/56]	eta 0:02:06 lr 1.87e-05	 wd 0.0500	time 2.5666 (2.7436)	data time 2.3782 (2.5523)	model time 0.0000 (0.0000)	loss 0.4990 (0.3973)	grad_norm 1.6108 (1.4338)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:14:19 efficientnet_b1] (main.py 545): INFO Train: [23/50][20/56]	eta 0:01:13 lr 1.85e-05	 wd 0.0500	time 2.5726 (2.0462)	data time 2.3778 (1.8677)	model time 0.0000 (0.0000)	loss 0.2820 (0.3887)	grad_norm 1.4113 (1.4176)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:14:33 efficientnet_b1] (main.py 545): INFO Train: [23/50][30/56]	eta 0:00:47 lr 1.83e-05	 wd 0.0500	time 2.1026 (1.8356)	data time 1.9124 (1.6582)	model time 0.0000 (0.0000)	loss 0.4238 (0.3815)	grad_norm 1.6311 (1.4037)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:14:48 efficientnet_b1] (main.py 545): INFO Train: [23/50][40/56]	eta 0:00:28 lr 1.81e-05	 wd 0.0500	time 1.6112 (1.7514)	data time 1.5295 (1.5869)	model time 0.0000 (0.0000)	loss 0.4753 (0.3870)	grad_norm 3.0940 (1.5567)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:15:03 efficientnet_b1] (main.py 545): INFO Train: [23/50][50/56]	eta 0:00:10 lr 1.79e-05	 wd 0.0500	time 1.6569 (1.6955)	data time 1.5752 (1.5390)	model time 0.0000 (0.0000)	loss 0.4319 (0.3878)	grad_norm 1.4536 (1.5143)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:15:11 efficientnet_b1] (main.py 556): INFO EPOCH 23 training takes 0:01:35
+[2026-08-15 22:15:11 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:15:12 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:15:28 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.033 (16.033)	Loss 0.2808 (0.2808)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:15:33 efficientnet_b1] (main.py 617): INFO  * Acc@1 93.333 Acc@5 100.000
+[2026-08-15 22:15:33 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 93.3%
+[2026-08-15 22:15:49 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.523 (15.523)	Loss 0.3169 (0.3169)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:15:55 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:15:55 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:15:55 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 91.85%
+[2026-08-15 22:15:55 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:15:55 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:16:12 efficientnet_b1] (main.py 545): INFO Train: [24/50][0/56]	eta 0:15:57 lr 1.78e-05	 wd 0.0500	time 17.0992 (17.0992)	data time 16.7939 (16.7939)	model time 0.0000 (0.0000)	loss 0.3364 (0.3364)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:16:28 efficientnet_b1] (main.py 545): INFO Train: [24/50][10/56]	eta 0:02:18 lr 1.77e-05	 wd 0.0500	time 2.8415 (3.0204)	data time 2.6484 (2.8355)	model time 0.0000 (0.0000)	loss 0.4478 (0.3878)	grad_norm 1.5166 (1.4538)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:16:44 efficientnet_b1] (main.py 545): INFO Train: [24/50][20/56]	eta 0:01:24 lr 1.75e-05	 wd 0.0500	time 2.9520 (2.3352)	data time 2.7424 (2.1493)	model time 0.0000 (0.0000)	loss 0.3606 (0.3876)	grad_norm 1.2183 (1.4261)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:17:00 efficientnet_b1] (main.py 545): INFO Train: [24/50][30/56]	eta 0:00:54 lr 1.73e-05	 wd 0.0500	time 2.9240 (2.1012)	data time 2.7048 (1.9192)	model time 0.0000 (0.0000)	loss 0.3511 (0.3863)	grad_norm 1.6288 (1.4276)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:17:15 efficientnet_b1] (main.py 545): INFO Train: [24/50][40/56]	eta 0:00:31 lr 1.71e-05	 wd 0.0500	time 3.0021 (1.9525)	data time 2.7937 (1.7714)	model time 0.0000 (0.0000)	loss 0.3838 (0.3880)	grad_norm 1.4561 (1.4017)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:17:31 efficientnet_b1] (main.py 545): INFO Train: [24/50][50/56]	eta 0:00:11 lr 1.69e-05	 wd 0.0500	time 3.0970 (1.8787)	data time 2.8796 (1.6978)	model time 0.0000 (0.0000)	loss 0.3479 (0.3885)	grad_norm 1.2129 (1.4464)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:17:38 efficientnet_b1] (main.py 556): INFO EPOCH 24 training takes 0:01:42
+[2026-08-15 22:17:38 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:17:38 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:17:55 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.659 (16.659)	Loss 0.2959 (0.2959)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:18:01 efficientnet_b1] (main.py 617): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-08-15 22:18:01 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-08-15 22:18:15 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.646 (14.646)	Loss 0.3215 (0.3215)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:18:21 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-15 22:18:21 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-15 22:18:37 efficientnet_b1] (main.py 545): INFO Train: [25/50][0/56]	eta 0:14:48 lr 1.68e-05	 wd 0.0500	time 15.8634 (15.8634)	data time 15.5969 (15.5969)	model time 0.0000 (0.0000)	loss 0.3857 (0.3857)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:18:52 efficientnet_b1] (main.py 545): INFO Train: [25/50][10/56]	eta 0:02:10 lr 1.66e-05	 wd 0.0500	time 3.1250 (2.8283)	data time 2.8945 (2.6506)	model time 0.0000 (0.0000)	loss 0.3748 (0.3846)	grad_norm 1.6074 (1.3827)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:19:08 efficientnet_b1] (main.py 545): INFO Train: [25/50][20/56]	eta 0:01:20 lr 1.65e-05	 wd 0.0500	time 2.8186 (2.2484)	data time 2.6106 (2.0695)	model time 0.0000 (0.0000)	loss 0.3198 (0.3678)	grad_norm 1.4269 (1.3192)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:19:23 efficientnet_b1] (main.py 545): INFO Train: [25/50][30/56]	eta 0:00:52 lr 1.63e-05	 wd 0.0500	time 2.9309 (2.0043)	data time 2.7037 (1.8234)	model time 0.0000 (0.0000)	loss 0.3772 (0.3745)	grad_norm 1.3091 (1.3690)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:19:39 efficientnet_b1] (main.py 545): INFO Train: [25/50][40/56]	eta 0:00:30 lr 1.61e-05	 wd 0.0500	time 3.0336 (1.8873)	data time 2.8218 (1.7092)	model time 0.0000 (0.0000)	loss 0.4763 (0.3768)	grad_norm 1.3554 (1.3959)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:19:54 efficientnet_b1] (main.py 545): INFO Train: [25/50][50/56]	eta 0:00:10 lr 1.59e-05	 wd 0.0500	time 3.5587 (1.8199)	data time 3.1425 (1.6385)	model time 0.0000 (0.0000)	loss 0.4561 (0.3789)	grad_norm 1.3612 (1.4053)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:20:01 efficientnet_b1] (main.py 556): INFO EPOCH 25 training takes 0:01:39
+[2026-08-15 22:20:01 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:20:01 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:20:18 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.194 (16.194)	Loss 0.2583 (0.2583)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:20:24 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-15 22:20:24 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-15 22:20:38 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.637 (14.637)	Loss 0.2825 (0.2825)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:20:44 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:20:44 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:21:01 efficientnet_b1] (main.py 545): INFO Train: [26/50][0/56]	eta 0:15:36 lr 1.58e-05	 wd 0.0500	time 16.7244 (16.7244)	data time 16.4465 (16.4465)	model time 0.0000 (0.0000)	loss 0.4055 (0.4055)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:21:15 efficientnet_b1] (main.py 545): INFO Train: [26/50][10/56]	eta 0:02:07 lr 1.56e-05	 wd 0.0500	time 2.1813 (2.7823)	data time 2.0202 (2.6200)	model time 0.0000 (0.0000)	loss 0.3850 (0.3900)	grad_norm 1.6027 (1.4433)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:21:29 efficientnet_b1] (main.py 545): INFO Train: [26/50][20/56]	eta 0:01:16 lr 1.55e-05	 wd 0.0500	time 0.5717 (2.1389)	data time 0.4818 (1.9938)	model time 0.0000 (0.0000)	loss 0.3403 (0.3783)	grad_norm 1.3955 (1.4834)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:21:45 efficientnet_b1] (main.py 545): INFO Train: [26/50][30/56]	eta 0:00:51 lr 1.53e-05	 wd 0.0500	time 0.0926 (1.9648)	data time 0.0009 (1.8064)	model time 0.0000 (0.0000)	loss 0.3884 (0.3793)	grad_norm 1.1180 (1.4531)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:22:00 efficientnet_b1] (main.py 545): INFO Train: [26/50][40/56]	eta 0:00:29 lr 1.51e-05	 wd 0.0500	time 0.3060 (1.8603)	data time 0.2182 (1.7005)	model time 0.0000 (0.0000)	loss 0.3608 (0.3798)	grad_norm 1.5426 (1.4515)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:22:15 efficientnet_b1] (main.py 545): INFO Train: [26/50][50/56]	eta 0:00:10 lr 1.49e-05	 wd 0.0500	time 0.8023 (1.7911)	data time 0.7193 (1.6320)	model time 0.0000 (0.0000)	loss 0.3804 (0.3776)	grad_norm 1.7286 (1.4477)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:22:25 efficientnet_b1] (main.py 556): INFO EPOCH 26 training takes 0:01:40
+[2026-08-15 22:22:25 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:22:25 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:22:41 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.984 (15.984)	Loss 0.2429 (0.2429)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:22:47 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:22:47 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:23:01 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.379 (14.379)	Loss 0.2656 (0.2656)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:23:07 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:23:07 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:23:22 efficientnet_b1] (main.py 545): INFO Train: [27/50][0/56]	eta 0:14:18 lr 1.48e-05	 wd 0.0500	time 15.3264 (15.3264)	data time 14.9833 (14.9833)	model time 0.0000 (0.0000)	loss 0.3562 (0.3562)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:23:38 efficientnet_b1] (main.py 545): INFO Train: [27/50][10/56]	eta 0:02:10 lr 1.46e-05	 wd 0.0500	time 2.0211 (2.8374)	data time 1.8772 (2.6653)	model time 0.0000 (0.0000)	loss 0.3643 (0.3873)	grad_norm 1.3332 (1.3521)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:23:53 efficientnet_b1] (main.py 545): INFO Train: [27/50][20/56]	eta 0:01:18 lr 1.44e-05	 wd 0.0500	time 1.3690 (2.1919)	data time 1.2249 (2.0487)	model time 0.0000 (0.0000)	loss 0.3508 (0.3840)	grad_norm 1.3876 (1.4136)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:24:08 efficientnet_b1] (main.py 545): INFO Train: [27/50][30/56]	eta 0:00:50 lr 1.43e-05	 wd 0.0500	time 1.6827 (1.9601)	data time 1.4702 (1.8235)	model time 0.0000 (0.0000)	loss 0.4175 (0.3856)	grad_norm 1.8263 (1.7079)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:24:22 efficientnet_b1] (main.py 545): INFO Train: [27/50][40/56]	eta 0:00:29 lr 1.41e-05	 wd 0.0500	time 2.2906 (1.8295)	data time 2.0357 (1.6918)	model time 0.0000 (0.0000)	loss 0.3806 (0.3782)	grad_norm 1.2864 (1.9252)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:24:37 efficientnet_b1] (main.py 545): INFO Train: [27/50][50/56]	eta 0:00:10 lr 1.39e-05	 wd 0.0500	time 1.8652 (1.7605)	data time 1.7451 (1.6163)	model time 0.0000 (0.0000)	loss 0.3618 (0.3784)	grad_norm 1.4506 (1.8021)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:24:45 efficientnet_b1] (main.py 556): INFO EPOCH 27 training takes 0:01:38
+[2026-08-15 22:24:45 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:24:45 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:25:02 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 17.078 (17.078)	Loss 0.2764 (0.2764)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:25:09 efficientnet_b1] (main.py 617): INFO  * Acc@1 93.333 Acc@5 100.000
+[2026-08-15 22:25:09 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 93.3%
+[2026-08-15 22:25:24 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.186 (15.186)	Loss 0.2888 (0.2888)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:25:30 efficientnet_b1] (main.py 617): INFO  * Acc@1 92.593 Acc@5 100.000
+[2026-08-15 22:25:30 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 92.6%
+[2026-08-15 22:25:30 efficientnet_b1] (main.py 399): INFO New max accuracy ema: 92.59%
+[2026-08-15 22:25:30 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saving......
+[2026-08-15 22:25:30 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\best_ckpt_ema.pth saved !!!
+[2026-08-15 22:25:46 efficientnet_b1] (main.py 545): INFO Train: [28/50][0/56]	eta 0:14:28 lr 1.38e-05	 wd 0.0500	time 15.5132 (15.5132)	data time 15.1944 (15.1944)	model time 0.0000 (0.0000)	loss 0.3262 (0.3262)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:26:01 efficientnet_b1] (main.py 545): INFO Train: [28/50][10/56]	eta 0:02:08 lr 1.36e-05	 wd 0.0500	time 3.1067 (2.7840)	data time 2.9009 (2.5971)	model time 0.0000 (0.0000)	loss 0.3362 (0.3428)	grad_norm 1.6377 (1.3319)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:26:16 efficientnet_b1] (main.py 545): INFO Train: [28/50][20/56]	eta 0:01:17 lr 1.34e-05	 wd 0.0500	time 3.0011 (2.1642)	data time 2.8036 (1.9814)	model time 0.0000 (0.0000)	loss 0.3958 (0.3726)	grad_norm 1.2126 (1.5402)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:26:32 efficientnet_b1] (main.py 545): INFO Train: [28/50][30/56]	eta 0:00:51 lr 1.33e-05	 wd 0.0500	time 3.2760 (1.9884)	data time 2.8992 (1.8050)	model time 0.0000 (0.0000)	loss 0.3792 (0.3774)	grad_norm 1.2440 (1.8482)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:26:47 efficientnet_b1] (main.py 545): INFO Train: [28/50][40/56]	eta 0:00:30 lr 1.31e-05	 wd 0.0500	time 2.8681 (1.8768)	data time 2.6225 (1.6939)	model time 0.0000 (0.0000)	loss 0.3977 (0.3751)	grad_norm 1.3687 (1.7126)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:27:03 efficientnet_b1] (main.py 545): INFO Train: [28/50][50/56]	eta 0:00:10 lr 1.29e-05	 wd 0.0500	time 2.6786 (1.8137)	data time 2.4359 (1.6287)	model time 0.0000 (0.0000)	loss 0.3604 (0.3761)	grad_norm 1.7893 (1.6744)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:27:10 efficientnet_b1] (main.py 556): INFO EPOCH 28 training takes 0:01:39
+[2026-08-15 22:27:10 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:27:11 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:27:26 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.902 (15.902)	Loss 0.2654 (0.2654)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:27:32 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-15 22:27:32 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-15 22:27:47 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.747 (14.747)	Loss 0.2734 (0.2734)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:27:53 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:27:53 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:28:09 efficientnet_b1] (main.py 545): INFO Train: [29/50][0/56]	eta 0:14:36 lr 1.28e-05	 wd 0.0500	time 15.6494 (15.6494)	data time 15.3905 (15.3905)	model time 0.0000 (0.0000)	loss 0.4167 (0.4167)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:28:24 efficientnet_b1] (main.py 545): INFO Train: [29/50][10/56]	eta 0:02:06 lr 1.26e-05	 wd 0.0500	time 2.9301 (2.7599)	data time 2.7177 (2.5840)	model time 0.0000 (0.0000)	loss 0.4204 (0.3762)	grad_norm 1.5378 (1.7419)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:28:41 efficientnet_b1] (main.py 545): INFO Train: [29/50][20/56]	eta 0:01:22 lr 1.24e-05	 wd 0.0500	time 2.2479 (2.2810)	data time 2.0473 (2.1182)	model time 0.0000 (0.0000)	loss 0.3401 (0.3793)	grad_norm 1.6899 (1.7040)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:28:56 efficientnet_b1] (main.py 545): INFO Train: [29/50][30/56]	eta 0:00:52 lr 1.23e-05	 wd 0.0500	time 1.6979 (2.0328)	data time 1.6173 (1.8808)	model time 0.0000 (0.0000)	loss 0.3076 (0.3724)	grad_norm 1.5218 (1.6050)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:29:11 efficientnet_b1] (main.py 545): INFO Train: [29/50][40/56]	eta 0:00:30 lr 1.21e-05	 wd 0.0500	time 1.0373 (1.9076)	data time 0.9568 (1.7605)	model time 0.0000 (0.0000)	loss 0.3999 (0.3759)	grad_norm 1.3710 (1.7040)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:29:27 efficientnet_b1] (main.py 545): INFO Train: [29/50][50/56]	eta 0:00:10 lr 1.19e-05	 wd 0.0500	time 0.7722 (1.8310)	data time 0.6290 (1.6788)	model time 0.0000 (0.0000)	loss 0.3447 (0.3757)	grad_norm 1.5239 (3.0523)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:29:35 efficientnet_b1] (main.py 556): INFO EPOCH 29 training takes 0:01:41
+[2026-08-15 22:29:35 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:29:35 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:29:52 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 16.281 (16.281)	Loss 0.2532 (0.2532)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:29:58 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:29:58 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:30:12 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 13.891 (13.891)	Loss 0.2698 (0.2698)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:30:17 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:30:17 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:30:33 efficientnet_b1] (main.py 545): INFO Train: [30/50][0/56]	eta 0:14:29 lr 1.18e-05	 wd 0.0500	time 15.5234 (15.5234)	data time 15.1873 (15.1873)	model time 0.0000 (0.0000)	loss 0.4331 (0.4331)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:30:49 efficientnet_b1] (main.py 545): INFO Train: [30/50][10/56]	eta 0:02:11 lr 1.16e-05	 wd 0.0500	time 2.6137 (2.8580)	data time 2.3738 (2.6615)	model time 0.0000 (0.0000)	loss 0.3953 (0.3674)	grad_norm 1.1304 (1.2726)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:31:04 efficientnet_b1] (main.py 545): INFO Train: [30/50][20/56]	eta 0:01:19 lr 1.15e-05	 wd 0.0500	time 2.5863 (2.2042)	data time 2.3649 (2.0184)	model time 0.0000 (0.0000)	loss 0.4370 (0.3753)	grad_norm 1.5398 (1.3404)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:31:19 efficientnet_b1] (main.py 545): INFO Train: [30/50][30/56]	eta 0:00:51 lr 1.13e-05	 wd 0.0500	time 2.6341 (1.9811)	data time 2.4035 (1.7969)	model time 0.0000 (0.0000)	loss 0.4985 (0.3753)	grad_norm 1.5069 (1.3791)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:31:34 efficientnet_b1] (main.py 545): INFO Train: [30/50][40/56]	eta 0:00:29 lr 1.11e-05	 wd 0.0500	time 2.8561 (1.8721)	data time 2.6090 (1.6869)	model time 0.0000 (0.0000)	loss 0.3240 (0.3721)	grad_norm 2.1594 (1.4557)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:31:50 efficientnet_b1] (main.py 545): INFO Train: [30/50][50/56]	eta 0:00:10 lr 1.09e-05	 wd 0.0500	time 3.0680 (1.8120)	data time 2.8272 (1.6253)	model time 0.0000 (0.0000)	loss 0.3000 (0.3744)	grad_norm 1.3338 (1.4262)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:31:57 efficientnet_b1] (main.py 556): INFO EPOCH 30 training takes 0:01:39
+[2026-08-15 22:31:57 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:31:57 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:32:13 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.838 (15.838)	Loss 0.2385 (0.2385)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:32:19 efficientnet_b1] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-15 22:32:19 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-15 22:32:34 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.266 (14.266)	Loss 0.2542 (0.2542)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:32:39 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:32:39 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:32:54 efficientnet_b1] (main.py 545): INFO Train: [31/50][0/56]	eta 0:13:28 lr 1.08e-05	 wd 0.0500	time 14.4354 (14.4354)	data time 14.1013 (14.1013)	model time 0.0000 (0.0000)	loss 0.3660 (0.3660)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:33:08 efficientnet_b1] (main.py 545): INFO Train: [31/50][10/56]	eta 0:02:00 lr 1.07e-05	 wd 0.0500	time 2.3917 (2.6226)	data time 2.1936 (2.4463)	model time 0.0000 (0.0000)	loss 0.3662 (0.3612)	grad_norm 1.2339 (1.3774)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:33:23 efficientnet_b1] (main.py 545): INFO Train: [31/50][20/56]	eta 0:01:15 lr 1.05e-05	 wd 0.0500	time 2.7927 (2.0971)	data time 2.5813 (1.9228)	model time 0.0000 (0.0000)	loss 0.3716 (0.3597)	grad_norm 1.4397 (1.3755)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:33:39 efficientnet_b1] (main.py 545): INFO Train: [31/50][30/56]	eta 0:00:49 lr 1.03e-05	 wd 0.0500	time 2.9850 (1.9108)	data time 2.7657 (1.7359)	model time 0.0000 (0.0000)	loss 0.3567 (0.3614)	grad_norm 1.4633 (1.4533)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:33:54 efficientnet_b1] (main.py 545): INFO Train: [31/50][40/56]	eta 0:00:29 lr 1.02e-05	 wd 0.0500	time 2.8182 (1.8227)	data time 2.5938 (1.6439)	model time 0.0000 (0.0000)	loss 0.3259 (0.3640)	grad_norm 1.3459 (1.5080)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:34:09 efficientnet_b1] (main.py 545): INFO Train: [31/50][50/56]	eta 0:00:10 lr 1.00e-05	 wd 0.0500	time 2.6236 (1.7625)	data time 2.4079 (1.5848)	model time 0.0000 (0.0000)	loss 0.3452 (0.3623)	grad_norm 1.0287 (1.5692)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:34:16 efficientnet_b1] (main.py 556): INFO EPOCH 31 training takes 0:01:37
+[2026-08-15 22:34:16 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:34:17 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:34:32 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.903 (15.903)	Loss 0.2455 (0.2455)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:34:39 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:34:39 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:34:53 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.272 (14.272)	Loss 0.2573 (0.2573)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:34:59 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.852 Acc@5 100.000
+[2026-08-15 22:34:59 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.9%
+[2026-08-15 22:35:15 efficientnet_b1] (main.py 545): INFO Train: [32/50][0/56]	eta 0:14:44 lr 9.90e-06	 wd 0.0500	time 15.7953 (15.7953)	data time 15.3582 (15.3582)	model time 0.0000 (0.0000)	loss 0.3953 (0.3953)	grad_norm 0.0000 (0.0000)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:35:29 efficientnet_b1] (main.py 545): INFO Train: [32/50][10/56]	eta 0:02:04 lr 9.73e-06	 wd 0.0500	time 1.4499 (2.7082)	data time 1.3026 (2.5378)	model time 0.0000 (0.0000)	loss 0.3760 (0.3790)	grad_norm 1.2252 (1.3218)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:35:44 efficientnet_b1] (main.py 545): INFO Train: [32/50][20/56]	eta 0:01:18 lr 9.56e-06	 wd 0.0500	time 1.7090 (2.1706)	data time 1.6263 (2.0171)	model time 0.0000 (0.0000)	loss 0.3901 (0.3829)	grad_norm 1.1531 (1.3986)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:35:59 efficientnet_b1] (main.py 545): INFO Train: [32/50][30/56]	eta 0:00:50 lr 9.40e-06	 wd 0.0500	time 1.5374 (1.9340)	data time 1.4512 (1.7943)	model time 0.0000 (0.0000)	loss 0.3691 (0.3796)	grad_norm 1.2737 (1.4636)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:36:13 efficientnet_b1] (main.py 545): INFO Train: [32/50][40/56]	eta 0:00:29 lr 9.23e-06	 wd 0.0500	time 0.1507 (1.8170)	data time 0.0000 (1.6730)	model time 0.0000 (0.0000)	loss 0.3423 (0.3765)	grad_norm 1.3484 (1.4949)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:36:29 efficientnet_b1] (main.py 545): INFO Train: [32/50][50/56]	eta 0:00:10 lr 9.07e-06	 wd 0.0500	time 0.1040 (1.7638)	data time 0.0000 (1.6142)	model time 0.0000 (0.0000)	loss 0.4077 (0.3798)	grad_norm 1.7822 (1.5371)	loss_scale 2048.0000 (2048.0000)	mem 2124MB
+[2026-08-15 22:36:38 efficientnet_b1] (main.py 556): INFO EPOCH 32 training takes 0:01:39
+[2026-08-15 22:36:38 efficientnet_b1] (utils.py 188): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saving......
+[2026-08-15 22:36:38 efficientnet_b1] (utils.py 190): INFO output/benchmark/EfficientNetB1\latest_ckpt.pth saved !!!
+[2026-08-15 22:36:54 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 15.629 (15.629)	Loss 0.2318 (0.2318)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:37:00 efficientnet_b1] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-15 22:37:00 efficientnet_b1] (main.py 366): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-15 22:37:15 efficientnet_b1] (main.py 610): INFO Test: [0/5]	Time 14.563 (14.563)	Loss 0.2422 (0.2422)	Acc@1 100.000 (100.000)	Acc@5 100.000 (100.000)	Mem 2140MB
+[2026-08-15 22:37:23 efficientnet_b1] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-15 22:37:23 efficientnet_b1] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-15 22:37:23 efficientnet_b1] (main.py 437): INFO Early stopping triggered at epoch 32: no validation Acc@1 improvement for 10 consecutive epochs (patience=10). Best Acc@1 93.33% achieved at epoch 22.
+[2026-08-15 22:37:23 efficientnet_b1] (main.py 448): INFO Training time 1:19:09

@@ -1,0 +1,1 @@
+.\classification\main.py --cfg .\classification\configs\models\inception_v3.yaml --data-path C:\Users\blais\Downloads\caulieval\Cauliflower_split --output output/benchmark/inception_v3 --no-subdir

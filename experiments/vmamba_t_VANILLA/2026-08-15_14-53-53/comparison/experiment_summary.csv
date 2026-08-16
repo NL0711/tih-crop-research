@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+vmamba_t_VANILLA,2026-08-15_14-53-53,vmamba_t,False,50.37037048339844,2,49.6296297426577,,,,,,,,,,,30377525,2361.8,,./experiments\vmamba_t_VANILLA\2026-08-15_14-53-53

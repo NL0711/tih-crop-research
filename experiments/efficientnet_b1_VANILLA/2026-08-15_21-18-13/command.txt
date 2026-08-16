@@ -1,0 +1,1 @@
+.\classification\main.py --cfg .\classification\configs\models\efficientnet_b1.yaml --data-path C:\Users\blais\Downloads\caulieval\Cauliflower_split --output output/benchmark/EfficientNetB1 --no-subdir

@@ -1,0 +1,56 @@
+# =============================================================================
+# configs/models/inception_resnet_v2.yaml
+# ---------------------------------------
+# Inception-ResNet-v2 CNN baseline configuration with ImageNet-1K pretrained weights.
+#
+# Inherits all common benchmark settings from benchmark_common.yaml.
+# Architecture: Inception-ResNet blocks combining multi-branch convolutions with
+#               residual shortcut connections (Szegedy et al., AAAI 2017).
+#
+# Train command (from classification/ directory):
+#   python main.py \
+#     --cfg configs/models/inception_resnet_v2.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/inception_resnet_v2 \
+#     --no-subdir
+#
+# Eval-only command:
+#   python main.py \
+#     --cfg configs/models/inception_resnet_v2.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/inception_resnet_v2 \
+#     --no-subdir \
+#     --resume output/benchmark/inception_resnet_v2/best_ckpt.pth \
+#     --eval
+# =============================================================================
+
+BASE: ['../benchmark_common.yaml']
+
+MODEL:
+  TYPE: inception_resnet_v2
+  NAME: inception_resnet_v2
+  PRETRAINED: ''
+  DROP_RATE: 0.2          # Standard Inception-ResNet-v2 dropout rate
+  DROP_PATH_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+
+DATA:
+  BATCH_SIZE: 32          # Fits comfortably in 8GB VRAM with zero memory pressure
+  NUM_WORKERS: 2         # Avoids Windows process IPC bottlenecks
+  IMG_SIZE: 224          # Native spatial resolution for Inception-ResNet-v2 (also supports 224)
+  DATASET: imagenet
+  INTERPOLATION: bicubic
+
+TRAIN:
+  EPOCHS: 50             # Pretrained transfer learning converges in 15-25 epochs
+  WARMUP_EPOCHS: 2       # Short warmup preserving pretrained representations
+  PATIENCE: 10           # Early stopping patience
+  ACCUMULATION_STEPS: 2  # Effective batch size = 32 * 2 = 64
+  BASE_LR: 0.00025       # Transfer learning fine-tuning learning rate (2.5e-4)
+  WARMUP_LR: 0.000025
+  MIN_LR: 0.0000025
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+    EPS: 0.00000001
+  WEIGHT_DECAY: 0.05

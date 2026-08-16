@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+inception_v3_VANILLA,2026-08-15_18-51-41,inception_v3,False,92.59259298819083,41,91.11111150670935,,,,,,,,,,,21795813,6716.4,,./experiments\inception_v3_VANILLA\2026-08-15_18-51-41

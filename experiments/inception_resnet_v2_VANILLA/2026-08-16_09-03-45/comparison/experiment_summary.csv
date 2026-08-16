@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+inception_resnet_v2_VANILLA,2026-08-16_09-03-45,inception_resnet_v2,False,90.3703704268844,10,88.88888928448712,,,,,,,,,,,54314149,2756.6,,./experiments\inception_resnet_v2_VANILLA\2026-08-16_09-03-45

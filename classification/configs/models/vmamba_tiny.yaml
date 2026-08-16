@@ -1,0 +1,60 @@
+# =============================================================================
+# configs/models/vmamba_tiny.yaml
+# -------------------------------
+# VMamba-T (Visual State Space Model - Tiny) baseline configuration.
+#
+# Inherits all common benchmark settings from benchmark_common.yaml.
+# Architecture: 2D Selective Scan (SS2D) with 4-way Cross-Scan & Cross-Merge.
+#
+# Train command (from classification/ directory):
+#   python main.py \
+#     --cfg configs/models/vmamba_tiny.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/vmamba_t \
+#     --no-subdir
+#
+# Eval-only command:
+#   python main.py \
+#     --cfg configs/models/vmamba_tiny.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/vmamba_t \
+#     --no-subdir \
+#     --resume output/benchmark/vmamba_t/best_ckpt.pth \
+#     --eval
+# =============================================================================
+
+BASE: ['../benchmark_common.yaml']
+
+MODEL:
+  TYPE: vmamba_t
+  NAME: vmamba_t
+  PRETRAINED: ''
+  DROP_RATE: 0.0
+  DROP_PATH_RATE: 0.1
+  LABEL_SMOOTHING: 0.1
+  VMAMBA:
+    DEPTHS: [2, 2, 9, 2]
+    EMBED_DIM: [96, 192, 384, 768]
+    MLP_RATIO: 4.0
+    D_STATE: 1
+
+DATA:
+  BATCH_SIZE: 32            # 32 fits comfortably in 8GB VRAM with zero memory pressure
+  NUM_WORKERS: 2           # Avoids Windows process spawn bottlenecks
+  IMG_SIZE: 224
+  DATASET: imagenet
+  INTERPOLATION: bicubic
+
+TRAIN:
+  EPOCHS: 25               # Pretrained transfer learning converges in 15-25 epochs
+  WARMUP_EPOCHS: 2         # Short warmup preserving pretrained representations
+  PATIENCE: 7              # Early stopping patience
+  ACCUMULATION_STEPS: 2    # Effective batch size = 32 * 2 = 64
+  BASE_LR: 0.00025         # Transfer learning fine-tuning learning rate (2.5e-4)
+  WARMUP_LR: 0.000025
+  MIN_LR: 0.0000025
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+    EPS: 0.00000001
+  WEIGHT_DECAY: 0.05

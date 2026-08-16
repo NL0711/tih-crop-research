@@ -1,0 +1,55 @@
+# =============================================================================
+# configs/models/inception_v3.yaml
+# --------------------------------
+# Inception-v3 CNN baseline configuration with ImageNet-1K pretrained weights.
+#
+# Inherits all common benchmark settings from benchmark_common.yaml.
+# Architecture: Factorized multi-scale Inception modules (Szegedy et al., CVPR 2016).
+#
+# Train command (from classification/ directory):
+#   python main.py \
+#     --cfg configs/models/inception_v3.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/inception_v3 \
+#     --no-subdir
+#
+# Eval-only command:
+#   python main.py \
+#     --cfg configs/models/inception_v3.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/inception_v3 \
+#     --no-subdir \
+#     --resume output/benchmark/inception_v3/best_ckpt.pth \
+#     --eval
+# =============================================================================
+
+BASE: ['../benchmark_common.yaml']
+
+MODEL:
+  TYPE: inception_v3
+  NAME: inception_v3
+  PRETRAINED: ''
+  DROP_RATE: 0.2          # Standard Inception dropout before classification layer
+  DROP_PATH_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+
+DATA:
+  BATCH_SIZE: 32          # Fits comfortably in 8GB VRAM with zero memory pressure
+  NUM_WORKERS: 2         # Avoids Windows process spawn bottlenecks
+  IMG_SIZE: 224          # Native Inception-v3 spatial resolution (also supports 224)
+  DATASET: imagenet
+  INTERPOLATION: bilinear
+
+TRAIN:
+  EPOCHS: 50             # Pretrained transfer learning converges in 15-25 epochs
+  WARMUP_EPOCHS: 2       # Short warmup preserving pretrained representations
+  PATIENCE: 10            # Early stopping patience
+  ACCUMULATION_STEPS: 2  # Effective batch size = 32 * 2 = 64
+  BASE_LR: 0.00025       # Transfer learning fine-tuning learning rate (2.5e-4)
+  WARMUP_LR: 0.000025
+  MIN_LR: 0.0000025
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+    EPS: 0.00000001
+  WEIGHT_DECAY: 0.05

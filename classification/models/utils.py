@@ -93,8 +93,8 @@ class SelectiveScanStateFn(torch.autograd.Function):
             u, delta, A, B, D, delta_bias, x = ctx.saved_tensors
             z = None
             out = None
-        else:
-            u, delta, A, B, D, z, delta_bias, x, out = ctx.saved_tensors
+        if dout.dim() == 3:
+            dout = dout.unsqueeze(2)
         if dout.stride(-1) != 1:
             dout = dout.contiguous()
         # The kernel supports passing in a pre-allocated dz (e.g., in case we want to fuse the

@@ -1,0 +1,512 @@
+[2026-08-16 09:03:44 inception_resnet_v2] (main.py 712): INFO Full config saved to output/benchmark/InceptioResNetV2\config.json
+[2026-08-16 09:03:44 inception_resnet_v2] (main.py 716): INFO AMP_ENABLE: true
+AMP_OPT_LEVEL: ''
+AUG:
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  COLOR_JITTER: 0.0
+  CUTMIX: 0
+  CUTMIX_MINMAX: null
+  MIXUP: 0
+  MIXUP_MODE: batch
+  MIXUP_PROB: 0.0
+  MIXUP_SWITCH_PROB: 0.0
+  RECOUNT: 1
+  REMODE: pixel
+  REPROB: 0.25
+BASE:
+- ../benchmark_common.yaml
+DATA:
+  BATCH_SIZE: 32
+  CACHE_MODE: part
+  DATASET: imagenet
+  DATA_PATH: C:\Users\blais\Downloads\caulieval\Cauliflower_split
+  IMG_SIZE: 224
+  INTERPOLATION: bicubic
+  MASK_PATCH_SIZE: 32
+  MASK_RATIO: 0.6
+  NUM_WORKERS: 2
+  OVERSAMPLE: true
+  OVERSAMPLE_REPLACEMENT: true
+  PERSISTENT_WORKERS: false
+  PIN_MEMORY: true
+  ZIP_MODE: false
+ENABLE_AMP: false
+EVAL_MODE: false
+EXPERIMENT:
+  DRIVE_ROOT: /content/drive/MyDrive/DAMamba_Experiments
+  ENABLE_DRIVE: true
+  LOCAL_ROOT: ./experiments
+FUSED_LAYERNORM: false
+MODEL:
+  DAMAMBA:
+    DEPTHS:
+    - 2
+    - 2
+    - 6
+    - 2
+    EMBED_DIM:
+    - 64
+    - 128
+    - 256
+    - 512
+    HEAD_DIM: 16
+    IMAGE_SIZE: 224
+    IN_CHANS: 3
+    LAYERSCALE:
+    - false
+    - false
+    - false
+    - false
+    MLP_RATIO:
+    - 4
+    - 4
+    - 4
+    - 4
+  DDP: torch
+  DROP_PATH_RATE: 0.0
+  DROP_RATE: 0.2
+  FREEZE_BACKBONE: false
+  FREEZE_STAGES: -1
+  HYBRID:
+    ENABLE: false
+  LABEL_SMOOTHING: 0.1
+  MMCKPT: false
+  NAME: inception_resnet_v2
+  NUM_CLASSES: 5
+  PRETRAINED: ''
+  RESUME: ''
+  TYPE: inception_resnet_v2
+  VMAMBA:
+    DEPTHS:
+    - 2
+    - 2
+    - 9
+    - 2
+    D_STATE: 1
+    EMBED_DIM:
+    - 96
+    - 192
+    - 384
+    - 768
+    MLP_RATIO: 4.0
+NO_SUBDIR: true
+OUTPUT: output/benchmark/InceptioResNetV2
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 0
+TAG: '20260816090342'
+TEST:
+  CROP: false
+  SEQUENTIAL: false
+  SHUFFLE: false
+THROUGHPUT_MODE: false
+TRAIN:
+  ACCUMULATION_STEPS: 2
+  AUTO_RESUME: true
+  BASE_LR: 3.125e-05
+  CLIP_GRAD: 5.0
+  EPOCHS: 50
+  LAYER_DECAY: 0.9
+  LR_SCHEDULER:
+    DECAY_EPOCHS: 20
+    DECAY_RATE: 0.1
+    GAMMA: 0.1
+    MULTISTEPS: []
+    NAME: cosine
+    WARMUP_PREFIX: true
+  MESA: -1.0
+  MIN_LR: 3.125e-07
+  MOE:
+    SAVE_MASTER: false
+  OPTIMIZER:
+    BETAS:
+    - 0.9
+    - 0.999
+    EPS: 1.0e-08
+    MOMENTUM: 0.9
+    NAME: adamw
+  PATIENCE: 10
+  START_EPOCH: 0
+  USE_CHECKPOINT: false
+  WARMUP_EPOCHS: 2
+  WARMUP_LR: 3.125e-06
+  WEIGHT_DECAY: 0.05
+TRAINCOST_MODE: false
+
+[2026-08-16 09:03:44 inception_resnet_v2] (main.py 717): INFO {"cfg": ".\\classification\\configs\\models\\inception_resnet_v2.yaml", "opts": null, "batch_size": null, "data_path": "C:\\Users\\blais\\Downloads\\caulieval\\Cauliflower_split", "zip": false, "cache_mode": "part", "pretrained": null, "resume": null, "accumulation_steps": null, "use_checkpoint": false, "disable_amp": false, "output": "output/benchmark/InceptioResNetV2", "tag": "20260816090342", "eval": false, "throughput": false, "oversample": false, "fused_layernorm": false, "optim": null, "model_ema": true, "model_ema_decay": 0.9999, "model_ema_force_cpu": false, "memory_limit_rate": -1, "ddp": "torch", "enable_preload": false, "enable_persistance": false, "no_subdir": true, "mute_repeat": false}
+[2026-08-16 09:03:44 inception_resnet_v2] (main.py 153): INFO Creating model:inception_resnet_v2/inception_resnet_v2
+[2026-08-16 09:03:45 inception_resnet_v2] (optimizer.py 18): INFO ==============> building optimizer adamw....................
+[2026-08-16 09:03:45 inception_resnet_v2] (optimizer.py 27): INFO No weight decay list: ['model.conv2d_1a.bn.weight', 'model.conv2d_1a.bn.bias', 'model.conv2d_2a.bn.weight', 'model.conv2d_2a.bn.bias', 'model.conv2d_2b.bn.weight', 'model.conv2d_2b.bn.bias', 'model.conv2d_3b.bn.weight', 'model.conv2d_3b.bn.bias', 'model.conv2d_4a.bn.weight', 'model.conv2d_4a.bn.bias', 'model.mixed_5b.branch0.bn.weight', 'model.mixed_5b.branch0.bn.bias', 'model.mixed_5b.branch1.0.bn.weight', 'model.mixed_5b.branch1.0.bn.bias', 'model.mixed_5b.branch1.1.bn.weight', 'model.mixed_5b.branch1.1.bn.bias', 'model.mixed_5b.branch2.0.bn.weight', 'model.mixed_5b.branch2.0.bn.bias', 'model.mixed_5b.branch2.1.bn.weight', 'model.mixed_5b.branch2.1.bn.bias', 'model.mixed_5b.branch2.2.bn.weight', 'model.mixed_5b.branch2.2.bn.bias', 'model.mixed_5b.branch3.1.bn.weight', 'model.mixed_5b.branch3.1.bn.bias', 'model.repeat.0.branch0.bn.weight', 'model.repeat.0.branch0.bn.bias', 'model.repeat.0.branch1.0.bn.weight', 'model.repeat.0.branch1.0.bn.bias', 'model.repeat.0.branch1.1.bn.weight', 'model.repeat.0.branch1.1.bn.bias', 'model.repeat.0.branch2.0.bn.weight', 'model.repeat.0.branch2.0.bn.bias', 'model.repeat.0.branch2.1.bn.weight', 'model.repeat.0.branch2.1.bn.bias', 'model.repeat.0.branch2.2.bn.weight', 'model.repeat.0.branch2.2.bn.bias', 'model.repeat.0.conv2d.bias', 'model.repeat.1.branch0.bn.weight', 'model.repeat.1.branch0.bn.bias', 'model.repeat.1.branch1.0.bn.weight', 'model.repeat.1.branch1.0.bn.bias', 'model.repeat.1.branch1.1.bn.weight', 'model.repeat.1.branch1.1.bn.bias', 'model.repeat.1.branch2.0.bn.weight', 'model.repeat.1.branch2.0.bn.bias', 'model.repeat.1.branch2.1.bn.weight', 'model.repeat.1.branch2.1.bn.bias', 'model.repeat.1.branch2.2.bn.weight', 'model.repeat.1.branch2.2.bn.bias', 'model.repeat.1.conv2d.bias', 'model.repeat.2.branch0.bn.weight', 'model.repeat.2.branch0.bn.bias', 'model.repeat.2.branch1.0.bn.weight', 'model.repeat.2.branch1.0.bn.bias', 'model.repeat.2.branch1.1.bn.weight', 'model.repeat.2.branch1.1.bn.bias', 'model.repeat.2.branch2.0.bn.weight', 'model.repeat.2.branch2.0.bn.bias', 'model.repeat.2.branch2.1.bn.weight', 'model.repeat.2.branch2.1.bn.bias', 'model.repeat.2.branch2.2.bn.weight', 'model.repeat.2.branch2.2.bn.bias', 'model.repeat.2.conv2d.bias', 'model.repeat.3.branch0.bn.weight', 'model.repeat.3.branch0.bn.bias', 'model.repeat.3.branch1.0.bn.weight', 'model.repeat.3.branch1.0.bn.bias', 'model.repeat.3.branch1.1.bn.weight', 'model.repeat.3.branch1.1.bn.bias', 'model.repeat.3.branch2.0.bn.weight', 'model.repeat.3.branch2.0.bn.bias', 'model.repeat.3.branch2.1.bn.weight', 'model.repeat.3.branch2.1.bn.bias', 'model.repeat.3.branch2.2.bn.weight', 'model.repeat.3.branch2.2.bn.bias', 'model.repeat.3.conv2d.bias', 'model.repeat.4.branch0.bn.weight', 'model.repeat.4.branch0.bn.bias', 'model.repeat.4.branch1.0.bn.weight', 'model.repeat.4.branch1.0.bn.bias', 'model.repeat.4.branch1.1.bn.weight', 'model.repeat.4.branch1.1.bn.bias', 'model.repeat.4.branch2.0.bn.weight', 'model.repeat.4.branch2.0.bn.bias', 'model.repeat.4.branch2.1.bn.weight', 'model.repeat.4.branch2.1.bn.bias', 'model.repeat.4.branch2.2.bn.weight', 'model.repeat.4.branch2.2.bn.bias', 'model.repeat.4.conv2d.bias', 'model.repeat.5.branch0.bn.weight', 'model.repeat.5.branch0.bn.bias', 'model.repeat.5.branch1.0.bn.weight', 'model.repeat.5.branch1.0.bn.bias', 'model.repeat.5.branch1.1.bn.weight', 'model.repeat.5.branch1.1.bn.bias', 'model.repeat.5.branch2.0.bn.weight', 'model.repeat.5.branch2.0.bn.bias', 'model.repeat.5.branch2.1.bn.weight', 'model.repeat.5.branch2.1.bn.bias', 'model.repeat.5.branch2.2.bn.weight', 'model.repeat.5.branch2.2.bn.bias', 'model.repeat.5.conv2d.bias', 'model.repeat.6.branch0.bn.weight', 'model.repeat.6.branch0.bn.bias', 'model.repeat.6.branch1.0.bn.weight', 'model.repeat.6.branch1.0.bn.bias', 'model.repeat.6.branch1.1.bn.weight', 'model.repeat.6.branch1.1.bn.bias', 'model.repeat.6.branch2.0.bn.weight', 'model.repeat.6.branch2.0.bn.bias', 'model.repeat.6.branch2.1.bn.weight', 'model.repeat.6.branch2.1.bn.bias', 'model.repeat.6.branch2.2.bn.weight', 'model.repeat.6.branch2.2.bn.bias', 'model.repeat.6.conv2d.bias', 'model.repeat.7.branch0.bn.weight', 'model.repeat.7.branch0.bn.bias', 'model.repeat.7.branch1.0.bn.weight', 'model.repeat.7.branch1.0.bn.bias', 'model.repeat.7.branch1.1.bn.weight', 'model.repeat.7.branch1.1.bn.bias', 'model.repeat.7.branch2.0.bn.weight', 'model.repeat.7.branch2.0.bn.bias', 'model.repeat.7.branch2.1.bn.weight', 'model.repeat.7.branch2.1.bn.bias', 'model.repeat.7.branch2.2.bn.weight', 'model.repeat.7.branch2.2.bn.bias', 'model.repeat.7.conv2d.bias', 'model.repeat.8.branch0.bn.weight', 'model.repeat.8.branch0.bn.bias', 'model.repeat.8.branch1.0.bn.weight', 'model.repeat.8.branch1.0.bn.bias', 'model.repeat.8.branch1.1.bn.weight', 'model.repeat.8.branch1.1.bn.bias', 'model.repeat.8.branch2.0.bn.weight', 'model.repeat.8.branch2.0.bn.bias', 'model.repeat.8.branch2.1.bn.weight', 'model.repeat.8.branch2.1.bn.bias', 'model.repeat.8.branch2.2.bn.weight', 'model.repeat.8.branch2.2.bn.bias', 'model.repeat.8.conv2d.bias', 'model.repeat.9.branch0.bn.weight', 'model.repeat.9.branch0.bn.bias', 'model.repeat.9.branch1.0.bn.weight', 'model.repeat.9.branch1.0.bn.bias', 'model.repeat.9.branch1.1.bn.weight', 'model.repeat.9.branch1.1.bn.bias', 'model.repeat.9.branch2.0.bn.weight', 'model.repeat.9.branch2.0.bn.bias', 'model.repeat.9.branch2.1.bn.weight', 'model.repeat.9.branch2.1.bn.bias', 'model.repeat.9.branch2.2.bn.weight', 'model.repeat.9.branch2.2.bn.bias', 'model.repeat.9.conv2d.bias', 'model.mixed_6a.branch0.bn.weight', 'model.mixed_6a.branch0.bn.bias', 'model.mixed_6a.branch1.0.bn.weight', 'model.mixed_6a.branch1.0.bn.bias', 'model.mixed_6a.branch1.1.bn.weight', 'model.mixed_6a.branch1.1.bn.bias', 'model.mixed_6a.branch1.2.bn.weight', 'model.mixed_6a.branch1.2.bn.bias', 'model.repeat_1.0.branch0.bn.weight', 'model.repeat_1.0.branch0.bn.bias', 'model.repeat_1.0.branch1.0.bn.weight', 'model.repeat_1.0.branch1.0.bn.bias', 'model.repeat_1.0.branch1.1.bn.weight', 'model.repeat_1.0.branch1.1.bn.bias', 'model.repeat_1.0.branch1.2.bn.weight', 'model.repeat_1.0.branch1.2.bn.bias', 'model.repeat_1.0.conv2d.bias', 'model.repeat_1.1.branch0.bn.weight', 'model.repeat_1.1.branch0.bn.bias', 'model.repeat_1.1.branch1.0.bn.weight', 'model.repeat_1.1.branch1.0.bn.bias', 'model.repeat_1.1.branch1.1.bn.weight', 'model.repeat_1.1.branch1.1.bn.bias', 'model.repeat_1.1.branch1.2.bn.weight', 'model.repeat_1.1.branch1.2.bn.bias', 'model.repeat_1.1.conv2d.bias', 'model.repeat_1.2.branch0.bn.weight', 'model.repeat_1.2.branch0.bn.bias', 'model.repeat_1.2.branch1.0.bn.weight', 'model.repeat_1.2.branch1.0.bn.bias', 'model.repeat_1.2.branch1.1.bn.weight', 'model.repeat_1.2.branch1.1.bn.bias', 'model.repeat_1.2.branch1.2.bn.weight', 'model.repeat_1.2.branch1.2.bn.bias', 'model.repeat_1.2.conv2d.bias', 'model.repeat_1.3.branch0.bn.weight', 'model.repeat_1.3.branch0.bn.bias', 'model.repeat_1.3.branch1.0.bn.weight', 'model.repeat_1.3.branch1.0.bn.bias', 'model.repeat_1.3.branch1.1.bn.weight', 'model.repeat_1.3.branch1.1.bn.bias', 'model.repeat_1.3.branch1.2.bn.weight', 'model.repeat_1.3.branch1.2.bn.bias', 'model.repeat_1.3.conv2d.bias', 'model.repeat_1.4.branch0.bn.weight', 'model.repeat_1.4.branch0.bn.bias', 'model.repeat_1.4.branch1.0.bn.weight', 'model.repeat_1.4.branch1.0.bn.bias', 'model.repeat_1.4.branch1.1.bn.weight', 'model.repeat_1.4.branch1.1.bn.bias', 'model.repeat_1.4.branch1.2.bn.weight', 'model.repeat_1.4.branch1.2.bn.bias', 'model.repeat_1.4.conv2d.bias', 'model.repeat_1.5.branch0.bn.weight', 'model.repeat_1.5.branch0.bn.bias', 'model.repeat_1.5.branch1.0.bn.weight', 'model.repeat_1.5.branch1.0.bn.bias', 'model.repeat_1.5.branch1.1.bn.weight', 'model.repeat_1.5.branch1.1.bn.bias', 'model.repeat_1.5.branch1.2.bn.weight', 'model.repeat_1.5.branch1.2.bn.bias', 'model.repeat_1.5.conv2d.bias', 'model.repeat_1.6.branch0.bn.weight', 'model.repeat_1.6.branch0.bn.bias', 'model.repeat_1.6.branch1.0.bn.weight', 'model.repeat_1.6.branch1.0.bn.bias', 'model.repeat_1.6.branch1.1.bn.weight', 'model.repeat_1.6.branch1.1.bn.bias', 'model.repeat_1.6.branch1.2.bn.weight', 'model.repeat_1.6.branch1.2.bn.bias', 'model.repeat_1.6.conv2d.bias', 'model.repeat_1.7.branch0.bn.weight', 'model.repeat_1.7.branch0.bn.bias', 'model.repeat_1.7.branch1.0.bn.weight', 'model.repeat_1.7.branch1.0.bn.bias', 'model.repeat_1.7.branch1.1.bn.weight', 'model.repeat_1.7.branch1.1.bn.bias', 'model.repeat_1.7.branch1.2.bn.weight', 'model.repeat_1.7.branch1.2.bn.bias', 'model.repeat_1.7.conv2d.bias', 'model.repeat_1.8.branch0.bn.weight', 'model.repeat_1.8.branch0.bn.bias', 'model.repeat_1.8.branch1.0.bn.weight', 'model.repeat_1.8.branch1.0.bn.bias', 'model.repeat_1.8.branch1.1.bn.weight', 'model.repeat_1.8.branch1.1.bn.bias', 'model.repeat_1.8.branch1.2.bn.weight', 'model.repeat_1.8.branch1.2.bn.bias', 'model.repeat_1.8.conv2d.bias', 'model.repeat_1.9.branch0.bn.weight', 'model.repeat_1.9.branch0.bn.bias', 'model.repeat_1.9.branch1.0.bn.weight', 'model.repeat_1.9.branch1.0.bn.bias', 'model.repeat_1.9.branch1.1.bn.weight', 'model.repeat_1.9.branch1.1.bn.bias', 'model.repeat_1.9.branch1.2.bn.weight', 'model.repeat_1.9.branch1.2.bn.bias', 'model.repeat_1.9.conv2d.bias', 'model.repeat_1.10.branch0.bn.weight', 'model.repeat_1.10.branch0.bn.bias', 'model.repeat_1.10.branch1.0.bn.weight', 'model.repeat_1.10.branch1.0.bn.bias', 'model.repeat_1.10.branch1.1.bn.weight', 'model.repeat_1.10.branch1.1.bn.bias', 'model.repeat_1.10.branch1.2.bn.weight', 'model.repeat_1.10.branch1.2.bn.bias', 'model.repeat_1.10.conv2d.bias', 'model.repeat_1.11.branch0.bn.weight', 'model.repeat_1.11.branch0.bn.bias', 'model.repeat_1.11.branch1.0.bn.weight', 'model.repeat_1.11.branch1.0.bn.bias', 'model.repeat_1.11.branch1.1.bn.weight', 'model.repeat_1.11.branch1.1.bn.bias', 'model.repeat_1.11.branch1.2.bn.weight', 'model.repeat_1.11.branch1.2.bn.bias', 'model.repeat_1.11.conv2d.bias', 'model.repeat_1.12.branch0.bn.weight', 'model.repeat_1.12.branch0.bn.bias', 'model.repeat_1.12.branch1.0.bn.weight', 'model.repeat_1.12.branch1.0.bn.bias', 'model.repeat_1.12.branch1.1.bn.weight', 'model.repeat_1.12.branch1.1.bn.bias', 'model.repeat_1.12.branch1.2.bn.weight', 'model.repeat_1.12.branch1.2.bn.bias', 'model.repeat_1.12.conv2d.bias', 'model.repeat_1.13.branch0.bn.weight', 'model.repeat_1.13.branch0.bn.bias', 'model.repeat_1.13.branch1.0.bn.weight', 'model.repeat_1.13.branch1.0.bn.bias', 'model.repeat_1.13.branch1.1.bn.weight', 'model.repeat_1.13.branch1.1.bn.bias', 'model.repeat_1.13.branch1.2.bn.weight', 'model.repeat_1.13.branch1.2.bn.bias', 'model.repeat_1.13.conv2d.bias', 'model.repeat_1.14.branch0.bn.weight', 'model.repeat_1.14.branch0.bn.bias', 'model.repeat_1.14.branch1.0.bn.weight', 'model.repeat_1.14.branch1.0.bn.bias', 'model.repeat_1.14.branch1.1.bn.weight', 'model.repeat_1.14.branch1.1.bn.bias', 'model.repeat_1.14.branch1.2.bn.weight', 'model.repeat_1.14.branch1.2.bn.bias', 'model.repeat_1.14.conv2d.bias', 'model.repeat_1.15.branch0.bn.weight', 'model.repeat_1.15.branch0.bn.bias', 'model.repeat_1.15.branch1.0.bn.weight', 'model.repeat_1.15.branch1.0.bn.bias', 'model.repeat_1.15.branch1.1.bn.weight', 'model.repeat_1.15.branch1.1.bn.bias', 'model.repeat_1.15.branch1.2.bn.weight', 'model.repeat_1.15.branch1.2.bn.bias', 'model.repeat_1.15.conv2d.bias', 'model.repeat_1.16.branch0.bn.weight', 'model.repeat_1.16.branch0.bn.bias', 'model.repeat_1.16.branch1.0.bn.weight', 'model.repeat_1.16.branch1.0.bn.bias', 'model.repeat_1.16.branch1.1.bn.weight', 'model.repeat_1.16.branch1.1.bn.bias', 'model.repeat_1.16.branch1.2.bn.weight', 'model.repeat_1.16.branch1.2.bn.bias', 'model.repeat_1.16.conv2d.bias', 'model.repeat_1.17.branch0.bn.weight', 'model.repeat_1.17.branch0.bn.bias', 'model.repeat_1.17.branch1.0.bn.weight', 'model.repeat_1.17.branch1.0.bn.bias', 'model.repeat_1.17.branch1.1.bn.weight', 'model.repeat_1.17.branch1.1.bn.bias', 'model.repeat_1.17.branch1.2.bn.weight', 'model.repeat_1.17.branch1.2.bn.bias', 'model.repeat_1.17.conv2d.bias', 'model.repeat_1.18.branch0.bn.weight', 'model.repeat_1.18.branch0.bn.bias', 'model.repeat_1.18.branch1.0.bn.weight', 'model.repeat_1.18.branch1.0.bn.bias', 'model.repeat_1.18.branch1.1.bn.weight', 'model.repeat_1.18.branch1.1.bn.bias', 'model.repeat_1.18.branch1.2.bn.weight', 'model.repeat_1.18.branch1.2.bn.bias', 'model.repeat_1.18.conv2d.bias', 'model.repeat_1.19.branch0.bn.weight', 'model.repeat_1.19.branch0.bn.bias', 'model.repeat_1.19.branch1.0.bn.weight', 'model.repeat_1.19.branch1.0.bn.bias', 'model.repeat_1.19.branch1.1.bn.weight', 'model.repeat_1.19.branch1.1.bn.bias', 'model.repeat_1.19.branch1.2.bn.weight', 'model.repeat_1.19.branch1.2.bn.bias', 'model.repeat_1.19.conv2d.bias', 'model.mixed_7a.branch0.0.bn.weight', 'model.mixed_7a.branch0.0.bn.bias', 'model.mixed_7a.branch0.1.bn.weight', 'model.mixed_7a.branch0.1.bn.bias', 'model.mixed_7a.branch1.0.bn.weight', 'model.mixed_7a.branch1.0.bn.bias', 'model.mixed_7a.branch1.1.bn.weight', 'model.mixed_7a.branch1.1.bn.bias', 'model.mixed_7a.branch2.0.bn.weight', 'model.mixed_7a.branch2.0.bn.bias', 'model.mixed_7a.branch2.1.bn.weight', 'model.mixed_7a.branch2.1.bn.bias', 'model.mixed_7a.branch2.2.bn.weight', 'model.mixed_7a.branch2.2.bn.bias', 'model.repeat_2.0.branch0.bn.weight', 'model.repeat_2.0.branch0.bn.bias', 'model.repeat_2.0.branch1.0.bn.weight', 'model.repeat_2.0.branch1.0.bn.bias', 'model.repeat_2.0.branch1.1.bn.weight', 'model.repeat_2.0.branch1.1.bn.bias', 'model.repeat_2.0.branch1.2.bn.weight', 'model.repeat_2.0.branch1.2.bn.bias', 'model.repeat_2.0.conv2d.bias', 'model.repeat_2.1.branch0.bn.weight', 'model.repeat_2.1.branch0.bn.bias', 'model.repeat_2.1.branch1.0.bn.weight', 'model.repeat_2.1.branch1.0.bn.bias', 'model.repeat_2.1.branch1.1.bn.weight', 'model.repeat_2.1.branch1.1.bn.bias', 'model.repeat_2.1.branch1.2.bn.weight', 'model.repeat_2.1.branch1.2.bn.bias', 'model.repeat_2.1.conv2d.bias', 'model.repeat_2.2.branch0.bn.weight', 'model.repeat_2.2.branch0.bn.bias', 'model.repeat_2.2.branch1.0.bn.weight', 'model.repeat_2.2.branch1.0.bn.bias', 'model.repeat_2.2.branch1.1.bn.weight', 'model.repeat_2.2.branch1.1.bn.bias', 'model.repeat_2.2.branch1.2.bn.weight', 'model.repeat_2.2.branch1.2.bn.bias', 'model.repeat_2.2.conv2d.bias', 'model.repeat_2.3.branch0.bn.weight', 'model.repeat_2.3.branch0.bn.bias', 'model.repeat_2.3.branch1.0.bn.weight', 'model.repeat_2.3.branch1.0.bn.bias', 'model.repeat_2.3.branch1.1.bn.weight', 'model.repeat_2.3.branch1.1.bn.bias', 'model.repeat_2.3.branch1.2.bn.weight', 'model.repeat_2.3.branch1.2.bn.bias', 'model.repeat_2.3.conv2d.bias', 'model.repeat_2.4.branch0.bn.weight', 'model.repeat_2.4.branch0.bn.bias', 'model.repeat_2.4.branch1.0.bn.weight', 'model.repeat_2.4.branch1.0.bn.bias', 'model.repeat_2.4.branch1.1.bn.weight', 'model.repeat_2.4.branch1.1.bn.bias', 'model.repeat_2.4.branch1.2.bn.weight', 'model.repeat_2.4.branch1.2.bn.bias', 'model.repeat_2.4.conv2d.bias', 'model.repeat_2.5.branch0.bn.weight', 'model.repeat_2.5.branch0.bn.bias', 'model.repeat_2.5.branch1.0.bn.weight', 'model.repeat_2.5.branch1.0.bn.bias', 'model.repeat_2.5.branch1.1.bn.weight', 'model.repeat_2.5.branch1.1.bn.bias', 'model.repeat_2.5.branch1.2.bn.weight', 'model.repeat_2.5.branch1.2.bn.bias', 'model.repeat_2.5.conv2d.bias', 'model.repeat_2.6.branch0.bn.weight', 'model.repeat_2.6.branch0.bn.bias', 'model.repeat_2.6.branch1.0.bn.weight', 'model.repeat_2.6.branch1.0.bn.bias', 'model.repeat_2.6.branch1.1.bn.weight', 'model.repeat_2.6.branch1.1.bn.bias', 'model.repeat_2.6.branch1.2.bn.weight', 'model.repeat_2.6.branch1.2.bn.bias', 'model.repeat_2.6.conv2d.bias', 'model.repeat_2.7.branch0.bn.weight', 'model.repeat_2.7.branch0.bn.bias', 'model.repeat_2.7.branch1.0.bn.weight', 'model.repeat_2.7.branch1.0.bn.bias', 'model.repeat_2.7.branch1.1.bn.weight', 'model.repeat_2.7.branch1.1.bn.bias', 'model.repeat_2.7.branch1.2.bn.weight', 'model.repeat_2.7.branch1.2.bn.bias', 'model.repeat_2.7.conv2d.bias', 'model.repeat_2.8.branch0.bn.weight', 'model.repeat_2.8.branch0.bn.bias', 'model.repeat_2.8.branch1.0.bn.weight', 'model.repeat_2.8.branch1.0.bn.bias', 'model.repeat_2.8.branch1.1.bn.weight', 'model.repeat_2.8.branch1.1.bn.bias', 'model.repeat_2.8.branch1.2.bn.weight', 'model.repeat_2.8.branch1.2.bn.bias', 'model.repeat_2.8.conv2d.bias', 'model.block8.branch0.bn.weight', 'model.block8.branch0.bn.bias', 'model.block8.branch1.0.bn.weight', 'model.block8.branch1.0.bn.bias', 'model.block8.branch1.1.bn.weight', 'model.block8.branch1.1.bn.bias', 'model.block8.branch1.2.bn.weight', 'model.block8.branch1.2.bn.bias', 'model.block8.conv2d.bias', 'model.conv2d_7b.bn.weight', 'model.conv2d_7b.bn.bias', 'model.classif.bias']
+[2026-08-16 09:03:45 inception_resnet_v2] (main.py 238): INFO no checkpoint found in output/benchmark/InceptioResNetV2, ignoring auto resume
+[2026-08-16 09:03:45 inception_resnet_v2] (main.py 338): INFO Start training
+[2026-08-16 09:04:02 inception_resnet_v2] (main.py 545): INFO Train: [0/50][0/56]	eta 0:15:06 lr 3.13e-06	 wd 0.0500	time 16.1942 (16.1942)	data time 13.3323 (13.3323)	model time 0.0000 (0.0000)	loss 0.7988 (0.7988)	grad_norm 0.0000 (0.0000)	loss_scale 65536.0000 (65536.0000)	mem 2304MB
+[2026-08-16 09:04:13 inception_resnet_v2] (main.py 545): INFO Train: [0/50][10/56]	eta 0:01:56 lr 5.13e-06	 wd 0.0500	time 2.9642 (2.5330)	data time 2.5658 (2.0204)	model time 0.0000 (0.0000)	loss 0.8032 (0.8022)	grad_norm 2.4727 (nan)	loss_scale 32768.0000 (35746.9091)	mem 2566MB
+[2026-08-16 09:04:27 inception_resnet_v2] (main.py 545): INFO Train: [0/50][20/56]	eta 0:01:10 lr 7.65e-06	 wd 0.0500	time 2.8443 (1.9551)	data time 2.4496 (1.5680)	model time 0.0000 (0.0000)	loss 0.7822 (0.8013)	grad_norm 2.6562 (nan)	loss_scale 32768.0000 (34328.3810)	mem 2566MB
+[2026-08-16 09:04:40 inception_resnet_v2] (main.py 545): INFO Train: [0/50][30/56]	eta 0:00:45 lr 1.02e-05	 wd 0.0500	time 2.2085 (1.7647)	data time 1.9459 (1.4155)	model time 0.0000 (0.0000)	loss 0.8389 (0.8018)	grad_norm 2.4458 (nan)	loss_scale 32768.0000 (33825.0323)	mem 2566MB
+[2026-08-16 09:04:53 inception_resnet_v2] (main.py 545): INFO Train: [0/50][40/56]	eta 0:00:26 lr 1.27e-05	 wd 0.0500	time 2.3900 (1.6558)	data time 2.0461 (1.3297)	model time 0.0000 (0.0000)	loss 0.7681 (0.7976)	grad_norm 2.3957 (nan)	loss_scale 32768.0000 (33567.2195)	mem 2566MB
+[2026-08-16 09:05:07 inception_resnet_v2] (main.py 545): INFO Train: [0/50][50/56]	eta 0:00:09 lr 1.52e-05	 wd 0.0500	time 2.4235 (1.6008)	data time 2.0592 (1.2860)	model time 0.0000 (0.0000)	loss 0.7900 (0.7941)	grad_norm 2.7213 (nan)	loss_scale 32768.0000 (33410.5098)	mem 2566MB
+[2026-08-16 09:05:13 inception_resnet_v2] (main.py 556): INFO EPOCH 0 training takes 0:01:27
+[2026-08-16 09:05:13 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:05:14 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:05:29 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.358 (14.358)	Loss 1.3760 (1.3760)	Acc@1 68.750 (68.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:05:34 inception_resnet_v2] (main.py 617): INFO  * Acc@1 33.333 Acc@5 100.000
+[2026-08-16 09:05:34 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 33.3%
+[2026-08-16 09:05:34 inception_resnet_v2] (main.py 376): INFO New max accuracy: 33.33%
+[2026-08-16 09:05:34 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:05:35 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:05:48 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.760 (12.760)	Loss 1.4209 (1.4209)	Acc@1 62.500 (62.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:05:53 inception_resnet_v2] (main.py 617): INFO  * Acc@1 31.852 Acc@5 100.000
+[2026-08-16 09:05:53 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 31.9%
+[2026-08-16 09:05:53 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 31.85%
+[2026-08-16 09:05:53 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:05:55 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:06:08 inception_resnet_v2] (main.py 545): INFO Train: [1/50][0/56]	eta 0:12:37 lr 1.67e-05	 wd 0.0500	time 13.5343 (13.5343)	data time 13.0991 (13.0991)	model time 0.0000 (0.0000)	loss 0.7754 (0.7754)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2571MB
+[2026-08-16 09:06:20 inception_resnet_v2] (main.py 545): INFO Train: [1/50][10/56]	eta 0:01:45 lr 1.92e-05	 wd 0.0500	time 0.5044 (2.2914)	data time 0.3775 (2.0968)	model time 0.0000 (0.0000)	loss 0.7402 (0.7572)	grad_norm 2.4903 (2.5215)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:06:33 inception_resnet_v2] (main.py 545): INFO Train: [1/50][20/56]	eta 0:01:05 lr 2.17e-05	 wd 0.0500	time 0.1583 (1.8283)	data time 0.0000 (1.6053)	model time 0.0000 (0.0000)	loss 0.7417 (0.7491)	grad_norm 2.2884 (2.5226)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:06:46 inception_resnet_v2] (main.py 545): INFO Train: [1/50][30/56]	eta 0:00:43 lr 2.42e-05	 wd 0.0500	time 0.3576 (1.6657)	data time 0.1994 (1.4293)	model time 0.0000 (0.0000)	loss 0.7642 (0.7448)	grad_norm 2.3220 (2.5296)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:07:00 inception_resnet_v2] (main.py 545): INFO Train: [1/50][40/56]	eta 0:00:25 lr 2.67e-05	 wd 0.0500	time 0.8183 (1.5889)	data time 0.6825 (1.3694)	model time 0.0000 (0.0000)	loss 0.7124 (0.7372)	grad_norm 2.3770 (2.5086)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:07:14 inception_resnet_v2] (main.py 545): INFO Train: [1/50][50/56]	eta 0:00:09 lr 2.92e-05	 wd 0.0500	time 0.7911 (1.5495)	data time 0.6330 (1.3263)	model time 0.0000 (0.0000)	loss 0.6362 (0.7254)	grad_norm 2.7197 (2.5271)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:07:22 inception_resnet_v2] (main.py 556): INFO EPOCH 1 training takes 0:01:27
+[2026-08-16 09:07:22 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:07:23 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:07:37 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.129 (14.129)	Loss 0.9780 (0.9780)	Acc@1 81.250 (81.250)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:07:43 inception_resnet_v2] (main.py 617): INFO  * Acc@1 61.481 Acc@5 100.000
+[2026-08-16 09:07:43 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 61.5%
+[2026-08-16 09:07:43 inception_resnet_v2] (main.py 376): INFO New max accuracy: 61.48%
+[2026-08-16 09:07:43 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:07:44 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:07:56 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.733 (12.733)	Loss 1.1562 (1.1562)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:08:02 inception_resnet_v2] (main.py 617): INFO  * Acc@1 53.333 Acc@5 100.000
+[2026-08-16 09:08:02 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 53.3%
+[2026-08-16 09:08:02 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 53.33%
+[2026-08-16 09:08:02 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:08:03 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:08:16 inception_resnet_v2] (main.py 545): INFO Train: [2/50][0/56]	eta 0:12:25 lr 3.07e-05	 wd 0.0500	time 13.3102 (13.3102)	data time 12.8822 (12.8822)	model time 0.0000 (0.0000)	loss 0.6519 (0.6519)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:08:29 inception_resnet_v2] (main.py 545): INFO Train: [2/50][10/56]	eta 0:01:48 lr 3.12e-05	 wd 0.0500	time 1.6203 (2.3562)	data time 1.4937 (2.1459)	model time 0.0000 (0.0000)	loss 0.6343 (0.6424)	grad_norm 2.7616 (2.6117)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:08:43 inception_resnet_v2] (main.py 545): INFO Train: [2/50][20/56]	eta 0:01:09 lr 3.12e-05	 wd 0.0500	time 2.1291 (1.9230)	data time 1.8820 (1.7185)	model time 0.0000 (0.0000)	loss 0.6284 (0.6366)	grad_norm 2.9841 (2.6255)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:08:56 inception_resnet_v2] (main.py 545): INFO Train: [2/50][30/56]	eta 0:00:44 lr 3.12e-05	 wd 0.0500	time 1.5498 (1.7007)	data time 1.3918 (1.4841)	model time 0.0000 (0.0000)	loss 0.5190 (0.6165)	grad_norm 2.5568 (2.5749)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:09:10 inception_resnet_v2] (main.py 545): INFO Train: [2/50][40/56]	eta 0:00:26 lr 3.12e-05	 wd 0.0500	time 1.4309 (1.6287)	data time 1.2795 (1.4242)	model time 0.0000 (0.0000)	loss 0.5796 (0.6035)	grad_norm 2.5537 (2.5562)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:09:23 inception_resnet_v2] (main.py 545): INFO Train: [2/50][50/56]	eta 0:00:09 lr 3.12e-05	 wd 0.0500	time 1.0722 (1.5728)	data time 0.9308 (1.3766)	model time 0.0000 (0.0000)	loss 0.5776 (0.5954)	grad_norm 2.5573 (2.5766)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:09:32 inception_resnet_v2] (main.py 556): INFO EPOCH 2 training takes 0:01:28
+[2026-08-16 09:09:32 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:09:33 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:09:47 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.666 (14.666)	Loss 0.6499 (0.6499)	Acc@1 65.625 (65.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:09:53 inception_resnet_v2] (main.py 617): INFO  * Acc@1 67.407 Acc@5 100.000
+[2026-08-16 09:09:53 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 67.4%
+[2026-08-16 09:09:53 inception_resnet_v2] (main.py 376): INFO New max accuracy: 67.41%
+[2026-08-16 09:09:53 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:09:54 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:10:09 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.641 (14.641)	Loss 0.8677 (0.8677)	Acc@1 68.750 (68.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:10:14 inception_resnet_v2] (main.py 617): INFO  * Acc@1 65.926 Acc@5 100.000
+[2026-08-16 09:10:14 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 65.9%
+[2026-08-16 09:10:14 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 65.93%
+[2026-08-16 09:10:14 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:10:15 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:10:28 inception_resnet_v2] (main.py 545): INFO Train: [3/50][0/56]	eta 0:12:38 lr 3.12e-05	 wd 0.0500	time 13.5480 (13.5480)	data time 13.2244 (13.2244)	model time 0.0000 (0.0000)	loss 0.6050 (0.6050)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:10:42 inception_resnet_v2] (main.py 545): INFO Train: [3/50][10/56]	eta 0:01:53 lr 3.12e-05	 wd 0.0500	time 2.6146 (2.4622)	data time 2.2876 (2.1956)	model time 0.0000 (0.0000)	loss 0.4517 (0.5299)	grad_norm 3.1277 (2.8400)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:10:56 inception_resnet_v2] (main.py 545): INFO Train: [3/50][20/56]	eta 0:01:10 lr 3.12e-05	 wd 0.0500	time 2.6516 (1.9565)	data time 2.3511 (1.6899)	model time 0.0000 (0.0000)	loss 0.5146 (0.5203)	grad_norm 2.4507 (2.7403)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:11:08 inception_resnet_v2] (main.py 545): INFO Train: [3/50][30/56]	eta 0:00:45 lr 3.12e-05	 wd 0.0500	time 1.8365 (1.7327)	data time 1.6744 (1.4781)	model time 0.0000 (0.0000)	loss 0.4375 (0.5185)	grad_norm 2.7935 (2.8380)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:11:22 inception_resnet_v2] (main.py 545): INFO Train: [3/50][40/56]	eta 0:00:26 lr 3.12e-05	 wd 0.0500	time 1.5730 (1.6435)	data time 1.4178 (1.4050)	model time 0.0000 (0.0000)	loss 0.5039 (0.5193)	grad_norm 2.6472 (2.8724)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:11:35 inception_resnet_v2] (main.py 545): INFO Train: [3/50][50/56]	eta 0:00:09 lr 3.11e-05	 wd 0.0500	time 0.8024 (1.5753)	data time 0.6497 (1.3431)	model time 0.0000 (0.0000)	loss 0.4949 (0.5112)	grad_norm 2.5462 (2.8929)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:11:44 inception_resnet_v2] (main.py 556): INFO EPOCH 3 training takes 0:01:29
+[2026-08-16 09:11:44 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:11:45 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:11:59 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.418 (14.418)	Loss 0.5537 (0.5537)	Acc@1 84.375 (84.375)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:12:05 inception_resnet_v2] (main.py 617): INFO  * Acc@1 84.444 Acc@5 100.000
+[2026-08-16 09:12:05 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 84.4%
+[2026-08-16 09:12:05 inception_resnet_v2] (main.py 376): INFO New max accuracy: 84.44%
+[2026-08-16 09:12:05 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:12:06 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:12:19 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.792 (12.792)	Loss 0.6465 (0.6465)	Acc@1 68.750 (68.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:12:24 inception_resnet_v2] (main.py 617): INFO  * Acc@1 69.630 Acc@5 100.000
+[2026-08-16 09:12:24 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 69.6%
+[2026-08-16 09:12:24 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 69.63%
+[2026-08-16 09:12:24 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:12:25 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:12:38 inception_resnet_v2] (main.py 545): INFO Train: [4/50][0/56]	eta 0:12:47 lr 3.11e-05	 wd 0.0500	time 13.7066 (13.7066)	data time 13.3894 (13.3894)	model time 0.0000 (0.0000)	loss 0.4836 (0.4836)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:12:52 inception_resnet_v2] (main.py 545): INFO Train: [4/50][10/56]	eta 0:01:52 lr 3.11e-05	 wd 0.0500	time 2.7557 (2.4540)	data time 2.3598 (2.1945)	model time 0.0000 (0.0000)	loss 0.4397 (0.4728)	grad_norm 3.0436 (2.9471)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:13:04 inception_resnet_v2] (main.py 545): INFO Train: [4/50][20/56]	eta 0:01:06 lr 3.11e-05	 wd 0.0500	time 1.4656 (1.8609)	data time 1.3238 (1.6333)	model time 0.0000 (0.0000)	loss 0.4700 (0.4664)	grad_norm 2.6465 (2.9387)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:13:18 inception_resnet_v2] (main.py 545): INFO Train: [4/50][30/56]	eta 0:00:44 lr 3.10e-05	 wd 0.0500	time 1.8657 (1.7048)	data time 1.6759 (1.4849)	model time 0.0000 (0.0000)	loss 0.4243 (0.4697)	grad_norm 3.2599 (3.0277)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:13:31 inception_resnet_v2] (main.py 545): INFO Train: [4/50][40/56]	eta 0:00:25 lr 3.10e-05	 wd 0.0500	time 1.4827 (1.6212)	data time 1.3542 (1.4161)	model time 0.0000 (0.0000)	loss 0.3948 (0.4630)	grad_norm 2.8341 (3.0396)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:13:45 inception_resnet_v2] (main.py 545): INFO Train: [4/50][50/56]	eta 0:00:09 lr 3.10e-05	 wd 0.0500	time 1.9788 (1.5681)	data time 1.7292 (1.3602)	model time 0.0000 (0.0000)	loss 0.4509 (0.4599)	grad_norm 3.1855 (3.0717)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:13:52 inception_resnet_v2] (main.py 556): INFO EPOCH 4 training takes 0:01:27
+[2026-08-16 09:13:52 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:13:53 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:14:08 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.579 (14.579)	Loss 0.5107 (0.5107)	Acc@1 81.250 (81.250)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:14:13 inception_resnet_v2] (main.py 617): INFO  * Acc@1 82.963 Acc@5 100.000
+[2026-08-16 09:14:13 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 83.0%
+[2026-08-16 09:14:26 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.869 (12.869)	Loss 0.6079 (0.6079)	Acc@1 75.000 (75.000)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:14:31 inception_resnet_v2] (main.py 617): INFO  * Acc@1 79.259 Acc@5 100.000
+[2026-08-16 09:14:31 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 79.3%
+[2026-08-16 09:14:31 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 79.26%
+[2026-08-16 09:14:31 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:14:32 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:14:46 inception_resnet_v2] (main.py 545): INFO Train: [5/50][0/56]	eta 0:12:36 lr 3.10e-05	 wd 0.0500	time 13.5029 (13.5029)	data time 13.0194 (13.0194)	model time 0.0000 (0.0000)	loss 0.4871 (0.4871)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:14:58 inception_resnet_v2] (main.py 545): INFO Train: [5/50][10/56]	eta 0:01:49 lr 3.09e-05	 wd 0.0500	time 1.6251 (2.3752)	data time 1.4801 (2.1331)	model time 0.0000 (0.0000)	loss 0.4370 (0.4536)	grad_norm 3.5251 (3.1828)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:15:12 inception_resnet_v2] (main.py 545): INFO Train: [5/50][20/56]	eta 0:01:08 lr 3.09e-05	 wd 0.0500	time 1.1791 (1.8957)	data time 1.0418 (1.6939)	model time 0.0000 (0.0000)	loss 0.3770 (0.4320)	grad_norm 3.0479 (3.0446)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:15:26 inception_resnet_v2] (main.py 545): INFO Train: [5/50][30/56]	eta 0:00:44 lr 3.08e-05	 wd 0.0500	time 1.8777 (1.7281)	data time 1.7509 (1.5259)	model time 0.0000 (0.0000)	loss 0.4541 (0.4428)	grad_norm 3.4487 (3.1147)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:15:39 inception_resnet_v2] (main.py 545): INFO Train: [5/50][40/56]	eta 0:00:26 lr 3.08e-05	 wd 0.0500	time 1.9151 (1.6299)	data time 1.7545 (1.4370)	model time 0.0000 (0.0000)	loss 0.4023 (0.4364)	grad_norm 3.0344 (3.1290)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:15:53 inception_resnet_v2] (main.py 545): INFO Train: [5/50][50/56]	eta 0:00:09 lr 3.08e-05	 wd 0.0500	time 2.5450 (1.5839)	data time 2.1755 (1.3753)	model time 0.0000 (0.0000)	loss 0.4719 (0.4355)	grad_norm 3.3516 (3.1296)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:16:00 inception_resnet_v2] (main.py 556): INFO EPOCH 5 training takes 0:01:27
+[2026-08-16 09:16:00 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:16:01 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:16:15 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.281 (14.281)	Loss 0.4341 (0.4341)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:16:20 inception_resnet_v2] (main.py 617): INFO  * Acc@1 87.407 Acc@5 100.000
+[2026-08-16 09:16:20 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 87.4%
+[2026-08-16 09:16:20 inception_resnet_v2] (main.py 376): INFO New max accuracy: 87.41%
+[2026-08-16 09:16:20 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:16:21 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:16:34 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.783 (12.783)	Loss 0.4868 (0.4868)	Acc@1 84.375 (84.375)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:16:39 inception_resnet_v2] (main.py 617): INFO  * Acc@1 85.185 Acc@5 100.000
+[2026-08-16 09:16:39 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 85.2%
+[2026-08-16 09:16:39 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 85.19%
+[2026-08-16 09:16:39 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:16:40 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:16:53 inception_resnet_v2] (main.py 545): INFO Train: [6/50][0/56]	eta 0:12:32 lr 3.07e-05	 wd 0.0500	time 13.4399 (13.4399)	data time 12.9495 (12.9495)	model time 0.0000 (0.0000)	loss 0.4292 (0.4292)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:17:06 inception_resnet_v2] (main.py 545): INFO Train: [6/50][10/56]	eta 0:01:47 lr 3.07e-05	 wd 0.0500	time 1.5393 (2.3440)	data time 1.3949 (2.1389)	model time 0.0000 (0.0000)	loss 0.3613 (0.4261)	grad_norm 2.9706 (3.3519)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:17:20 inception_resnet_v2] (main.py 545): INFO Train: [6/50][20/56]	eta 0:01:08 lr 3.06e-05	 wd 0.0500	time 1.4719 (1.8926)	data time 1.3360 (1.7092)	model time 0.0000 (0.0000)	loss 0.4429 (0.4234)	grad_norm 3.6688 (3.3006)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:17:33 inception_resnet_v2] (main.py 545): INFO Train: [6/50][30/56]	eta 0:00:44 lr 3.06e-05	 wd 0.0500	time 1.4843 (1.7237)	data time 1.3384 (1.5457)	model time 0.0000 (0.0000)	loss 0.3765 (0.4159)	grad_norm 2.8046 (3.2667)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:17:47 inception_resnet_v2] (main.py 545): INFO Train: [6/50][40/56]	eta 0:00:26 lr 3.05e-05	 wd 0.0500	time 1.6625 (1.6438)	data time 1.5149 (1.4635)	model time 0.0000 (0.0000)	loss 0.5107 (0.4195)	grad_norm 3.5579 (3.2723)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:18:01 inception_resnet_v2] (main.py 545): INFO Train: [6/50][50/56]	eta 0:00:09 lr 3.05e-05	 wd 0.0500	time 2.4991 (1.5931)	data time 2.1651 (1.4077)	model time 0.0000 (0.0000)	loss 0.3523 (0.4156)	grad_norm 3.2094 (3.3281)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:18:08 inception_resnet_v2] (main.py 556): INFO EPOCH 6 training takes 0:01:27
+[2026-08-16 09:18:08 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:18:09 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:18:23 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.398 (14.398)	Loss 0.3970 (0.3970)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:18:28 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:18:28 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:18:28 inception_resnet_v2] (main.py 376): INFO New max accuracy: 88.89%
+[2026-08-16 09:18:28 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:18:30 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:18:43 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.946 (12.946)	Loss 0.4353 (0.4353)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:18:48 inception_resnet_v2] (main.py 617): INFO  * Acc@1 86.667 Acc@5 100.000
+[2026-08-16 09:18:48 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 86.7%
+[2026-08-16 09:18:48 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 86.67%
+[2026-08-16 09:18:48 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:18:49 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:19:02 inception_resnet_v2] (main.py 545): INFO Train: [7/50][0/56]	eta 0:12:33 lr 3.04e-05	 wd 0.0500	time 13.4523 (13.4523)	data time 13.0576 (13.0576)	model time 0.0000 (0.0000)	loss 0.3828 (0.3828)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:19:16 inception_resnet_v2] (main.py 545): INFO Train: [7/50][10/56]	eta 0:01:54 lr 3.04e-05	 wd 0.0500	time 2.8251 (2.4942)	data time 2.5095 (2.2230)	model time 0.0000 (0.0000)	loss 0.3445 (0.3933)	grad_norm 3.3993 (3.1984)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:19:29 inception_resnet_v2] (main.py 545): INFO Train: [7/50][20/56]	eta 0:01:09 lr 3.03e-05	 wd 0.0500	time 2.7169 (1.9407)	data time 2.3271 (1.6746)	model time 0.0000 (0.0000)	loss 0.3965 (0.3858)	grad_norm 3.1939 (3.2180)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:19:43 inception_resnet_v2] (main.py 545): INFO Train: [7/50][30/56]	eta 0:00:45 lr 3.03e-05	 wd 0.0500	time 2.5207 (1.7587)	data time 2.1437 (1.4902)	model time 0.0000 (0.0000)	loss 0.4041 (0.3924)	grad_norm 4.4988 (3.3350)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:19:58 inception_resnet_v2] (main.py 545): INFO Train: [7/50][40/56]	eta 0:00:26 lr 3.02e-05	 wd 0.0500	time 2.7779 (1.6828)	data time 2.4165 (1.4135)	model time 0.0000 (0.0000)	loss 0.4736 (0.4047)	grad_norm 3.9357 (3.4306)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:20:11 inception_resnet_v2] (main.py 545): INFO Train: [7/50][50/56]	eta 0:00:09 lr 3.01e-05	 wd 0.0500	time 2.4670 (1.6155)	data time 2.1514 (1.3482)	model time 0.0000 (0.0000)	loss 0.4011 (0.4025)	grad_norm 3.7381 (3.4345)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:20:18 inception_resnet_v2] (main.py 556): INFO EPOCH 7 training takes 0:01:29
+[2026-08-16 09:20:18 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:20:19 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:20:34 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.519 (14.519)	Loss 0.3528 (0.3528)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:20:39 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:20:39 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:20:52 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.657 (12.657)	Loss 0.3879 (0.3879)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:20:57 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-16 09:20:57 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-16 09:20:57 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 88.15%
+[2026-08-16 09:20:57 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:20:58 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:21:12 inception_resnet_v2] (main.py 545): INFO Train: [8/50][0/56]	eta 0:12:39 lr 3.01e-05	 wd 0.0500	time 13.5657 (13.5657)	data time 13.1444 (13.1444)	model time 0.0000 (0.0000)	loss 0.4490 (0.4490)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:21:24 inception_resnet_v2] (main.py 545): INFO Train: [8/50][10/56]	eta 0:01:51 lr 3.00e-05	 wd 0.0500	time 2.8199 (2.4135)	data time 2.4972 (2.1553)	model time 0.0000 (0.0000)	loss 0.4189 (0.3947)	grad_norm 3.0897 (3.3840)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:21:38 inception_resnet_v2] (main.py 545): INFO Train: [8/50][20/56]	eta 0:01:08 lr 2.99e-05	 wd 0.0500	time 2.6100 (1.9012)	data time 2.2614 (1.6443)	model time 0.0000 (0.0000)	loss 0.3704 (0.3878)	grad_norm 3.7795 (3.4284)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:21:51 inception_resnet_v2] (main.py 545): INFO Train: [8/50][30/56]	eta 0:00:44 lr 2.99e-05	 wd 0.0500	time 2.0267 (1.7131)	data time 1.8688 (1.4578)	model time 0.0000 (0.0000)	loss 0.5039 (0.3837)	grad_norm 3.3970 (3.2754)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:22:05 inception_resnet_v2] (main.py 545): INFO Train: [8/50][40/56]	eta 0:00:25 lr 2.98e-05	 wd 0.0500	time 1.1338 (1.6243)	data time 0.9928 (1.3915)	model time 0.0000 (0.0000)	loss 0.4067 (0.3843)	grad_norm 3.0763 (3.3464)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:22:18 inception_resnet_v2] (main.py 545): INFO Train: [8/50][50/56]	eta 0:00:09 lr 2.97e-05	 wd 0.0500	time 1.8711 (1.5739)	data time 1.7088 (1.3536)	model time 0.0000 (0.0000)	loss 0.4023 (0.3792)	grad_norm 3.5264 (3.3385)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:22:26 inception_resnet_v2] (main.py 556): INFO EPOCH 8 training takes 0:01:27
+[2026-08-16 09:22:26 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:22:27 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:22:41 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.245 (14.245)	Loss 0.3259 (0.3259)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:22:46 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:22:46 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:22:59 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.741 (12.741)	Loss 0.3625 (0.3625)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:23:04 inception_resnet_v2] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-16 09:23:04 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-16 09:23:04 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 89.63%
+[2026-08-16 09:23:04 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:23:05 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:23:18 inception_resnet_v2] (main.py 545): INFO Train: [9/50][0/56]	eta 0:12:30 lr 2.97e-05	 wd 0.0500	time 13.3949 (13.3949)	data time 12.9758 (12.9758)	model time 0.0000 (0.0000)	loss 0.3613 (0.3613)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:23:31 inception_resnet_v2] (main.py 545): INFO Train: [9/50][10/56]	eta 0:01:49 lr 2.96e-05	 wd 0.0500	time 1.6641 (2.3797)	data time 1.5285 (2.1392)	model time 0.0000 (0.0000)	loss 0.4797 (0.4197)	grad_norm 3.8650 (3.6251)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:23:44 inception_resnet_v2] (main.py 545): INFO Train: [9/50][20/56]	eta 0:01:07 lr 2.95e-05	 wd 0.0500	time 1.6366 (1.8750)	data time 1.4979 (1.6527)	model time 0.0000 (0.0000)	loss 0.3503 (0.3967)	grad_norm 3.1148 (3.5049)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:23:58 inception_resnet_v2] (main.py 545): INFO Train: [9/50][30/56]	eta 0:00:44 lr 2.94e-05	 wd 0.0500	time 2.5302 (1.7170)	data time 2.1903 (1.4917)	model time 0.0000 (0.0000)	loss 0.3892 (0.3855)	grad_norm 3.0848 (3.4258)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:24:12 inception_resnet_v2] (main.py 545): INFO Train: [9/50][40/56]	eta 0:00:26 lr 2.93e-05	 wd 0.0500	time 2.7935 (1.6423)	data time 2.4456 (1.4070)	model time 0.0000 (0.0000)	loss 0.4077 (0.3845)	grad_norm 4.5403 (3.4795)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:24:26 inception_resnet_v2] (main.py 545): INFO Train: [9/50][50/56]	eta 0:00:09 lr 2.92e-05	 wd 0.0500	time 2.8361 (1.5834)	data time 2.5189 (1.3430)	model time 0.0000 (0.0000)	loss 0.4172 (0.3792)	grad_norm 3.6066 (3.4746)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:24:33 inception_resnet_v2] (main.py 556): INFO EPOCH 9 training takes 0:01:27
+[2026-08-16 09:24:33 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:24:33 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:24:48 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.286 (14.286)	Loss 0.3328 (0.3328)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:24:53 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-16 09:24:53 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-16 09:25:06 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.730 (12.730)	Loss 0.3167 (0.3167)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:25:11 inception_resnet_v2] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-16 09:25:11 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-16 09:25:11 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 90.37%
+[2026-08-16 09:25:11 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:25:12 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:25:26 inception_resnet_v2] (main.py 545): INFO Train: [10/50][0/56]	eta 0:12:38 lr 2.92e-05	 wd 0.0500	time 13.5372 (13.5372)	data time 13.1412 (13.1412)	model time 0.0000 (0.0000)	loss 0.4434 (0.4434)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:25:39 inception_resnet_v2] (main.py 545): INFO Train: [10/50][10/56]	eta 0:01:53 lr 2.91e-05	 wd 0.0500	time 2.3964 (2.4643)	data time 2.0965 (2.1957)	model time 0.0000 (0.0000)	loss 0.4185 (0.3778)	grad_norm 3.3585 (3.4937)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:25:53 inception_resnet_v2] (main.py 545): INFO Train: [10/50][20/56]	eta 0:01:09 lr 2.90e-05	 wd 0.0500	time 2.4529 (1.9371)	data time 2.1437 (1.6708)	model time 0.0000 (0.0000)	loss 0.3660 (0.3847)	grad_norm 4.6441 (3.6065)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:26:05 inception_resnet_v2] (main.py 545): INFO Train: [10/50][30/56]	eta 0:00:44 lr 2.89e-05	 wd 0.0500	time 0.9664 (1.7158)	data time 0.8316 (1.4742)	model time 0.0000 (0.0000)	loss 0.3296 (0.3739)	grad_norm 3.5797 (3.5185)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:26:19 inception_resnet_v2] (main.py 545): INFO Train: [10/50][40/56]	eta 0:00:26 lr 2.88e-05	 wd 0.0500	time 1.7202 (1.6323)	data time 1.5635 (1.4089)	model time 0.0000 (0.0000)	loss 0.3916 (0.3768)	grad_norm 3.4058 (3.6080)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:26:32 inception_resnet_v2] (main.py 545): INFO Train: [10/50][50/56]	eta 0:00:09 lr 2.87e-05	 wd 0.0500	time 1.1258 (1.5747)	data time 0.9780 (1.3635)	model time 0.0000 (0.0000)	loss 0.3674 (0.3715)	grad_norm 4.0087 (3.5636)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:26:40 inception_resnet_v2] (main.py 556): INFO EPOCH 10 training takes 0:01:28
+[2026-08-16 09:26:40 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:26:41 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:26:55 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.126 (14.126)	Loss 0.2952 (0.2952)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:27:01 inception_resnet_v2] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-16 09:27:01 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-16 09:27:01 inception_resnet_v2] (main.py 376): INFO New max accuracy: 90.37%
+[2026-08-16 09:27:01 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saving......
+[2026-08-16 09:27:02 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt.pth saved !!!
+[2026-08-16 09:27:15 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 13.007 (13.007)	Loss 0.3213 (0.3213)	Acc@1 84.375 (84.375)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:27:20 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:27:20 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:27:33 inception_resnet_v2] (main.py 545): INFO Train: [11/50][0/56]	eta 0:12:49 lr 2.87e-05	 wd 0.0500	time 13.7405 (13.7405)	data time 13.2786 (13.2786)	model time 0.0000 (0.0000)	loss 0.3950 (0.3950)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:27:45 inception_resnet_v2] (main.py 545): INFO Train: [11/50][10/56]	eta 0:01:47 lr 2.86e-05	 wd 0.0500	time 1.8801 (2.3453)	data time 1.7371 (2.1022)	model time 0.0000 (0.0000)	loss 0.3269 (0.3668)	grad_norm 3.9181 (3.6217)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:28:01 inception_resnet_v2] (main.py 545): INFO Train: [11/50][20/56]	eta 0:01:10 lr 2.85e-05	 wd 0.0500	time 2.3590 (1.9626)	data time 2.0109 (1.7018)	model time 0.0000 (0.0000)	loss 0.2876 (0.3622)	grad_norm 3.7237 (3.6575)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:28:16 inception_resnet_v2] (main.py 545): INFO Train: [11/50][30/56]	eta 0:00:47 lr 2.84e-05	 wd 0.0500	time 3.0880 (1.8332)	data time 2.7095 (1.5666)	model time 0.0000 (0.0000)	loss 0.4414 (0.3603)	grad_norm 3.7887 (3.4977)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:28:32 inception_resnet_v2] (main.py 545): INFO Train: [11/50][40/56]	eta 0:00:28 lr 2.82e-05	 wd 0.0500	time 2.8268 (1.7636)	data time 2.5409 (1.4976)	model time 0.0000 (0.0000)	loss 0.3301 (0.3547)	grad_norm 3.1798 (3.4402)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:28:47 inception_resnet_v2] (main.py 545): INFO Train: [11/50][50/56]	eta 0:00:10 lr 2.81e-05	 wd 0.0500	time 3.0372 (1.7034)	data time 2.6873 (1.4353)	model time 0.0000 (0.0000)	loss 0.2539 (0.3532)	grad_norm 3.1705 (3.4426)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:28:54 inception_resnet_v2] (main.py 556): INFO EPOCH 11 training takes 0:01:34
+[2026-08-16 09:28:54 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:28:55 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:29:09 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.870 (14.870)	Loss 0.2693 (0.2693)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:29:15 inception_resnet_v2] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-16 09:29:15 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-16 09:29:28 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.944 (12.944)	Loss 0.3225 (0.3225)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:29:34 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:29:34 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:29:48 inception_resnet_v2] (main.py 545): INFO Train: [12/50][0/56]	eta 0:13:14 lr 2.81e-05	 wd 0.0500	time 14.1943 (14.1943)	data time 13.8435 (13.8435)	model time 0.0000 (0.0000)	loss 0.3252 (0.3252)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:30:02 inception_resnet_v2] (main.py 545): INFO Train: [12/50][10/56]	eta 0:01:58 lr 2.80e-05	 wd 0.0500	time 2.6649 (2.5751)	data time 2.2838 (2.3345)	model time 0.0000 (0.0000)	loss 0.3469 (0.3739)	grad_norm 4.3723 (3.7471)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:30:17 inception_resnet_v2] (main.py 545): INFO Train: [12/50][20/56]	eta 0:01:14 lr 2.79e-05	 wd 0.0500	time 2.6489 (2.0609)	data time 2.2600 (1.7984)	model time 0.0000 (0.0000)	loss 0.3845 (0.3602)	grad_norm 3.2933 (3.6587)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:30:31 inception_resnet_v2] (main.py 545): INFO Train: [12/50][30/56]	eta 0:00:47 lr 2.77e-05	 wd 0.0500	time 1.7264 (1.8420)	data time 1.5839 (1.5798)	model time 0.0000 (0.0000)	loss 0.4426 (0.3631)	grad_norm 4.4501 (3.6921)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:30:45 inception_resnet_v2] (main.py 545): INFO Train: [12/50][40/56]	eta 0:00:27 lr 2.76e-05	 wd 0.0500	time 0.8352 (1.7346)	data time 0.6985 (1.4903)	model time 0.0000 (0.0000)	loss 0.3999 (0.3630)	grad_norm 4.3704 (3.8113)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:30:59 inception_resnet_v2] (main.py 545): INFO Train: [12/50][50/56]	eta 0:00:10 lr 2.75e-05	 wd 0.0500	time 0.2379 (1.6708)	data time 0.1053 (1.4277)	model time 0.0000 (0.0000)	loss 0.3845 (0.3604)	grad_norm 3.9229 (3.7895)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:31:08 inception_resnet_v2] (main.py 556): INFO EPOCH 12 training takes 0:01:34
+[2026-08-16 09:31:09 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:31:09 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:31:24 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.585 (14.585)	Loss 0.2749 (0.2749)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:31:30 inception_resnet_v2] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-16 09:31:30 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-16 09:31:43 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.989 (12.989)	Loss 0.2935 (0.2935)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:31:48 inception_resnet_v2] (main.py 617): INFO  * Acc@1 90.370 Acc@5 100.000
+[2026-08-16 09:31:48 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 90.4%
+[2026-08-16 09:32:02 inception_resnet_v2] (main.py 545): INFO Train: [13/50][0/56]	eta 0:12:35 lr 2.74e-05	 wd 0.0500	time 13.4908 (13.4908)	data time 13.0888 (13.0888)	model time 0.0000 (0.0000)	loss 0.3335 (0.3335)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:32:17 inception_resnet_v2] (main.py 545): INFO Train: [13/50][10/56]	eta 0:01:59 lr 2.73e-05	 wd 0.0500	time 2.9306 (2.6004)	data time 2.5260 (2.3043)	model time 0.0000 (0.0000)	loss 0.3101 (0.3303)	grad_norm 3.1715 (3.3792)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:32:31 inception_resnet_v2] (main.py 545): INFO Train: [13/50][20/56]	eta 0:01:13 lr 2.72e-05	 wd 0.0500	time 2.9332 (2.0379)	data time 2.5280 (1.7519)	model time 0.0000 (0.0000)	loss 0.3235 (0.3468)	grad_norm 3.2971 (3.4558)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:32:46 inception_resnet_v2] (main.py 545): INFO Train: [13/50][30/56]	eta 0:00:48 lr 2.71e-05	 wd 0.0500	time 1.6490 (1.8496)	data time 1.5151 (1.5734)	model time 0.0000 (0.0000)	loss 0.2854 (0.3405)	grad_norm 3.5954 (3.4433)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:33:00 inception_resnet_v2] (main.py 545): INFO Train: [13/50][40/56]	eta 0:00:27 lr 2.69e-05	 wd 0.0500	time 1.8387 (1.7408)	data time 1.6653 (1.4872)	model time 0.0000 (0.0000)	loss 0.2759 (0.3379)	grad_norm 2.9984 (3.3789)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:33:15 inception_resnet_v2] (main.py 545): INFO Train: [13/50][50/56]	eta 0:00:10 lr 2.68e-05	 wd 0.0500	time 1.4541 (1.6906)	data time 1.3119 (1.4527)	model time 0.0000 (0.0000)	loss 0.3516 (0.3416)	grad_norm 3.7868 (3.3788)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:33:23 inception_resnet_v2] (main.py 556): INFO EPOCH 13 training takes 0:01:34
+[2026-08-16 09:33:23 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:33:24 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:33:39 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 15.022 (15.022)	Loss 0.2832 (0.2832)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:33:45 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-16 09:33:45 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-16 09:33:58 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.960 (12.960)	Loss 0.2515 (0.2515)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:34:04 inception_resnet_v2] (main.py 617): INFO  * Acc@1 91.111 Acc@5 100.000
+[2026-08-16 09:34:04 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 91.1%
+[2026-08-16 09:34:04 inception_resnet_v2] (main.py 399): INFO New max accuracy ema: 91.11%
+[2026-08-16 09:34:04 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saving......
+[2026-08-16 09:34:05 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\best_ckpt_ema.pth saved !!!
+[2026-08-16 09:34:19 inception_resnet_v2] (main.py 545): INFO Train: [14/50][0/56]	eta 0:13:05 lr 2.67e-05	 wd 0.0500	time 14.0357 (14.0357)	data time 13.5582 (13.5582)	model time 0.0000 (0.0000)	loss 0.3662 (0.3662)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:34:33 inception_resnet_v2] (main.py 545): INFO Train: [14/50][10/56]	eta 0:01:57 lr 2.66e-05	 wd 0.0500	time 2.7523 (2.5594)	data time 2.3723 (2.2661)	model time 0.0000 (0.0000)	loss 0.4612 (0.3691)	grad_norm 3.7064 (3.9571)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:34:47 inception_resnet_v2] (main.py 545): INFO Train: [14/50][20/56]	eta 0:01:13 lr 2.65e-05	 wd 0.0500	time 2.5632 (2.0369)	data time 2.2003 (1.7576)	model time 0.0000 (0.0000)	loss 0.2883 (0.3570)	grad_norm 2.8294 (3.9551)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:35:02 inception_resnet_v2] (main.py 545): INFO Train: [14/50][30/56]	eta 0:00:48 lr 2.64e-05	 wd 0.0500	time 2.8143 (1.8586)	data time 2.4820 (1.5785)	model time 0.0000 (0.0000)	loss 0.3428 (0.3408)	grad_norm 3.4949 (3.6595)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:35:17 inception_resnet_v2] (main.py 545): INFO Train: [14/50][40/56]	eta 0:00:28 lr 2.62e-05	 wd 0.0500	time 3.0029 (1.7660)	data time 2.6554 (1.4871)	model time 0.0000 (0.0000)	loss 0.3691 (0.3396)	grad_norm 3.2142 (3.5789)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:35:31 inception_resnet_v2] (main.py 545): INFO Train: [14/50][50/56]	eta 0:00:10 lr 2.61e-05	 wd 0.0500	time 2.6287 (1.6936)	data time 2.3059 (1.4166)	model time 0.0000 (0.0000)	loss 0.3169 (0.3383)	grad_norm 3.6613 (3.6383)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:35:38 inception_resnet_v2] (main.py 556): INFO EPOCH 14 training takes 0:01:33
+[2026-08-16 09:35:38 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:35:39 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:35:54 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.633 (14.633)	Loss 0.2520 (0.2520)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:36:00 inception_resnet_v2] (main.py 617): INFO  * Acc@1 86.667 Acc@5 100.000
+[2026-08-16 09:36:00 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 86.7%
+[2026-08-16 09:36:13 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 13.322 (13.322)	Loss 0.3008 (0.3008)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:36:19 inception_resnet_v2] (main.py 617): INFO  * Acc@1 87.407 Acc@5 100.000
+[2026-08-16 09:36:19 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 87.4%
+[2026-08-16 09:36:33 inception_resnet_v2] (main.py 545): INFO Train: [15/50][0/56]	eta 0:13:04 lr 2.60e-05	 wd 0.0500	time 14.0090 (14.0090)	data time 13.5737 (13.5737)	model time 0.0000 (0.0000)	loss 0.3596 (0.3596)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:36:48 inception_resnet_v2] (main.py 545): INFO Train: [15/50][10/56]	eta 0:02:00 lr 2.59e-05	 wd 0.0500	time 2.8168 (2.6150)	data time 2.4663 (2.3227)	model time 0.0000 (0.0000)	loss 0.3940 (0.3494)	grad_norm 3.1573 (3.3936)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:37:02 inception_resnet_v2] (main.py 545): INFO Train: [15/50][20/56]	eta 0:01:13 lr 2.57e-05	 wd 0.0500	time 2.7463 (2.0441)	data time 2.3486 (1.7571)	model time 0.0000 (0.0000)	loss 0.2896 (0.3344)	grad_norm 3.0540 (3.4728)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:37:16 inception_resnet_v2] (main.py 545): INFO Train: [15/50][30/56]	eta 0:00:48 lr 2.56e-05	 wd 0.0500	time 2.7995 (1.8561)	data time 2.4029 (1.5745)	model time 0.0000 (0.0000)	loss 0.2888 (0.3469)	grad_norm 4.9147 (3.8162)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:37:30 inception_resnet_v2] (main.py 545): INFO Train: [15/50][40/56]	eta 0:00:27 lr 2.55e-05	 wd 0.0500	time 2.7549 (1.7447)	data time 2.3784 (1.4679)	model time 0.0000 (0.0000)	loss 0.3027 (0.3474)	grad_norm 3.7985 (3.8540)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:37:45 inception_resnet_v2] (main.py 545): INFO Train: [15/50][50/56]	eta 0:00:10 lr 2.53e-05	 wd 0.0500	time 2.4054 (1.6897)	data time 2.1117 (1.4164)	model time 0.0000 (0.0000)	loss 0.3938 (0.3468)	grad_norm 2.8261 (3.8000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:37:52 inception_resnet_v2] (main.py 556): INFO EPOCH 15 training takes 0:01:33
+[2026-08-16 09:37:52 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:37:53 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:38:08 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.601 (14.601)	Loss 0.2302 (0.2302)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:38:14 inception_resnet_v2] (main.py 617): INFO  * Acc@1 86.667 Acc@5 100.000
+[2026-08-16 09:38:14 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 86.7%
+[2026-08-16 09:38:27 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.960 (12.960)	Loss 0.2307 (0.2307)	Acc@1 96.875 (96.875)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:38:32 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:38:32 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:38:46 inception_resnet_v2] (main.py 545): INFO Train: [16/50][0/56]	eta 0:12:32 lr 2.52e-05	 wd 0.0500	time 13.4427 (13.4427)	data time 13.0712 (13.0712)	model time 0.0000 (0.0000)	loss 0.3215 (0.3215)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:39:01 inception_resnet_v2] (main.py 545): INFO Train: [16/50][10/56]	eta 0:01:57 lr 2.51e-05	 wd 0.0500	time 2.2835 (2.5492)	data time 1.9745 (2.2604)	model time 0.0000 (0.0000)	loss 0.3462 (0.3324)	grad_norm 3.3768 (3.3705)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:39:15 inception_resnet_v2] (main.py 545): INFO Train: [16/50][20/56]	eta 0:01:13 lr 2.49e-05	 wd 0.0500	time 3.0525 (2.0390)	data time 2.7515 (1.7561)	model time 0.0000 (0.0000)	loss 0.3108 (0.3322)	grad_norm 3.2027 (3.5109)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:39:30 inception_resnet_v2] (main.py 545): INFO Train: [16/50][30/56]	eta 0:00:48 lr 2.48e-05	 wd 0.0500	time 3.3704 (1.8565)	data time 2.9589 (1.5720)	model time 0.0000 (0.0000)	loss 0.3303 (0.3342)	grad_norm 3.6809 (3.4285)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:39:44 inception_resnet_v2] (main.py 545): INFO Train: [16/50][40/56]	eta 0:00:27 lr 2.46e-05	 wd 0.0500	time 2.6392 (1.7402)	data time 2.2635 (1.4582)	model time 0.0000 (0.0000)	loss 0.3818 (0.3334)	grad_norm 3.5179 (3.4507)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:39:58 inception_resnet_v2] (main.py 545): INFO Train: [16/50][50/56]	eta 0:00:10 lr 2.45e-05	 wd 0.0500	time 2.8235 (1.6781)	data time 2.4732 (1.3987)	model time 0.0000 (0.0000)	loss 0.3274 (0.3326)	grad_norm 4.1397 (3.4580)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:40:06 inception_resnet_v2] (main.py 556): INFO EPOCH 16 training takes 0:01:33
+[2026-08-16 09:40:06 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:40:07 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:40:22 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.694 (14.694)	Loss 0.2844 (0.2844)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:40:28 inception_resnet_v2] (main.py 617): INFO  * Acc@1 85.926 Acc@5 100.000
+[2026-08-16 09:40:28 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 85.9%
+[2026-08-16 09:40:41 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.952 (12.952)	Loss 0.2515 (0.2515)	Acc@1 93.750 (93.750)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:40:46 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-16 09:40:46 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-16 09:41:00 inception_resnet_v2] (main.py 545): INFO Train: [17/50][0/56]	eta 0:12:41 lr 2.44e-05	 wd 0.0500	time 13.5988 (13.5988)	data time 13.1090 (13.1090)	model time 0.0000 (0.0000)	loss 0.2837 (0.2837)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:41:14 inception_resnet_v2] (main.py 545): INFO Train: [17/50][10/56]	eta 0:01:55 lr 2.43e-05	 wd 0.0500	time 2.4379 (2.5051)	data time 2.1541 (2.2244)	model time 0.0000 (0.0000)	loss 0.3945 (0.3293)	grad_norm 3.4337 (3.2606)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:41:28 inception_resnet_v2] (main.py 545): INFO Train: [17/50][20/56]	eta 0:01:11 lr 2.41e-05	 wd 0.0500	time 2.3802 (1.9883)	data time 2.0459 (1.7092)	model time 0.0000 (0.0000)	loss 0.3665 (0.3581)	grad_norm 4.6018 (3.7935)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:41:43 inception_resnet_v2] (main.py 545): INFO Train: [17/50][30/56]	eta 0:00:47 lr 2.39e-05	 wd 0.0500	time 2.6949 (1.8152)	data time 2.3136 (1.5371)	model time 0.0000 (0.0000)	loss 0.3206 (0.3532)	grad_norm 4.7284 (3.7688)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:41:57 inception_resnet_v2] (main.py 545): INFO Train: [17/50][40/56]	eta 0:00:27 lr 2.38e-05	 wd 0.0500	time 2.6048 (1.7246)	data time 2.2511 (1.4455)	model time 0.0000 (0.0000)	loss 0.3032 (0.3440)	grad_norm 3.8248 (3.6976)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:42:13 inception_resnet_v2] (main.py 545): INFO Train: [17/50][50/56]	eta 0:00:10 lr 2.36e-05	 wd 0.0500	time 2.9822 (1.6931)	data time 2.6297 (1.4142)	model time 0.0000 (0.0000)	loss 0.3259 (0.3399)	grad_norm 2.8674 (3.6457)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:42:21 inception_resnet_v2] (main.py 556): INFO EPOCH 17 training takes 0:01:34
+[2026-08-16 09:42:21 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:42:22 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:42:36 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.428 (14.428)	Loss 0.3630 (0.3630)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:42:42 inception_resnet_v2] (main.py 617): INFO  * Acc@1 85.185 Acc@5 100.000
+[2026-08-16 09:42:42 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 85.2%
+[2026-08-16 09:42:55 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.960 (12.960)	Loss 0.3352 (0.3352)	Acc@1 87.500 (87.500)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:43:00 inception_resnet_v2] (main.py 617): INFO  * Acc@1 85.926 Acc@5 100.000
+[2026-08-16 09:43:00 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 85.9%
+[2026-08-16 09:43:14 inception_resnet_v2] (main.py 545): INFO Train: [18/50][0/56]	eta 0:13:10 lr 2.35e-05	 wd 0.0500	time 14.1205 (14.1205)	data time 13.6609 (13.6609)	model time 0.0000 (0.0000)	loss 0.3875 (0.3875)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:43:29 inception_resnet_v2] (main.py 545): INFO Train: [18/50][10/56]	eta 0:01:58 lr 2.34e-05	 wd 0.0500	time 3.3569 (2.5683)	data time 2.9355 (2.2823)	model time 0.0000 (0.0000)	loss 0.3486 (0.3274)	grad_norm 3.9622 (3.2519)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:43:42 inception_resnet_v2] (main.py 545): INFO Train: [18/50][20/56]	eta 0:01:12 lr 2.32e-05	 wd 0.0500	time 2.9839 (2.0049)	data time 2.6547 (1.7305)	model time 0.0000 (0.0000)	loss 0.3313 (0.3245)	grad_norm 3.4947 (3.3454)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:43:57 inception_resnet_v2] (main.py 545): INFO Train: [18/50][30/56]	eta 0:00:47 lr 2.31e-05	 wd 0.0500	time 2.5427 (1.8321)	data time 2.1953 (1.5563)	model time 0.0000 (0.0000)	loss 0.3054 (0.3234)	grad_norm 2.7924 (3.3448)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:44:12 inception_resnet_v2] (main.py 545): INFO Train: [18/50][40/56]	eta 0:00:27 lr 2.29e-05	 wd 0.0500	time 2.6110 (1.7376)	data time 2.2764 (1.4631)	model time 0.0000 (0.0000)	loss 0.3325 (0.3278)	grad_norm 3.7645 (3.3773)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:44:26 inception_resnet_v2] (main.py 545): INFO Train: [18/50][50/56]	eta 0:00:10 lr 2.28e-05	 wd 0.0500	time 1.7322 (1.6810)	data time 1.5745 (1.4223)	model time 0.0000 (0.0000)	loss 0.2710 (0.3247)	grad_norm 3.3764 (3.4031)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:44:35 inception_resnet_v2] (main.py 556): INFO EPOCH 18 training takes 0:01:34
+[2026-08-16 09:44:35 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:44:36 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:44:50 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.643 (14.643)	Loss 0.2913 (0.2913)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:44:56 inception_resnet_v2] (main.py 617): INFO  * Acc@1 89.630 Acc@5 100.000
+[2026-08-16 09:44:56 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 89.6%
+[2026-08-16 09:45:09 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.899 (12.899)	Loss 0.2369 (0.2369)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:45:15 inception_resnet_v2] (main.py 617): INFO  * Acc@1 87.407 Acc@5 100.000
+[2026-08-16 09:45:15 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 87.4%
+[2026-08-16 09:45:29 inception_resnet_v2] (main.py 545): INFO Train: [19/50][0/56]	eta 0:13:05 lr 2.27e-05	 wd 0.0500	time 14.0247 (14.0247)	data time 13.5406 (13.5406)	model time 0.0000 (0.0000)	loss 0.2393 (0.2393)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:45:42 inception_resnet_v2] (main.py 545): INFO Train: [19/50][10/56]	eta 0:01:53 lr 2.25e-05	 wd 0.0500	time 2.1741 (2.4708)	data time 1.9061 (2.2027)	model time 0.0000 (0.0000)	loss 0.3091 (0.3387)	grad_norm 3.9386 (3.4834)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:45:56 inception_resnet_v2] (main.py 545): INFO Train: [19/50][20/56]	eta 0:01:10 lr 2.23e-05	 wd 0.0500	time 2.4625 (1.9704)	data time 2.1298 (1.7104)	model time 0.0000 (0.0000)	loss 0.3005 (0.3285)	grad_norm 3.1644 (3.3205)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:46:11 inception_resnet_v2] (main.py 545): INFO Train: [19/50][30/56]	eta 0:00:47 lr 2.22e-05	 wd 0.0500	time 2.6254 (1.8307)	data time 2.2777 (1.5663)	model time 0.0000 (0.0000)	loss 0.2903 (0.3246)	grad_norm 2.7809 (3.3323)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:46:27 inception_resnet_v2] (main.py 545): INFO Train: [19/50][40/56]	eta 0:00:28 lr 2.20e-05	 wd 0.0500	time 2.9283 (1.7542)	data time 2.5172 (1.4860)	model time 0.0000 (0.0000)	loss 0.4270 (0.3334)	grad_norm 4.0942 (3.4747)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:46:40 inception_resnet_v2] (main.py 545): INFO Train: [19/50][50/56]	eta 0:00:10 lr 2.18e-05	 wd 0.0500	time 2.7549 (1.6779)	data time 2.3742 (1.4095)	model time 0.0000 (0.0000)	loss 0.2297 (0.3301)	grad_norm 3.5348 (3.5026)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:46:47 inception_resnet_v2] (main.py 556): INFO EPOCH 19 training takes 0:01:32
+[2026-08-16 09:46:47 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:46:48 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:47:03 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.653 (14.653)	Loss 0.2620 (0.2620)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:47:09 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.148 Acc@5 100.000
+[2026-08-16 09:47:09 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.1%
+[2026-08-16 09:47:22 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 12.955 (12.955)	Loss 0.2493 (0.2493)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:47:27 inception_resnet_v2] (main.py 617): INFO  * Acc@1 87.407 Acc@5 100.000
+[2026-08-16 09:47:27 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 87.4%
+[2026-08-16 09:47:41 inception_resnet_v2] (main.py 545): INFO Train: [20/50][0/56]	eta 0:12:55 lr 2.17e-05	 wd 0.0500	time 13.8501 (13.8501)	data time 13.4067 (13.4067)	model time 0.0000 (0.0000)	loss 0.3027 (0.3027)	grad_norm 0.0000 (0.0000)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:47:54 inception_resnet_v2] (main.py 545): INFO Train: [20/50][10/56]	eta 0:01:50 lr 2.16e-05	 wd 0.0500	time 0.7687 (2.4029)	data time 0.6217 (2.1804)	model time 0.0000 (0.0000)	loss 0.3662 (0.3322)	grad_norm 2.2990 (3.6212)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:48:08 inception_resnet_v2] (main.py 545): INFO Train: [20/50][20/56]	eta 0:01:08 lr 2.14e-05	 wd 0.0500	time 0.2531 (1.9104)	data time 0.1108 (1.6702)	model time 0.0000 (0.0000)	loss 0.3359 (0.3374)	grad_norm 3.2310 (3.6934)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:48:23 inception_resnet_v2] (main.py 545): INFO Train: [20/50][30/56]	eta 0:00:46 lr 2.12e-05	 wd 0.0500	time 0.1536 (1.7799)	data time 0.0000 (1.5271)	model time 0.0000 (0.0000)	loss 0.3235 (0.3308)	grad_norm 3.3040 (3.5323)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:48:37 inception_resnet_v2] (main.py 545): INFO Train: [20/50][40/56]	eta 0:00:27 lr 2.11e-05	 wd 0.0500	time 0.1637 (1.6975)	data time 0.0000 (1.4397)	model time 0.0000 (0.0000)	loss 0.3762 (0.3307)	grad_norm 4.0579 (3.6240)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:48:52 inception_resnet_v2] (main.py 545): INFO Train: [20/50][50/56]	eta 0:00:09 lr 2.09e-05	 wd 0.0500	time 0.1495 (1.6632)	data time 0.0000 (1.4027)	model time 0.0000 (0.0000)	loss 0.3577 (0.3275)	grad_norm 2.8058 (3.6230)	loss_scale 32768.0000 (32768.0000)	mem 2569MB
+[2026-08-16 09:49:01 inception_resnet_v2] (main.py 556): INFO EPOCH 20 training takes 0:01:33
+[2026-08-16 09:49:01 inception_resnet_v2] (utils.py 188): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saving......
+[2026-08-16 09:49:03 inception_resnet_v2] (utils.py 190): INFO output/benchmark/InceptioResNetV2\latest_ckpt.pth saved !!!
+[2026-08-16 09:49:17 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 14.687 (14.687)	Loss 0.2148 (0.2148)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:49:23 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:49:23 inception_resnet_v2] (main.py 366): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:49:36 inception_resnet_v2] (main.py 610): INFO Test: [0/5]	Time 13.267 (13.267)	Loss 0.2529 (0.2529)	Acc@1 90.625 (90.625)	Acc@5 100.000 (100.000)	Mem 2705MB
+[2026-08-16 09:49:42 inception_resnet_v2] (main.py 617): INFO  * Acc@1 88.889 Acc@5 100.000
+[2026-08-16 09:49:42 inception_resnet_v2] (main.py 390): INFO Accuracy of the network on the 135 validation images: 88.9%
+[2026-08-16 09:49:42 inception_resnet_v2] (main.py 437): INFO Early stopping triggered at epoch 20: no validation Acc@1 improvement for 10 consecutive epochs (patience=10). Best Acc@1 90.37% achieved at epoch 10.
+[2026-08-16 09:49:42 inception_resnet_v2] (main.py 448): INFO Training time 0:45:56

@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+efficientnet_b1_VANILLA,2026-08-15_21-18-13,efficientnet_b1,False,93.33333338984737,22,90.3703704268844,,,,,,,,,,,6519589,4749.3,,./experiments\efficientnet_b1_VANILLA\2026-08-15_21-18-13

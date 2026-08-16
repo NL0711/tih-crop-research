@@ -1,0 +1,9 @@
+true_class,predicted_class,count,pct_of_true
+Healthy,Tobbacco caterpillar,5,10.638297872340425
+Downy Mildew,Black rot,4,21.052631578947366
+Black rot,Tobbacco caterpillar,3,9.375
+Healthy,Black rot,3,6.382978723404255
+Tobbacco caterpillar,Healthy,2,7.4074074074074066
+Black rot,Downy Mildew,1,3.125
+Tobbacco caterpillar,Black rot,1,3.7037037037037033
+Tobbacco caterpillar,Downy Mildew,1,3.7037037037037033

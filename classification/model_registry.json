@@ -42,14 +42,124 @@
         "checkpoint": "output/benchmark/resnet50/best_ckpt.pth"
       }
     },
+    "vmamba_t": {
+      "name": "VMamba-T",
+      "family": "Visual State Space Model (SS2D)",
+      "provider": "official VMamba (Liu et al. / MzeroMiko)",
+      "model_identifier": "models.vmamba.VMamba_T",
+      "weights_identifier": "vssmtiny_dp01_ckpt_epoch_292.pth",
+      "weights_download_url": "https://github.com/MzeroMiko/VMamba/releases/download/%23v0cls/vssmtiny_dp01_ckpt_epoch_292.pth",
+      "paper": "VMamba: Visual State Space Model",
+      "paper_authors": "Liu, Y., Tian, Y., Zhao, Y., Yu, H., Xie, L., Wang, Y., Ye, Q., Liu, Y.",
+      "paper_year": 2024,
+      "paper_url": "https://arxiv.org/abs/2401.10166",
+      "pretrained_dataset": "ImageNet-1K",
+      "external_metrics": {
+        "_comment": "Metrics from the VMamba paper Table 1 (vssm_tiny). Do NOT confuse with our cauliflower results.",
+        "top1_accuracy_pct": 82.2,
+        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
+        "source": "https://arxiv.org/abs/2401.10166"
+      },
+      "parameter_count": 22893448,
+      "parameter_count_source": "Official VMamba-Tiny checkpoint & sum(p.numel() for p in model.parameters())",
+      "config_path": "configs/models/vmamba_tiny.yaml",
+      "our_results": {
+        "_comment": "Populated after training. Full 50-epoch results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
+        "eval_dir": "output/benchmark/vmamba_t/test_eval/",
+        "checkpoint": "output/benchmark/vmamba_t/best_ckpt.pth"
+      }
+    },
+    "inception_v3": {
+      "name": "Inception-v3",
+      "family": "Inception / GoogLeNet",
+      "provider": "torchvision",
+      "model_identifier": "torchvision.models.inception_v3",
+      "weights_identifier": "Inception_V3_Weights.IMAGENET1K_V1",
+      "weights_download_url": "https://download.pytorch.org/models/inception_v3_google-0cc3c7bd.pth",
+      "paper": "Rethinking the Inception Architecture for Computer Vision",
+      "paper_authors": "Szegedy, C., Vanhoucke, V., Ioffe, S., Shlens, J., Wojna, Z.",
+      "paper_year": 2016,
+      "paper_url": "https://arxiv.org/abs/1512.00567",
+      "pretrained_dataset": "ImageNet-1K",
+      "external_metrics": {
+        "_comment": "Metrics from torchvision model documentation. Do NOT confuse with our cauliflower results.",
+        "top1_accuracy_pct": 77.294,
+        "top5_accuracy_pct": 93.450,
+        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
+        "source": "https://pytorch.org/vision/stable/models/generated/torchvision.models.inception_v3.html"
+      },
+      "parameter_count": 21795813,
+      "parameter_count_source": "torchvision documentation and sum(p.numel() for p in model.parameters())",
+      "config_path": "configs/models/inception_v3.yaml",
+      "our_results": {
+        "_comment": "Populated after training. Full results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
+        "eval_dir": "output/benchmark/inception_v3/test_eval/",
+        "checkpoint": "output/benchmark/inception_v3/best_ckpt.pth"
+      }
+    },
+    "efficientnet_b1": {
+      "name": "EfficientNet-B1",
+      "family": "EfficientNet (MBConv)",
+      "provider": "torchvision",
+      "model_identifier": "torchvision.models.efficientnet_b1",
+      "weights_identifier": "EfficientNet_B1_Weights.IMAGENET1K_V2",
+      "weights_download_url": "https://download.pytorch.org/models/efficientnet_b1-c27df63c.pth",
+      "paper": "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks",
+      "paper_authors": "Tan, M., Le, Q. V.",
+      "paper_year": 2019,
+      "paper_url": "https://arxiv.org/abs/1905.11946",
+      "pretrained_dataset": "ImageNet-1K",
+      "external_metrics": {
+        "_comment": "Metrics from torchvision model documentation (IMAGENET1K_V2 recipe). Do NOT confuse with our cauliflower results.",
+        "top1_accuracy_pct": 79.840,
+        "top5_accuracy_pct": 94.930,
+        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
+        "source": "https://pytorch.org/vision/stable/models/generated/torchvision.models.efficientnet_b1.html"
+      },
+      "parameter_count": 6519589,
+      "parameter_count_source": "torchvision documentation and sum(p.numel() for p in model.parameters())",
+      "config_path": "configs/models/efficientnet_b1.yaml",
+      "our_results": {
+        "_comment": "Populated after training. Full results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
+        "eval_dir": "output/benchmark/efficientnet_b1/test_eval/",
+        "checkpoint": "output/benchmark/efficientnet_b1/best_ckpt.pth"
+      }
+    },
+    "inception_resnet_v2": {
+      "name": "Inception-ResNet-v2",
+      "family": "Inception-ResNet (Hybrid Inception-Residual)",
+      "provider": "timm",
+      "model_identifier": "timm.models.inception_resnet_v2",
+      "weights_identifier": "inception_resnet_v2 (tf_in1k)",
+      "weights_download_url": "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/inception_resnet_v2-940b1512.pth",
+      "paper": "Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning",
+      "paper_authors": "Szegedy, C., Ioffe, S., Vanhoucke, V., Alemi, A. A.",
+      "paper_year": 2017,
+      "paper_url": "https://arxiv.org/abs/1602.07261",
+      "pretrained_dataset": "ImageNet-1K",
+      "external_metrics": {
+        "_comment": "Metrics from timm model documentation and AAAI 2017 paper. Do NOT confuse with our cauliflower results.",
+        "top1_accuracy_pct": 80.400,
+        "top5_accuracy_pct": 95.300,
+        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
+        "source": "https://huggingface.co/timm/inception_resnet_v2.tf_in1k"
+      },
+      "parameter_count": 54314149,
+      "parameter_count_source": "timm model parameters and sum(p.numel() for p in model.parameters())",
+      "config_path": "configs/models/inception_resnet_v2.yaml",
+      "our_results": {
+        "_comment": "Populated after training. Full results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
+        "eval_dir": "output/benchmark/inception_resnet_v2/test_eval/",
+        "checkpoint": "output/benchmark/inception_resnet_v2/best_ckpt.pth"
+      }
+    },
     "_future_models": {
       "_comment": [
         "Planned future additions. Do NOT create implementations until explicitly requested.",
-        "Each will follow the same schema as resnet50 above.",
+        "Each will follow the same schema as above.",
         "",
         "ConvNeXt-T      : torchvision / timm",
         "Swin-T          : timm",
-        "VMamba-T        : custom",
         "EfficientNet-B3 : torchvision / timm",
         "EfficientNet-B4 : torchvision / timm",
         "DAMamba-T       : local (models/DAMamba.py)",

@@ -1,0 +1,55 @@
+# =============================================================================
+# configs/models/efficientnet_b1.yaml
+# ----------------------------------
+# EfficientNet-B1 CNN baseline configuration with ImageNet-1K V2 pretrained weights.
+#
+# Inherits all common benchmark settings from benchmark_common.yaml.
+# Architecture: Compound scaled MBConv with Squeeze-and-Excitation (Tan & Le, ICML 2019).
+#
+# Train command (from classification/ directory):
+#   python main.py \
+#     --cfg configs/models/efficientnet_b1.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/efficientnet_b1 \
+#     --no-subdir
+#
+# Eval-only command:
+#   python main.py \
+#     --cfg configs/models/efficientnet_b1.yaml \
+#     --data-path /path/to/Cauliflower_split \
+#     --output output/benchmark/efficientnet_b1 \
+#     --no-subdir \
+#     --resume output/benchmark/efficientnet_b1/best_ckpt.pth \
+#     --eval
+# =============================================================================
+
+BASE: ['../benchmark_common.yaml']
+
+MODEL:
+  TYPE: efficientnet_b1
+  NAME: efficientnet_b1
+  PRETRAINED: ''
+  DROP_RATE: 0.2          # Standard EfficientNet-B1 dropout rate
+  DROP_PATH_RATE: 0.0
+  LABEL_SMOOTHING: 0.1
+
+DATA:
+  BATCH_SIZE: 32          # Lightweight 6.5M parameter model fits easily in GPU VRAM
+  NUM_WORKERS: 2         # Avoids Windows process IPC bottlenecks
+  IMG_SIZE: 224          # Native spatial resolution for EfficientNet-B1 (also supports 224)
+  DATASET: imagenet
+  INTERPOLATION: bicubic
+
+TRAIN:
+  EPOCHS: 50             # Pretrained transfer learning converges rapidly in 15-25 epochs
+  WARMUP_EPOCHS: 2       # Short warmup preserving pretrained representations
+  PATIENCE: 10            # Early stopping patience
+  ACCUMULATION_STEPS: 2  # Effective batch size = 32 * 2 = 64
+  BASE_LR: 0.00025       # Transfer learning fine-tuning learning rate (2.5e-4)
+  WARMUP_LR: 0.000025
+  MIN_LR: 0.0000025
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+    EPS: 0.00000001
+  WEIGHT_DECAY: 0.05
