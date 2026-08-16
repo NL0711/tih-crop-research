@@ -42,33 +42,6 @@
         "checkpoint": "output/benchmark/resnet50/best_ckpt.pth"
       }
     },
-    "vmamba_t": {
-      "name": "VMamba-T",
-      "family": "Visual State Space Model (SS2D)",
-      "provider": "official VMamba (Liu et al. / MzeroMiko)",
-      "model_identifier": "models.vmamba.VMamba_T",
-      "weights_identifier": "vssmtiny_dp01_ckpt_epoch_292.pth",
-      "weights_download_url": "https://github.com/MzeroMiko/VMamba/releases/download/%23v0cls/vssmtiny_dp01_ckpt_epoch_292.pth",
-      "paper": "VMamba: Visual State Space Model",
-      "paper_authors": "Liu, Y., Tian, Y., Zhao, Y., Yu, H., Xie, L., Wang, Y., Ye, Q., Liu, Y.",
-      "paper_year": 2024,
-      "paper_url": "https://arxiv.org/abs/2401.10166",
-      "pretrained_dataset": "ImageNet-1K",
-      "external_metrics": {
-        "_comment": "Metrics from the VMamba paper Table 1 (vssm_tiny). Do NOT confuse with our cauliflower results.",
-        "top1_accuracy_pct": 82.2,
-        "metric_dataset": "ImageNet-1K validation set (50,000 images, 1000 classes)",
-        "source": "https://arxiv.org/abs/2401.10166"
-      },
-      "parameter_count": 22893448,
-      "parameter_count_source": "Official VMamba-Tiny checkpoint & sum(p.numel() for p in model.parameters())",
-      "config_path": "configs/models/vmamba_tiny.yaml",
-      "our_results": {
-        "_comment": "Populated after training. Full 50-epoch results will update this field. Metrics are NOT duplicated here — the canonical record is in the eval_dir below.",
-        "eval_dir": "output/benchmark/vmamba_t/test_eval/",
-        "checkpoint": "output/benchmark/vmamba_t/best_ckpt.pth"
-      }
-    },
     "inception_v3": {
       "name": "Inception-v3",
       "family": "Inception / GoogLeNet",

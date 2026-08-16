@@ -91,13 +91,6 @@ _C.MODEL.DAMAMBA.MLP_RATIO = [4,4,4,4]
 _C.MODEL.DAMAMBA.HEAD_DIM = 16
 _C.MODEL.DAMAMBA.LAYERSCALE =[False,False,False,False]
 
-# VMamba parameters
-_C.MODEL.VMAMBA = CN()
-_C.MODEL.VMAMBA.DEPTHS = [2, 2, 9, 2]
-_C.MODEL.VMAMBA.EMBED_DIM = [96, 192, 384, 768]
-_C.MODEL.VMAMBA.MLP_RATIO = 4.0
-_C.MODEL.VMAMBA.D_STATE = 1
-
 
 # -----------------------------------------------------------------------------
 # Training settings

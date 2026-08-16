@@ -1,7 +1,5 @@
 experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
 resnet50_VANILLA,2026-08-15_12-10-47,resnet50,False,91.11111150670935,21,91.11111150670935,,,,,,,,,,,23518277,5579.4,,./experiments\resnet50_VANILLA\2026-08-15_12-10-47
-vmamba_t_VANILLA,2026-08-15_14-53-53,vmamba_t,False,50.37037048339844,2,49.6296297426577,,,,,,,,,,,30377525,2361.8,,./experiments\vmamba_t_VANILLA\2026-08-15_14-53-53
-vmamba_t_VANILLA,2026-08-15_17-28-17,vmamba_t,False,37.03703703703704,7,25.185185185185187,,,,,,,,,,,22128293,2002.9,,./experiments\vmamba_t_VANILLA\2026-08-15_17-28-17
 inception_v3_VANILLA,2026-08-15_18-51-41,inception_v3,False,92.59259298819083,41,91.11111150670935,,,,,,,,,,,21795813,6716.4,,./experiments\inception_v3_VANILLA\2026-08-15_18-51-41
 efficientnet_b1_VANILLA,2026-08-15_21-18-13,efficientnet_b1,False,93.33333338984737,22,90.3703704268844,,,,,,,,,,,6519589,4749.3,,./experiments\efficientnet_b1_VANILLA\2026-08-15_21-18-13
 inception_resnet_v2_VANILLA,2026-08-16_09-03-45,inception_resnet_v2,False,90.3703704268844,10,88.88888928448712,,,,,,,,,,,54314149,2756.6,,./experiments\inception_resnet_v2_VANILLA\2026-08-16_09-03-45

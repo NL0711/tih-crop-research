@@ -1,1 +1,0 @@
-.\classification\main.py --cfg .\classification\configs\models\vmamba_tiny.yaml --data-path C:\Users\blais\Downloads\caulieval\Cauliflower_split --output output/benchmark/vmamba-t --no-subdir
