@@ -89,7 +89,9 @@ def parse_option():
 
     # easy config modification
     parser.add_argument('--batch-size', type=int, help="batch size for single GPU")
-    parser.add_argument('--data-path', type=str, default="/dataset/ImageNet_ILSVRC2012", help='path to dataset')
+    parser.add_argument('--data-path', type=str, default="/dataset/ImageNet_ILSVRC2012", help='path to dataset (expects train/ and val/ subfolders; test/val can be provided externally via --test-data-path/--val-data-path)')
+    parser.add_argument('--val-data-path', type=str, default=None, help='external validation dataset path (ImageFolder root with class subfolders). If set, overrides DATA_PATH/val. Allows train/test-only split with separate val folder.')
+    parser.add_argument('--test-data-path', type=str, default=None, help='external test dataset path (ImageFolder root with class subfolders). If set, overrides DATA_PATH/test. Allows train/val-only split with separate test folder.')
     parser.add_argument('--zip', action='store_true', help='use zipped dataset instead of folder dataset')
     parser.add_argument('--cache-mode', type=str, default='part', choices=['no', 'full', 'part'],
                         help='no: no cache, '

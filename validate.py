@@ -69,14 +69,26 @@ def parse_args():
         "--dataset-path", 
         type=str, 
         default="", 
-        help="Path to dataset directory. If empty, uses the path specified in the config."
+        help="Path to dataset directory. If empty, uses the path specified in the config. Can be a split root (with train/val/test subfolders) or a direct ImageFolder with class subfolders."
+    )
+    parser.add_argument(
+        "--val-data-path",
+        type=str,
+        default="",
+        help="Alias for --dataset-path when validating on an external validation folder (ImageFolder with class subfolders). If provided, overrides --dataset-path."
+    )
+    parser.add_argument(
+        "--test-data-path",
+        type=str,
+        default="",
+        help="Alias for --dataset-path when validating on an external test folder (ImageFolder with class subfolders). If provided, overrides --dataset-path."
     )
     parser.add_argument(
         "--split", 
         type=str, 
         default="test", 
         choices=["train", "val", "test"],
-        help="Dataset split to evaluate on."
+        help="Dataset split to evaluate on when --dataset-path is a split root. Ignored if --dataset-path is a direct ImageFolder."
     )
     parser.add_argument(
         "--batch-size", 
@@ -358,19 +370,41 @@ def main():
                 pass
     
     # Determine the target dataset split directory
-    dataset_base = args.dataset_path if args.dataset_path else config.DATA.DATA_PATH
+    # Support --val-data-path / --test-data-path as alias for external folders
+    dataset_base = args.dataset_path
+    if getattr(args, 'val_data_path', ''):
+        dataset_base = args.val_data_path
+    elif getattr(args, 'test_data_path', ''):
+        dataset_base = args.test_data_path
     if not dataset_base:
-        print("Error: Dataset path is empty. Please specify it using --dataset-path.")
+        dataset_base = config.DATA.DATA_PATH
+    # Also fallback to VAL_DATA_PATH / TEST_DATA_PATH from config if still empty
+    if not dataset_base and getattr(config.DATA, 'VAL_DATA_PATH', ''):
+        dataset_base = config.DATA.VAL_DATA_PATH
+    if not dataset_base and getattr(config.DATA, 'TEST_DATA_PATH', ''):
+        dataset_base = config.DATA.TEST_DATA_PATH
+    if not dataset_base:
+        print("Error: Dataset path is empty. Please specify it using --dataset-path, --val-data-path or --test-data-path.")
         sys.exit(1)
         
     if not os.path.isabs(dataset_base):
         dataset_base = os.path.abspath(os.path.join(root_dir, dataset_base))
-        
+    
+    # If dataset_base is already a direct ImageFolder (contains class folders, no train/val/test), use it directly
+    # Otherwise treat it as a split root and append --split
     split_dir = os.path.join(dataset_base, args.split)
-    if os.path.isdir(split_dir):
+    # Heuristic: if split_dir exists and dataset_base does NOT look like an ImageFolder with class subfolders, use split_dir
+    # Check if dataset_base itself contains image class folders vs split folders
+    has_split_subfolders = any(os.path.isdir(os.path.join(dataset_base, s)) for s in ['train', 'val', 'test'])
+    if has_split_subfolders and os.path.isdir(split_dir):
         target_dir = split_dir
     elif os.path.isdir(dataset_base):
-        target_dir = dataset_base
+        # If user gave direct external val folder (e.g., /data/my_val with 4 class folders), use it directly
+        # Also handle case where dataset_base points to a file-like split root without has_split_subfolders
+        if os.path.isdir(split_dir) and has_split_subfolders:
+            target_dir = split_dir
+        else:
+            target_dir = dataset_base
     else:
         print(f"Error: Dataset directory '{dataset_base}' (or its '{args.split}' split) not found.")
         sys.exit(1)

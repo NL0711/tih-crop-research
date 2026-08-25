@@ -23,9 +23,17 @@ def make_dir(path: Path) -> None:
 
 def split_list(items: List, train_ratio: float, val_ratio: float, test_ratio: float) -> Tuple[List, List, List]:
     n = len(items)
-    train_end = int(n * train_ratio)
-    val_end = train_end + int(n * val_ratio)
-    return items[:train_end], items[train_end:val_end], items[val_end:]
+    n_train = int(n * train_ratio)
+    n_val = int(n * val_ratio)
+    # Use remainder for test to avoid rounding loss; handles val=0 or test=0 correctly
+    n_test = n - n_train - n_val
+    # Guard against negative due to rounding (should not happen if sum==1)
+    if n_test < 0:
+        n_test = 0
+    train = items[:n_train]
+    val = items[n_train:n_train + n_val] if n_val > 0 else []
+    test = items[n_train + n_val:n_train + n_val + n_test] if n_test > 0 else []
+    return train, val, test
 
 
 def copy_subset(files: List[Path], src_root: Path, dest_root: Path) -> List[str]:
@@ -46,12 +54,33 @@ def _print_split_summary(summary):
     total_test = sum(item['test'] for item in summary['classes'].values())
     total_images = sum(item['total'] for item in summary['classes'].values())
 
+    has_val = summary.get('val_ratio', 0) > 0
+    has_test = summary.get('test_ratio', 0) > 0
     print('\nClass distribution summary:')
-    print('| Class | Total | Train | Validation | Test |')
-    print('| --- | --- | --- | --- | --- |')
-    for class_name, counts in sorted(summary['classes'].items()):
-        print(f"| {class_name} | {counts['total']} | {counts['train']} | {counts['val']} | {counts['test']} |")
-    print(f"| Total | {total_images} | {total_train} | {total_val} | {total_test} |\n")
+    if has_val and has_test:
+        print('| Class | Total | Train | Validation | Test |')
+        print('| --- | --- | --- | --- | --- |')
+        for class_name, counts in sorted(summary['classes'].items()):
+            print(f"| {class_name} | {counts['total']} | {counts['train']} | {counts['val']} | {counts['test']} |")
+        print(f"| Total | {total_images} | {total_train} | {total_val} | {total_test} |\n")
+    elif has_val:
+        print('| Class | Total | Train | Validation |')
+        print('| --- | --- | --- | --- |')
+        for class_name, counts in sorted(summary['classes'].items()):
+            print(f"| {class_name} | {counts['total']} | {counts['train']} | {counts['val']} |")
+        print(f"| Total | {total_images} | {total_train} | {total_val} |\n")
+    elif has_test:
+        print('| Class | Total | Train | Test |')
+        print('| --- | --- | --- | --- |')
+        for class_name, counts in sorted(summary['classes'].items()):
+            print(f"| {class_name} | {counts['total']} | {counts['train']} | {counts['test']} |")
+        print(f"| Total | {total_images} | {total_train} | {total_test} |\n")
+    else:
+        print('| Class | Total | Train |')
+        print('| --- | --- | --- |')
+        for class_name, counts in sorted(summary['classes'].items()):
+            print(f"| {class_name} | {counts['total']} | {counts['train']} |")
+        print(f"| Total | {total_images} | {total_train} |\n")
 
 
 def build_split_files(root_dir: Path,
@@ -109,12 +138,16 @@ def build_split_files(root_dir: Path,
 
         if copy_files:
             train_paths.extend(copy_subset(train_files, root_dir, output_dir / 'train'))
-            val_paths.extend(copy_subset(val_files, root_dir, output_dir / 'val'))
-            test_paths.extend(copy_subset(test_files, root_dir, output_dir / 'test'))
+            if val_files:
+                val_paths.extend(copy_subset(val_files, root_dir, output_dir / 'val'))
+            if test_files:
+                test_paths.extend(copy_subset(test_files, root_dir, output_dir / 'test'))
         else:
             train_paths.extend([str(p.relative_to(root_dir)) for p in train_files])
-            val_paths.extend([str(p.relative_to(root_dir)) for p in val_files])
-            test_paths.extend([str(p.relative_to(root_dir)) for p in test_files])
+            if val_files:
+                val_paths.extend([str(p.relative_to(root_dir)) for p in val_files])
+            if test_files:
+                test_paths.extend([str(p.relative_to(root_dir)) for p in test_files])
 
         if move_files:
             for path in image_files:
@@ -123,30 +156,38 @@ def build_split_files(root_dir: Path,
     make_dir(output_dir)
     with open(output_dir / 'train.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(train_paths))
-    with open(output_dir / 'val.txt', 'w', encoding='utf-8') as f:
-        f.write('\n'.join(val_paths))
-    with open(output_dir / 'test.txt', 'w', encoding='utf-8') as f:
-        f.write('\n'.join(test_paths))
+    if val_paths or val_ratio > 0:
+        with open(output_dir / 'val.txt', 'w', encoding='utf-8') as f:
+            f.write('\n'.join(val_paths))
+    if test_paths or test_ratio > 0:
+        with open(output_dir / 'test.txt', 'w', encoding='utf-8') as f:
+            f.write('\n'.join(test_paths))
 
     with open(output_dir / 'split_summary.json', 'w', encoding='utf-8') as f:
         json.dump(summary, f, indent=2)
 
     print('Split completed:')
     print(f'  train: {len(train_paths)}')
-    print(f'  val:   {len(val_paths)}')
-    print(f'  test:  {len(test_paths)}')
+    if val_ratio > 0:
+        print(f'  val:   {len(val_paths)}')
+    if test_ratio > 0:
+        print(f'  test:  {len(test_paths)}')
+    if val_ratio == 0:
+        print(f'  val:   0 (disabled - provide externally via --val-data-path if needed)')
+    if test_ratio == 0:
+        print(f'  test:  0 (disabled - provide externally via --test-data-path if needed)')
     print(f'  output: {output_dir}')
     _print_split_summary(summary)
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description='Split dataset into train/val/test by class folder')
+    parser = argparse.ArgumentParser(description='Split dataset into train/val/test by class folder (supports external test/val when ratio=0)')
     parser.add_argument('root_dir', type=Path, help='Dataset root folder. Subfolders are treated as classes.')
     parser.add_argument('--output-dir', type=Path, default=None,
                         help='Output folder for train/val/test splits. Default: <root_dir>_split')
     parser.add_argument('--train-ratio', type=float, default=0.8, help='Train split ratio')
-    parser.add_argument('--val-ratio', type=float, default=0.1, help='Validation split ratio')
-    parser.add_argument('--test-ratio', type=float, default=0.1, help='Test split ratio')
+    parser.add_argument('--val-ratio', type=float, default=0.2, help='Validation split ratio (0 = disabled, validation will be provided externally via --val-data-path)')
+    parser.add_argument('--test-ratio', type=float, default=0.0, help='Test split ratio (0 = disabled, test will be provided externally via --test-data-path)')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for shuffling')
     parser.add_argument('--no-copy', action='store_true', help='Do not copy files; only write split text files')
     parser.add_argument('--move', action='store_true', help='Move files instead of copying them into the split directories')

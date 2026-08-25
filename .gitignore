@@ -85,3 +85,7 @@ install_manifest.txt
 .DS_Store
 Thumbs.db
 ml/
+Augmented Dataset/
+Augmented Dataset_split/
+ForGraph/
+output/

@@ -1,0 +1,2 @@
+experiment_name,timestamp,architecture,hybrid_enabled,best_val_accuracy,best_epoch,final_val_accuracy,test_accuracy,balanced_accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,kappa,mcc,macro_auc,ece,parameter_count,training_time_s,mean_inference_ms,exp_dir
+tiny_VANILLA,2026-08-17_21-09-36,DAMamba,False,97.49821300929236,8,97.42673338098642,,,,,,,,,,,24930461,2511.8,,./experiments\tiny_VANILLA\2026-08-17_21-09-36

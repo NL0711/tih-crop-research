@@ -1,0 +1,1 @@
+classification/main.py --cfg classification/configs/DAMamba/damamba_tiny.yaml --data-path C:\Users\blais\Downloads\caulieval\Mustard_split --output output --tag finetune

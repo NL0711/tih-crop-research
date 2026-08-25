@@ -24,6 +24,12 @@ _C.DATA = CN()
 _C.DATA.BATCH_SIZE = 32
 # Path to dataset, could be overwritten by command line argument
 _C.DATA.DATA_PATH = ''
+# Optional external validation dataset path (ImageFolder root with class subfolders).
+# If set, validation will be loaded from this path instead of DATA_PATH/val.
+_C.DATA.VAL_DATA_PATH = ''
+# Optional external test dataset path (ImageFolder root with class subfolders).
+# If set, test will be loaded from this path instead of DATA_PATH/test.
+_C.DATA.TEST_DATA_PATH = ''
 # Dataset name
 _C.DATA.DATASET = 'imagenet'
 # Input image size
@@ -65,7 +71,7 @@ _C.MODEL.PRETRAINED = 'classification\weights\DAMamba-T.pth'
 # Checkpoint to resume, could be overwritten by command line argument
 _C.MODEL.RESUME = ''
 # Number of classes, overwritten in data preparation
-_C.MODEL.NUM_CLASSES = 5
+_C.MODEL.NUM_CLASSES = 4
 # Dropout rate
 _C.MODEL.DROP_RATE = 0.1 
 # Drop path rate
@@ -260,6 +266,10 @@ def update_config(config, args):
         config.DATA.BATCH_SIZE = args.batch_size
     if _check_args('data_path'):
         config.DATA.DATA_PATH = args.data_path
+    if _check_args('val_data_path'):
+        config.DATA.VAL_DATA_PATH = args.val_data_path
+    if _check_args('test_data_path'):
+        config.DATA.TEST_DATA_PATH = args.test_data_path
     if _check_args('zip'):
         config.DATA.ZIP_MODE = True
     if _check_args('cache_mode'):

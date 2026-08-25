@@ -107,6 +107,46 @@ def _print_dataset_distribution(dataset, name):
         print(f"| {class_name} | {idx} | {counts[idx]} |")
 
 
+def _build_external_dataset(external_root, train_classes, config, split_name='external'):
+    """Build dataset from an external ImageFolder path using train class order."""
+    transform = build_transform(is_train=False, config=config)
+    candidate = external_root
+    # If external_root contains a subfolder named after split (e.g., val/test) and root itself has no class folders, prefer subfolder
+    sub_candidate = os.path.join(external_root, split_name) if split_name in ('val', 'test') else None
+    if sub_candidate and os.path.isdir(sub_candidate) and not os.path.isdir(os.path.join(external_root, train_classes[0])):
+        candidate = sub_candidate
+    if not os.path.isdir(candidate):
+        raise FileNotFoundError(f"External {split_name} path not found: {candidate} (original={external_root})")
+    dataset = datasets.ImageFolder(candidate, transform=transform)
+    if dataset.classes != train_classes:
+        print(f"Warning: external {split_name} classes {dataset.classes} differ from train classes {train_classes}. Enforcing train order.")
+        if set(dataset.classes) != set(train_classes):
+            raise ValueError(
+                f"External {split_name} class set {sorted(dataset.classes)} does not match train class set {sorted(train_classes)}. "
+                f"Ensure both datasets have identical class folder names."
+            )
+        train_class_to_idx = {c: i for i, c in enumerate(train_classes)}
+        idx_to_class = {v: k for k, v in dataset.class_to_idx.items()}
+        new_samples = []
+        new_targets = []
+        for path, old_idx in dataset.samples:
+            class_name = idx_to_class[old_idx]
+            new_idx = train_class_to_idx[class_name]
+            new_samples.append((path, new_idx))
+            new_targets.append(new_idx)
+        dataset.samples = new_samples
+        dataset.imgs = new_samples
+        dataset.targets = new_targets
+        dataset.classes = list(train_classes)
+        dataset.class_to_idx = dict(train_class_to_idx)
+    return dataset
+
+
+def _build_external_val_dataset(val_root, train_classes, config):
+    """Backward compat: delegates to _build_external_dataset."""
+    return _build_external_dataset(val_root, train_classes, config, split_name='val')
+
+
 def build_loader(config):
     config.defrost()
     dataset_train, config.MODEL.NUM_CLASSES = build_dataset(is_train=True, config=config)
@@ -122,17 +162,40 @@ def build_loader(config):
     config.freeze()
     print(f"rank {get_rank()} successfully build train dataset")
 
-    dataset_val, _ = build_dataset(is_train=False, config=config, split='val')
-    _print_dataset_distribution(dataset_val, 'Validation')
-    print(f"rank {get_rank()} successfully build val dataset")
+    # Validation: prefer external VAL_DATA_PATH if provided, else DATA_PATH/val
+    val_data_path = getattr(config.DATA, 'VAL_DATA_PATH', '')
+    if val_data_path:
+        val_data_path = val_data_path.strip() if isinstance(val_data_path, str) else val_data_path
+    if val_data_path:
+        print(f"Using external validation path: {val_data_path}")
+        dataset_val = _build_external_dataset(val_data_path, dataset_train.classes, config, split_name='val')
+        _print_dataset_distribution(dataset_val, 'Validation (external)')
+        print(f"rank {get_rank()} successfully build val dataset (external)")
+    else:
+        dataset_val, _ = build_dataset(is_train=False, config=config, split='val')
+        _print_dataset_distribution(dataset_val, 'Validation')
+        print(f"rank {get_rank()} successfully build val dataset")
 
+    # Test: prefer external TEST_DATA_PATH if provided, else DATA_PATH/test (optional)
+    test_data_path = getattr(config.DATA, 'TEST_DATA_PATH', '')
+    if test_data_path:
+        test_data_path = test_data_path.strip() if isinstance(test_data_path, str) else test_data_path
     dataset_test = None
     data_loader_test = None
-    test_root = os.path.join(config.DATA.DATA_PATH, 'test')
-    if os.path.isdir(test_root):
-        dataset_test, _ = build_dataset(is_train=False, config=config, split='test')
-        _print_dataset_distribution(dataset_test, 'Test')
-        print(f"rank {get_rank()} successfully build test dataset")
+    if test_data_path:
+        print(f"Using external test path: {test_data_path}")
+        dataset_test = _build_external_dataset(test_data_path, dataset_train.classes, config, split_name='test')
+        _print_dataset_distribution(dataset_test, 'Test (external)')
+        print(f"rank {get_rank()} successfully build test dataset (external)")
+    else:
+        test_root = os.path.join(config.DATA.DATA_PATH, 'test')
+        if os.path.isdir(test_root):
+            dataset_test, _ = build_dataset(is_train=False, config=config, split='test')
+            _print_dataset_distribution(dataset_test, 'Test')
+            print(f"rank {get_rank()} successfully build test dataset")
+        else:
+            # No test folder and no external test -> optional, leave as None
+            print(f"No test folder at {test_root} and no TEST_DATA_PATH provided - skipping test dataset")
 
     num_tasks = get_world_size()
     global_rank = get_rank()
@@ -213,6 +276,10 @@ def build_dataset(is_train, config, split='val'):
                 if not os.path.isdir(root):
                     if not is_train and split == 'test':
                         return None, 0
+                    if not is_train and split == 'val':
+                        val_path = getattr(config.DATA, 'VAL_DATA_PATH', '')
+                        hint = f" (hint: set --val-data-path / DATA.VAL_DATA_PATH to an external validation folder if you split only train/test)" if not val_path else f" (VAL_DATA_PATH={val_path} also not used - check path)"
+                        raise FileNotFoundError(f"Dataset folder not found: {root}{hint}")
                     raise FileNotFoundError(f"Dataset folder not found: {root}")
                 dataset = datasets.ImageFolder(root, transform=transform)
 
